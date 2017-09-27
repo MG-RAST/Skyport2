@@ -1,9 +1,7 @@
 # App-Service-Stack 
-Infrastructure setup for app/service development: 
-![ass logo][logo]
+![ass logo][logo] Infrastructure setup for app/service development: 
 
-Reference-style: 
-![alt text][logo]
+
 
 
 
