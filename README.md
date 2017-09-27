@@ -1,5 +1,5 @@
 # App-Service-Stack ![ass logo][logo]
- Infrastructure setup for app/service development: 
+ Infrastructure setup for app/service development using MYSQL, MongoDB, Auth , Shock and AWE ([M]ASA).
 
 
 
