@@ -1,18 +1,12 @@
-# App-Service-Stack 
-Infrastructure setup for app/service development: 
-![ass logo][ass]
-
-Reference-style: 
-![alt text][logo]
-
-
-
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+# App-Service-Stack ![ass logo][logo]
+ Infrastructure setup for app/service development using MYSQL, MongoDB, Auth , Shock and AWE ([M]ASA).
 
 
 
 
 
-[ass]: https://upload.wikimedia.org/wikipedia/commons/7/7b/Donkey_1_arp_750px.jpg , "Donkey aka ass"
+[logo]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/donkey.jpg "Donkey aka ass"
+
+
 
 
