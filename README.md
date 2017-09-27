@@ -1,4 +1,5 @@
 # App-Service-Stack 
-Infrastructure setup for app/service development. ![logo](https://en.wikipedia.org/wiki/Donkey#/media/File:Donkey_1_arp_750px.jpg , "Donkey aka ass")
+Infrastructure setup for app/service development. 
+![logo](https://en.wikipedia.org/wiki/Donkey#/media/File:Donkey_1_arp_750px.jpg , "Donkey aka ass")
 
 
