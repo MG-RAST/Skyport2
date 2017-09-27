@@ -1,5 +1,5 @@
-# App-Service-Stack 
-![ass logo][logo] Infrastructure setup for app/service development: 
+# App-Service-Stack ![ass logo][logo]
+ Infrastructure setup for app/service development: 
 
 
 
