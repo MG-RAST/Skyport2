@@ -23,6 +23,11 @@ If you want to build the imagaes manually you have to set build tag. The image t
 
  `docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile .`
  
+### authServer
+ 
+ `docker build -t auth:${TAG} -f Docker/Dockerfiles/authServer.dockerfile .`
+
+### 
  
 ## Starting services
 
@@ -33,3 +38,7 @@ If you want to build the imagaes manually you have to set build tag. The image t
 
   `docker-compose -f Docker/Compose/ass.yaml up` 
 
+  This will start the databases and shock. The ui and api can reached via http://localhost:8001 :
+  - Shock browser: http://localhost:8001/shock
+  - Shock API: http://localhost:8001/shock/api
+  - Mysql broser: http://localhost:8001/mysql
