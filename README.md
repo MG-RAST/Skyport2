@@ -9,4 +9,15 @@
 
 
 
+## Building docker images
+
+All builds start within the root directory within this repository.
+
+Set build tag to demo:
+
+export TAG=demo
+
+### ShockBrowser
+
+ - docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile . 
 
