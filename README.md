@@ -24,9 +24,8 @@ export TAG=demo
  
 ## Starting services
 
-Check config:
- docker-compose -f Docker/Compose/ass.yaml config
- 
-Start services:
- docker-compose -f Docker/Compose/ass.yaml up 
+- Check config:
+  docker-compose -f Docker/Compose/ass.yaml config
+- Start services:
+  docker-compose -f Docker/Compose/ass.yaml up 
 
