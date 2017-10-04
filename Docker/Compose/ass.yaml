@@ -73,8 +73,8 @@ services:
         ports:
           - 8001:8001 
         volumes: 
-          - ${CONFIGDIR}/nginx/conf/ass-demo.conf:/etc/nginx/conf.d/ass.conf:ro 
-          - ${LOGDIR}/nginx/error.log:/var/log/nginx/error.log       
+          - ${CONFIGDIR}/nginx/ass-demo.conf:/etc/nginx/conf.d/ass.conf:ro 
+          - ${LOGDIR}/nginx/:/var/log/nginx/       
           
 
           
