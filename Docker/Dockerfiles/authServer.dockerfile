@@ -1,9 +1,10 @@
 
-# docker build -t mgrast/auth-server .
-
+# docker build -t mgrast/auth-server -f Docker/Dockerfiles/authServer.dockerfile .
 # docker rm auth-server ; docker run -d --name auth-server -p 7000:80  mgrast/auth-server
 
 FROM httpd:2.4
+
+# ARG service-dir=./
 
 # Dependencies
 RUN apt-get update && apt-get upgrade -y
@@ -42,15 +43,17 @@ ENV PERL_MM_USE_DEFAULT 1
 RUN apt-get install -y default-mysql-client
 
 RUN mkdir -p /db && chmod a+w /db
-COPY user.db /db/user.db
+COPY ./Services/authServer/user.db /db/user.db
 RUN chmod a+w /db/user.db
 
-COPY ./cgi-bin ./html /usr/local/apache2/htdocs/
-COPY ./demo/OAuthConfig.pm /usr/local/apache2/htdocs/ 
-COPY httpd.conf /usr/local/apache2/conf/
-COPY ./demo/setup.sh /usr/local/bin/
+
+# Customization 
+COPY ./Services/authServer/cgi-bin ./Services/authServer/html /usr/local/apache2/htdocs/
+COPY ./Services/authServer/httpd.conf /usr/local/apache2/conf/
+COPY ./Config/authServer/OAuthConfig.pm /usr/local/apache2/htdocs/ 
+COPY ./Config/authServer/setup.sh /usr/local/bin/
+COPY ./Config/authServer/dbsetup.demo.mysql /tmp/
 RUN chmod a+x /usr/local/bin/setup.sh 
-COPY ./demo/dbsetup.demo.mysql /tmp/
 #CMD ["httpd-foreground"]
 CMD ["setup.sh"]
 

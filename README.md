@@ -19,5 +19,14 @@ export TAG=demo
 
 ### ShockBrowser
 
- - docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile . 
+ - docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile .
+ 
+ 
+## Starting services
+ 
+ Check config:
+ docker-compose -f Docker/Compose/ass.yaml config
+ 
+ Start services:
+ docker-compose -f Docker/Compose/ass.yaml up 
 

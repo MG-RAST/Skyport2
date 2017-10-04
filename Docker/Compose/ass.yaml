@@ -1,6 +1,11 @@
 # Use root/example as user/password credentials
 version: '3.1'
 
+# set TAG to specify docker image version
+# set CONFIGDIR to path to config
+# set SHOCKDIR for persistent Shock data store , e.g. /Users/Andi/Development/Shock
+# set LOGDIR to path to local log dir
+
 services:
 
     db:
@@ -20,7 +25,7 @@ services:
             - 8080:8080
             
     auth:
-        image: authserver:demo
+        image: authserver:${TAG}
         environment:
             MYSQL_HOST: db
             MYSQL_DATABASE: DemoAppUsers
@@ -46,16 +51,16 @@ services:
           - --conf
           - /shock-config/shock-server.cfg 
         volumes:
-          - /Users/Andi/Development/Shock/shock-server.container.cfg:/shock-config/shock-server.cfg 
-          - /Users/Andi/Development/Shock/log:/var/log/shock 
-          - /Users/Andi/Development/Shock/data:/usr/local/shock
+          - ${CONFIGDIR}/Shock/shock-server.container.cfg:/shock-config/shock-server.cfg 
+          - ${LOGDIR}/shock:/var/log/shock 
+          - ${SHOCKDIR}/data:/usr/local/shock
         ports:
           - 7445:7445
           - 8083:80
           
           
     shock-browser:
-        image: shock:browser
+        image: shock-browser:${TAG}
         depends_on:
           - shock
           - auth      
@@ -68,8 +73,8 @@ services:
         ports:
           - 8001:8001 
         volumes: 
-          - /Users/Andi/Development/github/App-Service-Stack/Services/nginx/conf/ass-demo.conf:/etc/nginx/conf.d/ass.conf:ro 
-          - /Users/Andi/Development/github/App-Service-Stack/Services/nginx/logs/error.log:/var/log/nginx/error.log       
+          - ${CONFIGDIR}/nginx/conf/ass-demo.conf:/etc/nginx/conf.d/ass.conf:ro 
+          - ${LOGDIR}/nginx/error.log:/var/log/nginx/error.log       
           
 
           
