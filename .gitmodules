@@ -10,3 +10,6 @@
 [submodule "Services/Shock"]
 	path = Services/Shock
 	url = git@github.com:MG-RAST/Shock.git
+[submodule "Services/authServer"]
+	path = Services/authServer
+	url = git@github.com:MG-RAST/authServer.git
