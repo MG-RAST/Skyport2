@@ -23,10 +23,10 @@ export TAG=demo
  
  
 ## Starting services
- 
- Check config:
+
+Check config:
  docker-compose -f Docker/Compose/ass.yaml config
  
- Start services:
+Start services:
  docker-compose -f Docker/Compose/ass.yaml up 
 
