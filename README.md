@@ -13,21 +13,23 @@
 
 All builds start within the root directory within this repository.
 
-Set build tag to demo:
+1. `source ./init.sh`
+2. `./create-docker-images.sh`
 
-export TAG=demo
+If you want to build the imagaes manually you have to set build tag. The image tag is derived from the TAG environment variable:
+`export TAG=demo`
 
 ### ShockBrowser
 
- - docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile .
+ `docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile .`
  
  
 ## Starting services
 
 - Check config:
 
-  docker-compose -f Docker/Compose/ass.yaml config
+  `docker-compose -f Docker/Compose/ass.yaml config`
 - Start services:
 
-  docker-compose -f Docker/Compose/ass.yaml up 
+  `docker-compose -f Docker/Compose/ass.yaml up` 
 
