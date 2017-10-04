@@ -38,7 +38,7 @@ If you want to build the imagaes manually you have to set build tag. The image t
 
   `docker-compose -f Docker/Compose/ass.yaml up` 
 
-  This will start the databases and shock. The ui and api can reached via http://localhost:8001 :
+  The web services are mapped to port 8001 on localhost: 
   - Shock browser: http://localhost:8001/shock
   - Shock API: http://localhost:8001/shock/api
   - Mysql broser: http://localhost:8001/mysql
