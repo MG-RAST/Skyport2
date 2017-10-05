@@ -33,14 +33,17 @@ If you want to build the imagaes manually you have to set build tag. The image t
  
 ## Starting services
 
+To run the demo with a full stack of services:
+
 - Check config:
 
-  `docker-compose -f Docker/Compose/ass.yaml config`
+  `docker-compose -f Docker/Compose/skyport-demo.yaml config`
 - Start services:
 
-  `docker-compose -f Docker/Compose/ass.yaml up` 
+  `docker-compose -f Docker/Compose/skyport-demo.yaml up` 
 
-  The web services are mapped to port 8001 on localhost: 
+  The web services are mapped to port 8001 on localhost[http:/localhost:8001]:
+ 
   - Shock browser: http://localhost:8001/shock
   - Shock API: http://localhost:8001/shock/api
   - MySQL browser: http://localhost:8001/mysql
