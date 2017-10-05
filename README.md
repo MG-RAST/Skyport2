@@ -13,8 +13,10 @@
 
 All builds start within the root directory within this repository.
 
-1. `source ./init.sh`
-2. `./create-docker-images.sh`
+1. git submodule init
+2. git submodule update  
+3. `source ./init.sh`
+4. `./create-docker-images.sh`
 
 If you want to build the imagaes manually you have to set build tag. The image tag is derived from the TAG environment variable:
 `export TAG=demo`
