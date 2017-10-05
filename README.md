@@ -1,5 +1,5 @@
 # App-Service-Stack ![ass logo][logo]
- Infrastructure setup for app/service development using MYSQL, MongoDB, Auth , Shock and AWE ([M]ASA).
+ Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE ([M]ASA).
 
 
 
@@ -41,4 +41,4 @@ If you want to build the imagaes manually you have to set build tag. The image t
   The web services are mapped to port 8001 on localhost: 
   - Shock browser: http://localhost:8001/shock
   - Shock API: http://localhost:8001/shock/api
-  - Mysql broser: http://localhost:8001/mysql
+  - MySQL browser: http://localhost:8001/mysql
