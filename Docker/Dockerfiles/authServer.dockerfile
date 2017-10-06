@@ -49,7 +49,7 @@ RUN chmod a+w /db/user.db
 
 # Customization 
 COPY ./Services/authServer/cgi-bin ./Services/authServer/html /usr/local/apache2/htdocs/
-COPY ./Services/authServer/httpd.conf /usr/local/apache2/conf/
+COPY ./Config/authServer/httpd.conf /usr/local/apache2/conf/
 COPY ./Config/authServer/OAuthConfig.pm /usr/local/apache2/htdocs/ 
 COPY ./Config/authServer/setup.sh /usr/local/bin/
 COPY ./Config/authServer/dbsetup.demo.mysql /tmp/
