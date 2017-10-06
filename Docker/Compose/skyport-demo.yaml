@@ -37,8 +37,7 @@ services:
           - ${CONFIGDIR}/authserver/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           - ${CONFIGDIR}/authServer/OAuthConfig.pm:/usr/local/apache2/htdocs/OAuthConfig.pm:ro  
         ports:
-          - 8081:8080
-          - 8082:80
+          - 8081:80
       
     mongo:
         image: mongo
