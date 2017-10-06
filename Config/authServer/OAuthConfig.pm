@@ -19,7 +19,7 @@ use constant ALLOW_REGISTER_APPLICATION => 1;
 use constant ALLOW_REGISTER_USER => 1;
 use constant TRUSTED => "Demo App";
 
-use constant APPLICATION_NAME => "Demo Aplication";
+use constant APPLICATION_NAME => "Demo Application";
 use constant APPLICATION_URL => "http://shock/index.html";
 
 use constant SHOCK_URL => "http://shock/node/";
