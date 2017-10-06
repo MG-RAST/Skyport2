@@ -10,10 +10,10 @@ use constant USER_DB => '/db/user.db';
 
 use constant ADMIN_EMAIL => "admin@some.where.loc";
 
-use constant BASE_URL => 'http://demo/';
-use constant IMAGE_DIR => '/images/';
-use constant JS_DIR => '/js/';
-use constant CSS_DIR => '/css/';
+use constant BASE_URL => 'http://localhost:8001/auth/';
+use constant IMAGE_DIR => '/auth/images/';
+use constant JS_DIR => '/auth/js/';
+use constant CSS_DIR => '/auth/css/';
 
 use constant ALLOW_REGISTER_APPLICATION => 1;
 use constant ALLOW_REGISTER_USER => 1;
