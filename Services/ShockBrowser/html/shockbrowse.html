@@ -3,17 +3,26 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Shock Browser</title>
-    <link rel="icon" href="images/MGRAST_favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/shock.ico" type="image/x-icon">
 	<script src="Retina/js/jquery.min.js"></script>
 	<script src="js/config.js"></script>
 	<script src="Retina/js/stm.js"></script>
 	<script src="Retina/js/retina.js"></script>
 	<script src="Retina/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="Retina/js/jquery.cookie.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="Retina/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="Retina/css/jsoneditor.min.css">
 	<script>
-stm.init({});
+    stm.init({});
 Retina.init({});
+var user = jQuery.cookie('ShockWebSession');
+if (user) {
+    stm.user = JSON.parse(user);
+    stm.authHeader = { "AUTH": stm.user.token };
+} else {
+    window.location = '/cgi-bin/client.cgi';
+}
 Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( function() {
     var sb = Retina.Widget.create('shockbrowse', {
 	"target": document.getElementById("content"),
@@ -27,23 +36,7 @@ Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( fun
 	    { "path": "file.name", "name": "Name", "width": "50%", "type": "file", "sortable": true },
 	    { "path": "file.size", "name": "Size", "width": "25%", "type": "size", "align": "right", "sortable": true },
 	    { "path": "created_on", "name": "Date Created", "width": "25%", "type": "date", "align": "left", "sortable": true },
-			      ]
-    });
-    Retina.load_widget({"name": "login", "resource": "Retina/widgets/"}).then( function() {
-	var loginAction = function (data) {
-	    if (data.action != "logout" && data.result == "success") {
-		stm.user = data.user;
-		stm.authHeader = { "Authorization": "mgrast "+data.token};
-	    } else {
-		stm.user = null;
-		stm.authHeader = {};
-	    }
-	    sb.authHeader = stm.authHeader;
-	    sb.dataUpdateRequest.abort();
-	    sb.display();
-	};
-	Retina.Widget.create('login', { "target": document.getElementById("login_space"),
-		    			"callback": loginAction });
+	]
     });
 });
 	</script>
@@ -53,9 +46,8 @@ Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( fun
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
   	    <div class="container" style="width: 100%; padding-left: 10px;">
-          <img src="images/MGRAST_logo.png" style="float: left; background: black; margin-left: -10px; height: 55px;">
-      	  <a class="brand" href="#" style="color: white; cursor: default; margin-top: 8px; margin-left: 30px;">Shock Browser</a>
-  	      <span id='login_space'></span>
+              <img src="images/anl.png" style="float: left; margin-left: -10px; height: 55px;">
+      	      <a class="brand" href="#" style="color: white; cursor: default; margin-top: 8px; margin-left: 30px;">Shock Browser</a>
   	    </div>
       </div>
     </div>
