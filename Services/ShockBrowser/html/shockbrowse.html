@@ -5,38 +5,51 @@
     <title>Shock Browser</title>
     <link rel="icon" href="images/shock.ico" type="image/x-icon">
 	<script src="Retina/js/jquery.min.js"></script>
-	<script src="js/config.js"></script>
 	<script src="Retina/js/stm.js"></script>
 	<script src="Retina/js/retina.js"></script>
 	<script src="Retina/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="Retina/js/jquery.cookie.js"></script>
+
+	<script src="js/config.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="Retina/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="Retina/css/jsoneditor.min.css">
-	<script>
-    stm.init({});
-Retina.init({});
-var user = jQuery.cookie('ShockWebSession');
-if (user) {
-    stm.user = JSON.parse(user);
-    stm.authHeader = { "AUTH": stm.user.token };
-} else {
-    window.location = '/cgi-bin/client.cgi';
+        <script>
+    window.logout = function () {
+	jQuery.removeCookie('AuthWebSession', { path: '/' });
+	window.location.reload();
+    }
+var user = jQuery.cookie('AuthWebSession');
+if (! user ) {
+    window.location = RetinaConfig.auth_url+'/cgi-bin/client.cgi';
 }
-Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( function() {
-    var sb = Retina.Widget.create('shockbrowse', {
-	"target": document.getElementById("content"),
-	"order": "created_on",
-	"direction": "desc",
-	"querymode": "full",
-	"enableUpload": false,
-	"allowMultiselect": true,
-	"autoSizeAtStartup": true,
-	"fileSectionColumns": [
-	    { "path": "file.name", "name": "Name", "width": "50%", "type": "file", "sortable": true },
-	    { "path": "file.size", "name": "Size", "width": "25%", "type": "size", "align": "right", "sortable": true },
-	    { "path": "created_on", "name": "Date Created", "width": "25%", "type": "date", "align": "left", "sortable": true },
-	]
+jQuery( document ).ready(function(){
+    stm.init({});
+    Retina.init({});
+    
+    stm.user = JSON.parse(user);
+    stm.user.firstname = stm.user.name;
+    stm.user.lastname = "";
+    stm.authHeader = { "Authorization": "oauth "+stm.user.token };
+    $('#logoutButton').css('display', '');
+    document.getElementById('logoutButton').innerHTML = stm.user.name;
+    Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( function() {
+	var sb = Retina.Widget.create('shockbrowse', {
+	    "target": document.getElementById("content"),
+	    "order": "created_on",
+	    "user": stm.user,
+	    "authHeader": stm.authHeader,
+	    "direction": "desc",
+	    "querymode": "full",
+	    "allowMultiselect": true,
+	    "autoSizeAtStartup": true,
+	    "allowMultiFileUpload": true,
+	    "fileSectionColumns": [
+		{ "path": "file.name", "name": "Name", "width": "50%", "type": "file", "sortable": true },
+		{ "path": "file.size", "name": "Size", "width": "25%", "type": "size", "align": "right", "sortable": true },
+		{ "path": "created_on", "name": "Date Created", "width": "25%", "type": "date", "align": "left", "sortable": true }
+	    ]
+	});
     });
 });
 	</script>
@@ -46,8 +59,9 @@ Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( fun
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
   	    <div class="container" style="width: 100%; padding-left: 10px;">
-              <img src="images/anl.png" style="float: left; margin-left: -10px; height: 55px;">
-      	      <a class="brand" href="#" style="color: white; cursor: default; margin-top: 8px; margin-left: 30px;">Shock Browser</a>
+              <img src="images/anl.png" style="float: left; margin-left: -10px; height: 55px; margin-top: 12px;">
+      	      <a class="brand" href="#" style="color: white; cursor: default; margin-top: 12px; margin-left: 30px; font-size: 35px; font-weight: 100;">Shock Browser</a>
+	      <button class="btn btn-inverse" onclick="logout();" id="logoutButton" style="display: none; float: right; margin-right: 50px; margin-top: 20px;"></button>
   	    </div>
       </div>
     </div>
