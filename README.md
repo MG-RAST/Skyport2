@@ -8,6 +8,14 @@
 [logo]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/donkey.jpg "Donkey aka ass"
 
 
+## Quick start
+
+All docker images required for the quick start are available at Docker Hub. To star the demo environmet run: 
+
+```docker-compose -f Docker/Compose/skyport-demo.yaml up```
+
+
+
 
 ## Building docker images
 
