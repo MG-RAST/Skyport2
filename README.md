@@ -22,7 +22,7 @@ All docker images required for the quick start are available at Docker Hub. To s
 All builds start within the root directory within this repository.
 
 1. git submodule init
-2. git submodule update  
+2. git submodule update or `git submodule update --remote`  
 3. `source ./init.sh`
 4. `./create-docker-images.sh`
 
