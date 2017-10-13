@@ -12,8 +12,8 @@
 
 All docker images required for the quick start are available at Docker Hub. To start the demo environmet run: 
 
-```source ./init.sh ```
-```docker-compose -f Docker/Compose/skyport-demo.yaml up```
+1. ```source ./init.sh ```
+2. ```docker-compose -f Docker/Compose/skyport-demo.yaml up```
 
 
 
