@@ -36,6 +36,7 @@ services:
         volumes:
           - ${CONFIGDIR}/authserver/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           - ${CONFIGDIR}/authServer/OAuthConfig.pm:/usr/local/apache2/htdocs/OAuthConfig.pm:ro  
+          - ${CONFIGDIR}/authServer/client.cgi:/usr/local/apache2/htdocs/cgi-bin/client.cgi:ro  
         ports:
           - 8081:80
       
@@ -66,6 +67,8 @@ services:
         depends_on:
           - shock
           - auth
+        volumes:
+          - ${CONFIGDIR}/ShockBrowser/config.js:/usr/share/nginx/html/js/config.js
                 
     nginx:
         image: nginx
