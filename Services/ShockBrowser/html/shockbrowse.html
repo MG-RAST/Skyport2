@@ -21,7 +21,8 @@
     }
 var user = jQuery.cookie('AuthWebSession');
 if (! user ) {
-    window.location = RetinaConfig.auth_url+'/cgi-bin/client.cgi';
+    // window.location = RetinaConfig.auth_url+'/client.cgi';
+    window.location.assign(RetinaConfig.auth_url+'/client.cgi');
 }
 jQuery( document ).ready(function(){
     stm.init({});
@@ -30,7 +31,7 @@ jQuery( document ).ready(function(){
     stm.user = JSON.parse(user);
     stm.user.firstname = stm.user.name;
     stm.user.lastname = "";
-    stm.authHeader = { "Authorization": "oauth "+stm.user.token };
+    stm.authHeader = { "AUTH": "oauth "+stm.user.token };
     $('#logoutButton').css('display', '');
     document.getElementById('logoutButton').innerHTML = stm.user.name;
     Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( function() {
