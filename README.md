@@ -42,6 +42,11 @@ If you want to build the imagaes manually you have to set build tag. The image t
  
 ## Starting services
 
+
+
+
+### Skyport demo
+
 To run the demo with a full stack of services:
 
 - Check config:
@@ -56,3 +61,16 @@ To run the demo with a full stack of services:
   - Shock browser: http://localhost:8001/shock
   - Shock API: http://localhost:8001/shock/api
   - MySQL browser: http://localhost:8001/mysql
+
+### Skyport - AWE development stack
+
+The AWE developmet environment is the basic skyport app service stack whith persistent (mounted) database storage and mounted AWE source repository. Coding can be done outside a container with an editor of your choice while the source code will be compiled inside the awe-server container.
+
+1. `source ./init.sh`
+2. `export AWE_ROOT_DIR=`PATH_TO_LOCAL_AWE_REPOSITORY
+3. `docker-compose -f Docker/Compose/skyport-awe-devel.yaml config`
+4. `docker exec -ti compose_awe-server_1 ash`
+5. Inside container:
+    1. `cd /go/src/github.com/MG-RAST/AWE`
+    2. `go get -d ./awe-worker/ ./awe-server/` 
+    3. `./compile.sh`
