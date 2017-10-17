@@ -88,10 +88,13 @@ services:
         image: mongo
         ports:
           - 27017
+        volumnes:
+          - ${DATADIR}/awe/db:/data/db
     
      
     awe-server:
         image: mgrast/awe
+        # awe-server --logoutput=console --debuglevel=3 --hosts=mongo --user=awe --password=test --api-url=http://localhost:8001 --site-url=http://localhost:80 --users=wgerlach --oauth_urls='http://api.metagenomics.anl.gov/user/authenticate' --oauth_bearers=mgrast  --login_url='https://api.metagenomics.anl.gov?verbosity=verbose' --recover
         entrypoint:
           - /go/bin/awe-server
           - --conf=/awe-config/awe-server.cfg
@@ -105,6 +108,8 @@ services:
           - ${CONFIGDIR}/awe/awe-server.conf:/awe-config/awe-server.cfg:ro
           - ${DATADIR}/awe:/mnt/data/awe/
           - ${LOGDIR}/awe/:/mnt/data/awe/logs
+          - ${AWE_ROOT_DIR}:/go/src/github.com/MG-RAST/AWE
+          
           
  
           

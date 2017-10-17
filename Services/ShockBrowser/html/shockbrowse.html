@@ -21,7 +21,8 @@
     }
 var user = jQuery.cookie('AuthWebSession');
 if (! user ) {
-    window.location = RetinaConfig.auth_url+'/cgi-bin/client.cgi';
+    // window.location = RetinaConfig.auth_url+'/client.cgi';
+    window.location.assign(RetinaConfig.auth_url+'/client.cgi');
 }
 jQuery( document ).ready(function(){
     stm.init({});
