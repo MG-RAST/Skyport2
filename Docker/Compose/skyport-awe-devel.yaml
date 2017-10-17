@@ -1,0 +1,145 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+# set TAG to specify docker image version
+# set CONFIGDIR to path to config
+# set SHOCKDIR for persistent Shock data store , e.g. /Users/Andi/Development/Shock
+# set LOGDIR to path to local log dir
+
+services:
+
+    db:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: DemoAppUsers
+            MYSQL_USER: authService
+            MYSQL_PASSWORD: authServicePassword
+        volumes:
+          - /var/lib/mysql
+              
+
+    adminer:
+        image: adminer
+        ports:
+            - 8080:8080
+            
+    auth:
+        image: mgrast/authserver:${TAG}
+        environment:
+            MYSQL_HOST: db
+            MYSQL_DATABASE: DemoAppUsers
+            MYSQL_USER: authService
+            MYSQL_PASSWORD: authServicePassword
+        depends_on:
+          - db
+        volumes:
+          - ${CONFIGDIR}/authserver/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+          - ${CONFIGDIR}/authServer/OAuthConfig.pm:/usr/local/apache2/htdocs/OAuthConfig.pm:ro  
+          - ${CONFIGDIR}/authServer/client.cgi:/usr/local/apache2/htdocs/cgi-bin/client.cgi:ro  
+        ports:
+          - 8081:80
+      
+    mongo:
+        image: mongo
+        ports:
+          - 27017
+        
+    shock:
+        image: mgrast/shock
+        depends_on:
+          - mongo
+        entrypoint:
+          - /go/bin/shock-server
+          - --conf
+          - /shock-config/shock-server.cfg 
+        volumes:
+          - ${CONFIGDIR}/Shock/shock-server.container.cfg:/shock-config/shock-server.cfg 
+          - ${LOGDIR}/shock:/var/log/shock 
+          - ${SHOCKDIR}/data:/usr/local/shock
+        ports:
+          - 7445:7445
+          - 8083:80
+          
+          
+    shock-browser:
+        image: mgrast/shock-browser:${TAG}
+        depends_on:
+          - shock
+          - auth
+        volumes:
+          - ${CONFIGDIR}/ShockBrowser/config.js:/usr/share/nginx/html/js/config.js
+                
+    nginx:
+        image: nginx
+        depends_on:
+          - shock
+          - adminer
+          - auth
+          - awe-server
+        ports:
+          - 8001:8001 
+        volumes: 
+          - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro 
+          - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
+          - ${LOGDIR}/nginx/:/var/log/nginx/    
+
+    awe-mongo:
+        image: mongo
+        ports:
+          - 27017
+    
+     
+    awe-server:
+        image: mgrast/awe
+        entrypoint:
+          - /go/bin/awe-server
+          - --conf=/awe-config/awe-server.cfg
+        depends_on:
+          - awe-mongo
+          - auth
+        ports:
+          - 8001
+          - 8081 
+        volumes: 
+          - ${CONFIGDIR}/awe/awe-server.conf:/awe-config/awe-server.cfg:ro
+          - ${DATADIR}/awe:/mnt/data/awe/
+          - ${LOGDIR}/awe/:/mnt/data/awe/logs
+          - ${AWE-ROOT-DIR}:/go/src/github.com/MG-RAST/AWE
+          
+          
+ 
+          
+    awe-worker:
+        image: mgrast/awe
+        entrypoint:
+          - /go/bin/awe-worker
+          - --conf=/awe-config/awe-worker.cfg
+          - --name Worker-1 
+          - --data=${DATADIR}/awe-worker 
+          - --logs=/mnt/data/logs 
+          - --workpath=${DATADIR}/awe-worker/work  
+          - --serverurl=http://localhost:8001 
+          - --group=docker 
+          - --supported_apps=* 
+          - --auto_clean_dir=false 
+          - --debuglevel=0 
+        depends_on:
+          - awe-server
+        volumes: 
+          - ${DATADIR}/awe-worker:${DATADIR}/awe-worker
+          - ${LOGDIR}/awe-worker/:/mnt/data/logs
+          
+                
+    # status:
+#         image: nginx
+#         ports:
+#           - 8000:8001
+#         volumes:
+#           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
+#           - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
+#           - ${LOGDIR}/nginx/:/var/log/nginx/
+#
+
+          
+            
