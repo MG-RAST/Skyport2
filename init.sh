@@ -16,6 +16,7 @@ mkdir -p ${SHOCKDIR}/log
 # Path to AWE
 export AWEDIR=${DATADIR}/awe
 mkdir -p ${DATADIR}/awe
+mkdir -p ${DATADIR}/awe/db
 mkdir -p ${DATADIR}/awe-worker/work
 
 
