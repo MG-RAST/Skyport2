@@ -1,0 +1,3 @@
+filter:
+  class: File
+  path: ../Data/sequences.wgs.fastq

@@ -1,0 +1,11 @@
+db:
+  - {class: File, format: blastdb, path: ../Data/demodb.phr }
+  - {class: File, format: blastdb, path: ../Data/demodb.pin }
+  - {class: File, format: blastdb, path: ../Data/demodb.pog }
+  - {class: File, format: blastdb, path: ../Data/demodb.psd }
+  - {class: File, format: blastdb, path: ../Data/demodb.psi }
+  - {class: File, format: blastdb, path: ../Data/demodb.psq }
+
+nucleotide_sequences:
+  class: File
+  path: ../Data/filtered.fasta
