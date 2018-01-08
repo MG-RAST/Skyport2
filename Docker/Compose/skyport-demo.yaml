@@ -93,6 +93,7 @@ services:
     awe-server:
         image: mgrast/awe
         entrypoint:
+          # - top
           - /go/bin/awe-server
           - --conf=/awe-config/awe-server.cfg
         depends_on:
