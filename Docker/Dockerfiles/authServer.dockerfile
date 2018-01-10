@@ -47,6 +47,9 @@ COPY Services/authServer/html /usr/local/apache2/htdocs/
 COPY Services/authServer/cgi-bin /usr/local/apache2/htdocs/cgi-bin
 COPY Config/authServer/httpd.conf /usr/local/apache2/conf/
 COPY Config/authServer/OAuthConfig.pm /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/OAuthConfigAWE.pm /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/client.cgi /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/clientAWE.cgi /usr/local/apache2/htdocs/cgi-bin/
 COPY Config/authServer/setup.sh /usr/local/bin/
 COPY Config/authServer/dbsetup.demo.mysql /tmp/
 RUN chmod a+x /usr/local/bin/setup.sh 
