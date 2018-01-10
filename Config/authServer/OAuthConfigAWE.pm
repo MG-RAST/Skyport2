@@ -1,4 +1,4 @@
-package OAuthConfig;
+package OAuthConfigAWE;
 
 require Exporter;
 
@@ -14,14 +14,14 @@ use constant CSS_DIR => '/auth/css/';
 
 use constant ALLOW_REGISTER_APPLICATION => 1;
 use constant ALLOW_REGISTER_USER => 1;
-use constant TRUSTED => 0;
+use constant TRUSTED => "Demo AWE Application";
 
-use constant APPLICATION_NAME => "Demo Application";
-use constant APPLICATION_URL => "http://localhost:8001/shock/index.html";
+use constant APPLICATION_NAME => "Demo AWE Application";
+use constant APPLICATION_URL => "http://localhost:8001/awe/index.html";
 
 use constant SHOCK_URL => "http://shock/node/";
 use constant SHOCK_AUTH => "";
-use constant APP_SECRET => "vcZYffLyDabuyxXN8vstbsaMdNwpMKfk";
+use constant APP_SECRET => "abXYffLyDabuyxXN8vstbsaMdNwpMKfk";
 
 use constant AUTH_KEYWORD => 0;
 use constant AUTH_PREFIX => 0;
