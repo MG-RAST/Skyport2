@@ -18,11 +18,11 @@ inputs:
 
 outputs:
   preprocessed:
-    type: File[]
+    type: File
     outputSource: [qc/processed]
- # sims:
- #   type: File[]
- #   outputSource: [similaritySearch/similarities]
+  sims:
+    type: File
+    outputSource: [similaritySearch/similarities]
 
 steps:
 
