@@ -1,4 +1,6 @@
-# App-Service-Stack ![ass logo][logo]
+# Skyport2 ![skyport logo][skyport]
+
+## App-Service-Stack ![ass logo][logo]
  Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE ([M]ASA).
 
 
@@ -6,6 +8,7 @@
 
 
 [logo]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/donkey.jpg "Donkey aka ass"
+[skyport]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/skyportlogo.png "Containerized infrastructure"
 
 
 ## Quick start
