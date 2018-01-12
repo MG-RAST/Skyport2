@@ -1,4 +1,4 @@
-# ![skyport logo](data/pictures/skyportlogo.png){:height="36px" width="36px"}
+# ![skyport logo](data/pictures/skyportlogo.png)
 
 ## App-Service-Stack ![ass logo][logo]
  Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE ([M]ASA).
