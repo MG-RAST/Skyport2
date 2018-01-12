@@ -1,4 +1,4 @@
-# Skyport2 ![skyport logo][skyport]
+# ![skyport logo][skyport]
 
 ## App-Service-Stack ![ass logo][logo]
  Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE ([M]ASA).
