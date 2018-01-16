@@ -110,7 +110,7 @@ services:
 
 
     awe-worker:
-        image: mgrast/awe:develop
+        image: mgrast/awe-worker:develop
         entrypoint:
           # - top
           - ash
