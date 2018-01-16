@@ -91,7 +91,7 @@ services:
 
 
     awe-server:
-        image: mgrast/awe
+        image: mgrast/awe:develop
         entrypoint:
           # - top
           - /go/bin/awe-server
@@ -110,7 +110,7 @@ services:
 
 
     awe-worker:
-        image: mgrast/awe
+        image: mgrast/awe:develop
         entrypoint:
           # - top
           - ash
