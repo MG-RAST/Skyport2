@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="Retina/js/jquery.cookie.js"></script>
 
 	<script src="js/config.js"></script>
-	
+
 	<link rel="stylesheet" type="text/css" href="Retina/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="Retina/css/jsoneditor.min.css">
         <script>
@@ -22,12 +22,12 @@
 var user = jQuery.cookie('AuthWebSession');
 if (! user ) {
     // window.location = RetinaConfig.auth_url+'/client.cgi';
-    window.location.assign(RetinaConfig.auth_url+'/client.cgi');
+    window.location.assign(RetinaConfig.auth_url+'/clientShock.cgi');
 }
 jQuery( document ).ready(function(){
     stm.init({});
     Retina.init({});
-    
+
     stm.user = JSON.parse(user);
     stm.user.firstname = stm.user.name;
     stm.user.lastname = "";
@@ -55,7 +55,7 @@ jQuery( document ).ready(function(){
 });
 	</script>
   </head>
-  
+
   <body style="margin-top: 60px;">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -68,6 +68,6 @@ jQuery( document ).ready(function(){
     </div>
     <div id='fu' style='margin-left: 20px; margin-right: 20px; margin-top: 80px;'></div>
     <div id='content' style='margin-left: 20px; margin-right: 20px; margin-top: 80px;'></div>
-    
+
   </body>
 </html>
