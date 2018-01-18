@@ -119,7 +119,6 @@ services:
           - -c
           - 'sleep 30 ;
             /go/bin/awe-worker
-            --conf=/awe-config/awe-worker.cfg
             --name compose_worker-1
             --data=/awe-worker/
             --logs=/mnt/data/logs
@@ -129,6 +128,7 @@ services:
             --supported_apps=*
             --auto_clean_dir=false
             --debuglevel=0'
+          # --conf=/awe-config/awe-worker.cfg
           # - /go/bin/awe-worker
           # - --conf=/awe-config/awe-worker.cfg
           # - --name compose_worker-1
