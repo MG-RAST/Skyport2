@@ -10,6 +10,6 @@ INSERT IGNORE INTO `user` (`login`, `password`, `cookie`, `name`, `email`, `conf
 ('demo',    'fe01ce2a7fbac8fafaed7c982a04e229',    NULL,    'Demo User',    'demo@somewhere.over.the.rainbow',    'yes',    NULL);
 INSERT IGNORE INTO `tokens` (`token`, `login`, `created`) VALUES ('1234',    'demo',    '2017-07-21');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
-('Demo Application',    'http://localhost:8001/auth/cgi-bin/client.cgi',    'vcZYffLyDabuyxXN8vstbsaMdNwpMKfk');
+('Shock',    'http://localhost:8001/auth/cgi-bin/clientShock.cgi',    'vcZYffLyDabuyxXN8vstbsaMdNwpMKfk');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
-('Demo AWE Application',    'http://localhost:8001/auth/cgi-bin/clientAWE.cgi',    'abXYffLyDabuyxXN8vstbsaMdNwpMKfk');
+('AWE',    'http://localhost:8001/auth/cgi-bin/clientAWE.cgi',    'abXYffLyDabuyxXN8vstbsaMdNwpMKfk');
