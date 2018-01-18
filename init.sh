@@ -81,3 +81,7 @@ echo SHOCKDIR=${SHOCKDIR}
 echo DATADIR=${DATADIR}
 echo LOGDIR=${LOGDIR}
 echo "DOCKER_VERSION=${DOCKER_VERSION}"
+
+echo ""
+echo "Next step: docker-compose -f Docker/Compose/skyport-demo.yaml up"
+echo ""
