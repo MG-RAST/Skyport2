@@ -11,6 +11,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
   make \
   perl-modules \
+  less \
   liburi-perl \
   liburi-encode-perl \
   libwww-perl \
@@ -35,24 +36,25 @@ RUN apt-get install -y \
   libfreezethaw-perl \
   libtemplate-perl \
   libclass-isa-perl
-  
+
 RUN apt-get install -y \
   vim
-    
+
 ENV PERL_MM_USE_DEFAULT 1
 RUN apt-get install -y default-mysql-client
 
-# Customization 
+# Customization
 COPY Services/authServer/html /usr/local/apache2/htdocs/
 COPY Services/authServer/cgi-bin /usr/local/apache2/htdocs/cgi-bin
 COPY Config/authServer/httpd.conf /usr/local/apache2/conf/
 COPY Config/authServer/OAuthConfig.pm /usr/local/apache2/htdocs/cgi-bin/
-COPY Config/authServer/OAuthConfigAWE.pm /usr/local/apache2/htdocs/cgi-bin/
-COPY Config/authServer/client.cgi /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/ClientConfigAWE.pm /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/ClientConfigShock.pm /usr/local/apache2/htdocs/cgi-bin/
 COPY Config/authServer/clientAWE.cgi /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/clientShock.cgi /usr/local/apache2/htdocs/cgi-bin/
 COPY Config/authServer/setup.sh /usr/local/bin/
 COPY Config/authServer/dbsetup.demo.mysql /tmp/
-RUN chmod a+x /usr/local/bin/setup.sh 
+RUN chmod a+x /usr/local/apache2/htdocs/cgi-bin/*.cgi
+RUN chmod a+x /usr/local/bin/setup.sh
 #CMD ["httpd-foreground"]
 CMD ["setup.sh"]
-
