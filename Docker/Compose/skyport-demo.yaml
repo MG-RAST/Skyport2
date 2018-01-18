@@ -123,7 +123,7 @@ services:
           - 'sleep 30 ;
             /go/bin/awe-worker
             --name compose_worker-1
-            --data=${DATADIR}/awe-worker
+            --data=${DATADIR}/awe-worker/work
             --logs=/mnt/data/logs
             --workpath=${DATADIR}/awe-worker
             --serverurl=http://awe-server:8001
@@ -146,6 +146,7 @@ services:
         depends_on:
           - awe-server
         volumes:
+          - /var/lib/cwl/:/var/lib/cwl/:rw
           - ${CONFIGDIR}/AWE/awe-worker.cfg:/awe-config/awe-worker.cfg:ro
           - ${DATADIR}/awe-worker:${DATADIR}/awe-worker
           - ${LOGDIR}/awe-worker/:/mnt/data/logs
