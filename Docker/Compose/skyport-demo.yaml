@@ -84,6 +84,9 @@ services:
         volumes:
           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
           - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
+          - ${CONFIGDIR}/nginx/bootstrap.min.css:/usr/share/nginx/html/bootstrap.min.css
+          - ${CONFIGDIR}/nginx/skyportlogo.png:/usr/share/nginx/html/skyportlogo.png
+          - ${CONFIGDIR}/nginx/drone.jpg:/usr/share/nginx/html/drone.jpg
           - ${LOGDIR}/nginx/:/var/log/nginx/
 
     awe-mongo:

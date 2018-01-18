@@ -1,26 +1,102 @@
 <!DOCTYPE html>
 <html>
-<title>Skyport 2.0</title>
-<body id="index" onload="">
   
-</body>
+  <head>
 
-<h1>App-Service-Stack</h1>
+    <!-- html and charset meta -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
 
-<p>
-Skyport is ... below are links to the webservices started.
-</p>
+    <!-- title -->
+    <title>Skyport 2.0</title>
 
-<table>
-  <tr><th>Service</th><th>URL</th></tr>
-  <tr><td>Shock browser</td><td><a href="http://localhost:8001/shock" target="_blank">http://localhost:8001/shock</a></td></tr>
-  <tr><td>Shock API</td><td><a href="http://localhost:8001/shock/api" target="_blank">http://localhost:8001/shock/api</a></td></tr>
-  <tr><td>MySQL browser</td><td><a href="http://localhost:8001/mysql" target="_blank">http://localhost:8001/mysql</a></td></tr>
-  <tr><td>AWE browser</td><td><a href="http://localhost:8001/awe" target="_blank">http://localhost:8001/awe</a></td></tr>
-  <tr><td>AWE API</td><td><a href="http://localhost:8001/awe/api" target="_blank">http://localhost:8001/awe/api</a></td></tr>
-  <tr><td>Auth Register</td><td><a href="http://localhost:8001/auth/" target="_blank">http://localhost:8001/auth</a></td></tr>
-  <tr><td>Auth API</td><td><a href="http://localhost:8001/auth/user" target="_blank">http://localhost:8001/auth/user</a></td></tr>
-</table>  
+    <!-- resources -->
+    <link rel="icon" href="skyportlogo.png" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+    <style>
+      .main-container:after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      left: 190px;
+      top: 0;
+      width: 50%;
+      height: 80%;
+      z-index: -1;
+      opacity: 0.03;
+      background-image: url('skyportlogo.png');
+      background-repeat: no-repeat;
+      background-position: 50% 0;
+      -ms-background-size: cover;
+      -o-background-size: cover;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
+      background-size: cover;
+      }
+
+      .fly{
+      animation-duration: 10s;
+      animation-name: ufo;
+      animation-direction: alternate;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      position: absolute;
+      z-index: -1;
+      width: 50px;
+      top: -25px;
+      }
+      @keyframes ufo {
+      from {left: 150px; }
+      to {left: 650px;}
+      }
+    </style>
+
+  </head>
+  
+  <body>
+
+    <div style="position: relative; bottom: 10px;">
+
+      <!-- logo -->
+      <div style="float: left; margin-right: 25px; margin-left: 15px;">
+        <img src="skyportlogo.png" style="float: left; height: 59px; margin-top: 3px;">
+      </div>
+
+      <div class="page-header" style="padding-bottom: 30px;">
+	<h1 style="position: relative; top: 16px; color: #171780; cursor: pointer;" onclick="window.open('https://github.com/MG-RAST/Skyport2')">Skyport 2.0 <small>Infrastructure setup for app/service development</small></h1>
+
+      </div>
+      <div style="clear: both; margin-bottom: 20px;"></div>
+      
+    </div>
+
+    <div class="row-fluid main-container" style="min-height: 600px; position: relative;">
+
+      <img src="drone.jpg" class="fly">
+      
+      <!-- main content -->
+      <div class="span7 offset1">
+
+	<h3>Services Overview</h3>
+
+	<p style="margin-bottom: 50px;">The following services are available in the current setup. Click the URL for the startpage of the respective service.</p>
+	
+	<table class="table">
+	  <tr><th>Service</th><th>URL</th></tr>
+	  <tr><td>Shock browser</td><td><a href="http://localhost:8001/shock" target="_blank">http://localhost:8001/shock</a></td></tr>
+	  <tr><td>Shock API</td><td><a href="http://localhost:8001/shock/api" target="_blank">http://localhost:8001/shock/api</a></td></tr>
+	  <tr><td>MySQL browser</td><td><a href="http://localhost:8001/mysql" target="_blank">http://localhost:8001/mysql</a></td></tr>
+	  <tr><td>AWE browser</td><td><a href="http://localhost:8001/awe" target="_blank">http://localhost:8001/awe</a></td></tr>
+	  <tr><td>AWE API</td><td><a href="http://localhost:8001/awe/api" target="_blank">http://localhost:8001/awe/api</a></td></tr>
+	  <tr><td>Auth Register</td><td><a href="http://localhost:8001/auth/" target="_blank">http://localhost:8001/auth</a></td></tr>
+	  <tr><td>Auth API</td><td><a href="http://localhost:8001/auth/user" target="_blank">http://localhost:8001/auth/user</a></td></tr>
+	</table>
+	
+      </div>
+    </div>
     
+    
+    </body>
 
 </html>
