@@ -14,7 +14,7 @@ fi
 
 
 # Top level data dir
-export DATADIR=`pwd`/data
+export DATADIR=`pwd`/tmp
 mkdir -p $DATADIR
 
 export SKYPORT_TMPDIR=$DATADIR/tmp
