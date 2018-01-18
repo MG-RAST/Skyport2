@@ -7,5 +7,5 @@ reference_database:
   - {class: File, format: blastdb, path: ../Data/demodb.psq }
 
 fastq_files:
-  class: File
-  path: ../Data/sequences.wgs.fastq
+  - class: File
+    path: ../Data/sequences.wgs.fastq

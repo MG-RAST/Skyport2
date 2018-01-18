@@ -3,7 +3,6 @@ class: Workflow
 
 requirements:
   - class: InlineJavascriptRequirement
-  - class: ScatterFeatureRequirement
   - class: MultipleInputFeatureRequirement
   # - class: DockerRequirement
 
@@ -12,18 +11,18 @@ inputs:
     doc: A list of sequence files in fastq format
     format:
       - fastq
-    type: File[]
+    type: File
   reference_database:
     doc: blast formatted index fastq_files
     type: File[]
 
 outputs:
   preprocessed:
-    type: File[]
+    type: File
     outputSource: [qc/processed]
- # sims:
- #   type: File[]
- #   outputSource: [similaritySearch/similarities]
+  sims:
+    type: File
+    outputSource: [similaritySearch/similarities]
 
 steps:
 
@@ -31,7 +30,7 @@ steps:
     label: Quality Control
     doc: Filtering and removing reads below a certain quality threshold
     run: ../Tools/qc.cwl
-    scatter: [filter]
+    # scatter: [filter]
     # scatterMethod: dotproduct
     in:
       filter: fastq_files
@@ -41,7 +40,7 @@ steps:
     # label: none
     doc: none
     run: ../Tools/Similarity-Search.cwl
-    scatter: [nucleotide_sequences]
+    # scatter: [nucleotide_sequences]
     # scatterMethod: dotproduct
     in:
       db: reference_database
