@@ -123,9 +123,9 @@ services:
           - 'sleep 30 ;
             /go/bin/awe-worker
             --name compose_worker-1
-            --data=${DATADIR}/awe-worker/work
+            --data=${DATADIR}/awe-worker/data
             --logs=/mnt/data/logs
-            --workpath=${DATADIR}/awe-worker
+            --workpath=${DATADIR}/awe-worker/work
             --serverurl=http://awe-server:8001
             --group=docker
             --supported_apps=*
