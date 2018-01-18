@@ -34,6 +34,22 @@
       -webkit-background-size: cover;
       background-size: cover;
       }
+
+      .fly{
+      animation-duration: 10s;
+      animation-name: ufo;
+      animation-direction: alternate;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      position: absolute;
+      z-index: -1;
+      width: 50px;
+      top: -25px;
+      }
+      @keyframes ufo {
+      from {left: 150px; }
+      to {left: 650px;}
+      }
     </style>
 
   </head>
@@ -56,6 +72,8 @@
     </div>
 
     <div class="row-fluid main-container" style="min-height: 600px; position: relative;">
+
+      <img src="drone.jpg" class="fly">
       
       <!-- main content -->
       <div class="span7 offset1">
