@@ -1,9 +1,21 @@
 #!/usr/bin/perl
 
+# This is an example of a client handler for oAuth2 authentication servers
+# compatible with authServer. It needs to be located on the webserver of your application.
+# Use ClientConfig.pm for configuration.
+#
+# This script will write a cookie COOKIE_NAME with the user information, then redirect
+# to the APPLICATION_URL.
+# To use it, check for the cookie and redirect to this script if it is not present. If it
+# is present, it can be JSON parse to an object with the following keys:
+#    name  - full name of the user
+#    login - login of the user
+#    email - email address of the user
+#    admin - boolean whether the user is an admin
+#    token - the access token to be used for authentication against the authServer
+
 use strict;
 use warnings;
-
-use Data::Dumper;
 
 use CGI;
 use CGI::Cookie;
@@ -11,17 +23,18 @@ use JSON;
 use LWP::UserAgent;
 use URI::Escape;
 
-# Should have own config
-use OAuthConfigAWE;
+use ClientConfigAWE;
 
 my $json = new JSON;
 my $cgi = new CGI();
 
 my $settings = { app_id => APPLICATION_NAME,
-		 app_secret => APP_SECRET,
-		 dialog_url => BASE_URL.'/cgi-bin/oAuth.cgi?action=dialog',
-		 token_url => 'http://localhost/cgi-bin/oAuth.cgi?action=token',
-		 data_url => 'http://localhost/cgi-bin/oAuth.cgi?action=data' };
+		 app_secret => APPLICATION_SECRET,
+		 dialog_url => BASE_URL.'/oAuth.cgi?action=dialog',
+		 # Intern
+		 token_url  => 'http://auth/cgi-bin/oAuth.cgi?action=token',
+		 data_url   => 'http://auth/cgi-bin/oAuth.cgi?action=data' ,
+		 };
 
 my $app_id = $settings->{app_id};
 my $app_secret = $settings->{app_secret};
@@ -29,7 +42,7 @@ my $dialog_url = $settings->{dialog_url};
 my $token_url = $settings->{token_url};
 my $data_url = $settings->{data_url};
 
-my $my_url = BASE_URL."/cgi-bin/clientAWE.cgi";
+my $my_url = BASE_URL."/client.cgi";
 
 my $code = $cgi->param('code');
 
@@ -45,7 +58,7 @@ my $response = $json->decode($ua->get($call_url)->content);
 my $access_token = $response->{token};
 $call_url = $data_url . "&access_token=" . $access_token;
 $response = $ua->get($call_url)->content;
-my $cookie = CGI::Cookie->new( -name    => 'AuthWebSession',
+my $cookie = CGI::Cookie->new( -name    => COOKIE_NAME,
 			       -value   => $response,
 			       -expires => '+2d' );
 
