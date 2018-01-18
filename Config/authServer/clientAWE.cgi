@@ -42,7 +42,7 @@ my $dialog_url = $settings->{dialog_url};
 my $token_url = $settings->{token_url};
 my $data_url = $settings->{data_url};
 
-my $my_url = BASE_URL."/client.cgi";
+my $my_url = BASE_URL."/clientAWE.cgi";
 
 my $code = $cgi->param('code');
 
