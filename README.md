@@ -1,6 +1,6 @@
 
 
-# ![skyport logo](data/pictures/skyportlogo.small.jpg) App-Service-Stack ![ass logo][logo]
+# ![skyport logo](data/pictures/skyportlogo.small.jpg) Skyport2
  Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE ([M]ASA).
 
 
@@ -13,7 +13,7 @@
 
 ## Quick start
 
-All docker images required for the quick start are available at Docker Hub. To start the demo environment run: 
+All docker images required for the quick start are available at Docker Hub. To start the demo environment run:
 
 1. ```source ./init.sh ```
 2. ```docker-compose -f Docker/Compose/skyport-demo.yaml up```
@@ -33,16 +33,16 @@ All builds start within the root directory within this repository.
 If you want to build the images manually you have to set build tag. The image tag is derived from the TAG environment variable:
 `export TAG=demo`
 
-### ShockBrowser
+### Shock Browser
 
  `docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile .`
- 
+
 ### authServer
- 
+
  `docker build -t auth:${TAG} -f Docker/Dockerfiles/authServer.dockerfile .`
 
-### 
- 
+
+
 ## Starting services
 
 
@@ -57,12 +57,14 @@ To run the demo with a full stack of services:
   `docker-compose -f Docker/Compose/skyport-demo.yaml config`
 - Start services:
 
-  `docker-compose -f Docker/Compose/skyport-demo.yaml up` 
+  `docker-compose -f Docker/Compose/skyport-demo.yaml up`
 
   The web services are mapped to port 8001 on localhost[http:/localhost:8001]:
- 
+
   - Shock browser: http://localhost:8001/shock
   - Shock API: http://localhost:8001/shock/api
+  - AWE browser: http://localhost:8001/awe
+  - AWE API: http://localhost:8001/awe/api
   - MySQL browser: http://localhost:8001/mysql
 
 ### Skyport - AWE development stack
@@ -75,5 +77,5 @@ The AWE development environment is the basic skyport app service stack whith per
 4. `docker exec -ti compose_awe-server_1 ash`
 5. Inside container:
     1. `cd /go/src/github.com/MG-RAST/AWE`
-    2. `go get -d ./awe-worker/ ./awe-server/` 
+    2. `go get -d ./awe-worker/ ./awe-server/`
     3. `./compile.sh`
