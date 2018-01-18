@@ -4,6 +4,15 @@
 # set environment variables
 ############################
 
+
+
+if [[ $_ == $0 ]]; then 
+  echo "Error: please use command \"source ./init.sh\""
+  exit 1
+fi
+  
+
+
 # Top level data dir
 export DATADIR=`pwd`/data
 mkdir -p $DATADIR
