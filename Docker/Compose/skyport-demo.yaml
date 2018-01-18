@@ -131,17 +131,7 @@ services:
             --supported_apps=*
             --auto_clean_dir=false
             --debuglevel=0'
-          # - /go/bin/awe-worker
-          # - --conf=/awe-config/awe-worker.cfg
-          # - --name compose_worker-1
-          # - --data=/awe-worker/
-          # - --logs=/mnt/data/logs
-          # - --workpath=/awe-worker/work/
-          # - --serverurl=http://awe-server:8001
-          # - --group=docker
-          # - --supported_apps=*
-          # - --auto_clean_dir=false
-          # - --debuglevel=0
+
         depends_on:
           - awe-server
         volumes:
@@ -151,14 +141,3 @@ services:
           - ${LOGDIR}/awe-worker/:/mnt/data/logs
           - ${DOCKER_BINARY}:/usr/local/bin/docker
           - /var/run/docker.sock:/var/run/docker.sock
-
-
-    # status:
-#         image: nginx
-#         ports:
-#           - 8000:8001
-#         volumes:
-#           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
-#           - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
-#           - ${LOGDIR}/nginx/:/var/log/nginx/
-#
