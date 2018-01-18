@@ -146,6 +146,7 @@ services:
         depends_on:
           - awe-server
         volumes:
+          - /tmp:/tmp
           - ${CONFIGDIR}/AWE/awe-worker.cfg:/awe-config/awe-worker.cfg:ro
           - ${DATADIR}/awe-worker:${DATADIR}/awe-worker
           - ${LOGDIR}/awe-worker/:/mnt/data/logs
