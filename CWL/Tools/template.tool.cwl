@@ -5,14 +5,14 @@ cwlVersion: v1.0
 #   Workflow
 #   ExpressionTool
 class:  CommandLineTool
-label: <NAME OF TOOL>
+label: <NAME OF TOOL , e.g. Word Count>
 
 # execution hints
 #hints:
 #  - class: <e.g. DockerRequirement>
 #    dockerPull: <dockerImageId>
 
-baseCommand: <CommandLineTool to be executed>
+baseCommand: <CommandLineTool to be executed , e.g wc>
 
 # constant or derived command line options
 arguments:
@@ -28,10 +28,10 @@ arguments:
 #
 inputs:
   <NAME OF INPUT PARAMETER 1>:
-    type: <boolean|int|long|float|double|string|File|Directory>
+    type: <boolean|int|long|float|double|string|File|Directory> <e.g. boolean>
     inputBinding:
       position: <POSITOIN e.g. 1 , optional>
-      prefix:  <TOOL COMMAND LINE OPTION>
+      prefix:  <TOOL COMMAND LINE OPTION, e.g. -l>
   <NAME OF INPUT PARAMETER 2>:
     type:  <boolean|int|long|float|double|string|File|Directory>
     default: <string or number>
