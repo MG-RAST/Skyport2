@@ -36,7 +36,7 @@ services:
         depends_on:
           - db
         volumes:
-          - ${CONFIGDIR}/authserver/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+          - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           - ${CONFIGDIR}/authServer/OAuthConfig.pm:/usr/local/apache2/htdocs/OAuthConfig.pm:ro
           - ${CONFIGDIR}/authServer/client.cgi:/usr/local/apache2/htdocs/cgi-bin/client.cgi:ro
         ports:
@@ -86,7 +86,6 @@ services:
           - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
           - ${CONFIGDIR}/nginx/bootstrap.min.css:/usr/share/nginx/html/bootstrap.min.css
           - ${CONFIGDIR}/nginx/skyportlogo.png:/usr/share/nginx/html/skyportlogo.png
-          - ${CONFIGDIR}/nginx/drone.jpg:/usr/share/nginx/html/drone.jpg
           - ${LOGDIR}/nginx/:/var/log/nginx/
 
     awe-mongo:
