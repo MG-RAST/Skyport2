@@ -13,7 +13,7 @@
 
 ## Quick start
 
-All docker images required for the quick start are available at Docker Hub. To start the demo environmet run: 
+All docker images required for the quick start are available at Docker Hub. To start the demo environment run: 
 
 1. ```source ./init.sh ```
 2. ```docker-compose -f Docker/Compose/skyport-demo.yaml up```
@@ -30,7 +30,7 @@ All builds start within the root directory within this repository.
 3. `source ./init.sh`
 4. `./create-docker-images.sh`
 
-If you want to build the imagaes manually you have to set build tag. The image tag is derived from the TAG environment variable:
+If you want to build the images manually you have to set build tag. The image tag is derived from the TAG environment variable:
 `export TAG=demo`
 
 ### ShockBrowser
@@ -67,7 +67,7 @@ To run the demo with a full stack of services:
 
 ### Skyport - AWE development stack
 
-The AWE developmet environment is the basic skyport app service stack whith persistent (mounted) database storage and mounted AWE source repository. Coding can be done outside a container with an editor of your choice while the source code will be compiled inside the awe-server container.
+The AWE development environment is the basic skyport app service stack whith persistent (mounted) database storage and mounted AWE source repository. Coding can be done outside a container with an editor of your choice while the source code will be compiled inside the awe-server container.
 
 1. `source ./init.sh`
 2. `export AWE_ROOT_DIR=`PATH_TO_LOCAL_AWE_REPOSITORY
