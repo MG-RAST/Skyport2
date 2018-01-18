@@ -1,12 +1,12 @@
 [submodule "Services/AWE"]
 	path = Services/AWE
-	url = git@github.com:MG-RAST/AWE.git
+	url = https://github.com/MG-RAST/AWE.git
 [submodule "Services/Retina"]
 	path = Services/Retina
-	url = git@github.com:MG-RAST/Retina.git
+	url = https://github.com/MG-RAST/Retina.git
 [submodule "Services/Shock"]
 	path = Services/Shock
-	url = git@github.com:MG-RAST/Shock.git
+	url = https://github.com/MG-RAST/Shock.git
 [submodule "Services/authServer"]
 	path = Services/authServer
-	url = git@github.com:MG-RAST/authServer.git
+	url = https://github.com/MG-RAST/authServer.git
