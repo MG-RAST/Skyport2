@@ -24,12 +24,13 @@ function usage () {
  }
 
  # get options
-while getopts d:w:j: option; do
+while getopts d:w:j:s: option; do
     case "${option}"
         in
                 w) WORKFLOW=${OPTARG};;
                 j) JOBINPUT=${OPTARG};;
                 d) DATADIR=${OPTARG};;
+                s) SKYPORT_HOST=${OPTARG};; 
                 *)
                 usage
                 ;;
@@ -54,7 +55,12 @@ then
         usage
         exit 1
 fi
-
+if [[ -z ${SKYPORT_HOST}]]
+then   
+        # set to external host IP
+        # Replace localhost with external host IP
+        # SKYPORT_HOST= ....
+fi
 
 WORKFLOWDIR=dirname(${WORKFLOW})
 JOBINPUTDIR=dirname(${JOBINPUT}) 
@@ -66,7 +72,7 @@ then
 fi
 
 
-SKYPORT_HOST="localhost"
+
 AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 
