@@ -1,5 +1,12 @@
 #/bin/bash
 
+
+if [[ $_ == $0 ]]; then 
+  echo "Error: please use command \"source ./get_docker_binary.sh\""
+  exit 1
+fi
+
+
 if [ -z "${SKYPORT_TMPDIR}" ]; then
   SKYPORT_TMPDIR="/tmp/"
 fi
