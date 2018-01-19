@@ -1,28 +1,27 @@
 #!/bin/sh
-# Skyport2 submit script
+# 
+# skyport_submit script
 #
 # submit a CWL workflow, a jobinput file and a data directory for processing
-
+# 
+# simple AWE submitter
 
 # example use:
 #
-# in a directory with
 # PLEASE NOTE: all path info must be relative to DATADIR (in this case ./data)
+
 # ./data/file1.txt
 #       /file2.txt
 #       /db/userdb.db
 # jobinput.yaml
 # workflow-simple.yaml
 
-#skyport2_submit.sh \
-        -d  ~/data \             [ set DATADIR]
-        -j jobinput.yaml \
-        -w workflow-simple.yaml
 
 
 # usage info
 function usage () {
-        echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml "
+        echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
+	echo "if not -S <var> is provided, SKYPORT_HOST environment variable is used, if neither is present default is localhost"
  }
 
  # get options
@@ -57,17 +56,24 @@ then
         usage
         exit 1
 fi
-if [[ -z ${SKYPORT_HOST}]]
+
+# we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
+if [[ -z ${SKYPORT_HOST} ]]
 then   
-        # set to external host IP
-        # Replace localhost with external host IP
-        # SKYPORT_HOST= ....
+	if [ ${OS} == "Darwin" ]
+	then
+	  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+	else
+	  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+	fi
+	# set to external host IP
+	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
 fi
 
-WORKFLOWDIR=dirname(${WORKFLOW})
-JOBINPUTDIR=dirname(${JOBINPUT}) 
+WORKFLOWDIR=(dirname ${WORKFLOW} )
+JOBINPUTDIR=(dirname ${JOBINPUT} ) 
 
-if [ -d ${DATADIR} ]
+if [ ! -d ${DATADIR} ]
 then
  echo "directory $DATADIR does not exist!"
  exit 1
