@@ -65,5 +65,5 @@ echo "DOCKER_BINARY=${DOCKER_BINARY}"
 
 
 echo ""
-echo "Next step: docker-compose -f Docker/Compose/skyport-demo.yaml up"
+echo "Next step: docker-compose up"
 echo ""

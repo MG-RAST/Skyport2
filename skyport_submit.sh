@@ -10,14 +10,6 @@
 #
 # PLEASE NOTE: all path info must be relative to DATADIR (in this case ./data)
 
-# ./data/file1.txt
-#       /file2.txt
-#       /db/userdb.db
-# jobinput.yaml
-# workflow-simple.yaml
-
-
-
 # usage info
 function usage () {
         echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
@@ -70,8 +62,11 @@ then
 	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
 fi
 
-WORKFLOWDIR=(dirname ${WORKFLOW} )
-JOBINPUTDIR=(dirname ${JOBINPUT} ) 
+WORKFLOWDIR=dirname ${WORKFLOW}
+JOBINPUTDIR=dirname ${JOBINPUT} 
+
+WORKFLOW-FILE=basename ${WORKFLOW}
+JOBINPUT-FILE=basename ${JOBINPUT}
 
 if [ ! -d ${DATADIR} ]
 then
@@ -87,17 +82,17 @@ SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 docker run -ti \
   --network compose_default \
   --rm \
-  -v ${WORKFLOWDIR}:/mnt/workflows/ \
-  -v ${JOBINPUTDIR}:/mnt/jobinputs/ \
-  -v ${DATADIR}:/mnt/data/ \
-  -- 1G \
-  --workdir=${DATADIR} \
+  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
+  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
+  -v `pwd`/${DATADIR}:/mnt/data/ \
+  --workdir=`pwd`/${DATADIR} \
   mgrast/awe-submitter:develop \
   /go/bin/awe-submitter \
   --pack \
   --shockurl=${SHOCK_SERVER} \
   --serverurl=${AWE_SERVER} \
-  ${WORKFLOW}
+  /mnt/workflows/${WORKFLOW-FILE} \
+  /mnt/jobinputs/${JOBINPUT-FILE}
 
 
 
