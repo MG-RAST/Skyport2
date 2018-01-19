@@ -1,11 +1,12 @@
 #!/bin/sh
-# 
 
+# 
+# simple AWE submitter
 
 # example use:
 #
-# in a directory with
 # PLEASE NOTE: all path info must be relative to DATADIR (in this case ./data)
+
 # ./data/file1.txt
 #       /file2.txt
 #       /db/userdb.db
@@ -20,7 +21,8 @@
 
 # usage info
 function usage () {
-        echo "Usage: submit_cwl_to_awe.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml "
+        echo "Usage: submit_cwl_to_awe.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
+	echo "if not -S <var> is provided, SKYPORT_HOST environment variable is used, if neither is present default is localhost"
  }
 
  # get options
@@ -55,11 +57,12 @@ then
         usage
         exit 1
 fi
+
+# we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
 if [[ -z ${SKYPORT_HOST}]]
 then   
         # set to external host IP
-        # Replace localhost with external host IP
-        # SKYPORT_HOST= ....
+        SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
 fi
 
 WORKFLOWDIR=dirname(${WORKFLOW})
