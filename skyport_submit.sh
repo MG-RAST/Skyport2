@@ -1,5 +1,8 @@
 #!/bin/sh
-
+# 
+# skyport_submit script
+#
+# submit a CWL workflow, a jobinput file and a data directory for processing
 # 
 # simple AWE submitter
 
@@ -7,21 +10,9 @@
 #
 # PLEASE NOTE: all path info must be relative to DATADIR (in this case ./data)
 
-# ./data/file1.txt
-#       /file2.txt
-#       /db/userdb.db
-# jobinput.yaml
-# workflow-simple.yaml
-
-#submit_cwl_to_awe.sh \
-        -d  ~/data \             [ set DATADIR]
-        -j jobinput.yaml \
-        -w workflow-simple.yaml
-
-
 # usage info
 function usage () {
-        echo "Usage: submit_cwl_to_awe.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
+        echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
 	echo "if not -S <var> is provided, SKYPORT_HOST environment variable is used, if neither is present default is localhost"
  }
 
@@ -59,16 +50,25 @@ then
 fi
 
 # we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
-if [[ -z ${SKYPORT_HOST}]]
+if [[ -z ${SKYPORT_HOST} ]]
 then   
-        # set to external host IP
-        SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
+	if [ ${OS} == "Darwin" ]
+	then
+	  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+	else
+	  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+	fi
+	# set to external host IP
+	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
 fi
 
-WORKFLOWDIR=dirname(${WORKFLOW})
-JOBINPUTDIR=dirname(${JOBINPUT}) 
+WORKFLOWDIR=dirname ${WORKFLOW}
+JOBINPUTDIR=dirname ${JOBINPUT} 
 
-if [ -d ${DATADIR} ]
+WORKFLOW-FILE=basename ${WORKFLOW}
+JOBINPUT-FILE=basename ${JOBINPUT}
+
+if [ ! -d ${DATADIR} ]
 then
  echo "directory $DATADIR does not exist!"
  exit 1
@@ -82,18 +82,17 @@ SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 docker run -ti \
   --network compose_default \
   --rm \
-  -v `pwd`/CWL/:/CWL/ \
-  -v ${WORKFLOWDIR}:/mnt/workflows/ \
-  -v ${JOBINPUTDIR}:/mnt/jobinputs/ \
-  -v ${DATADIR}:/mnt/data/ \
-  -- 1G \
-  --workdir=${DATADIR} \
+  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
+  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
+  -v `pwd`/${DATADIR}:/mnt/data/ \
+  --workdir=`pwd`/${DATADIR} \
   mgrast/awe-submitter:develop \
   /go/bin/awe-submitter \
   --pack \
   --shockurl=${SHOCK_SERVER} \
   --serverurl=${AWE_SERVER} \
-  ${WORKFLOW}
+  /mnt/workflows/${WORKFLOW-FILE} \
+  /mnt/jobinputs/${JOBINPUT-FILE}
 
 
 
