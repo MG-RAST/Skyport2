@@ -4,6 +4,7 @@ if [ -z "${SKYPORT_TMPDIR}" ]; then
   SKYPORT_TMPDIR="/tmp/"
 fi
 
+# target location
 if [ -z "${DATADIR}" ]; then
   DATADIR=`pwd`
 fi
@@ -12,6 +13,8 @@ fi
 export DOCKER_VERSION=$(docker --version | grep -o "[0-9]*\.[0-9]*\.[0-9a-z\.-]*")
 export DOCKER_BINARY=${DATADIR}/docker-${DOCKER_VERSION}
 
+mkdir -p ${DATADIR}
+mkdir -p ${SKYPORT_TMPDIR}
 
 if [ ! -e ${DOCKER_BINARY} ] ; then
   curl -fsSL -o ${SKYPORT_TMPDIR}/docker-${DOCKER_VERSION}.tgz https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz 
@@ -27,7 +30,7 @@ if [ ! -e ${DOCKER_BINARY} ] ; then
   
   tar -xvzf ${SKYPORT_TMPDIR}/docker-${DOCKER_VERSION}.tgz -C ${SKYPORT_TMPDIR} docker/docker 
   mv ${SKYPORT_TMPDIR}/docker/docker ${DATADIR}/docker-${DOCKER_VERSION}
-  
+  rm -rf ${SKYPORT_TMPDIR}/docker
   
 fi
 
