@@ -24,3 +24,9 @@ export SKYPORT_TMPDIR=`pwd`/tmp
 mkdir -p ${SKYPORT_TMPDIR}
 
 
+# now set some variables for the building blocks
+
+export AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
+export SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
+
+
