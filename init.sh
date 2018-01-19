@@ -13,10 +13,11 @@ fi
   
 
 
-# Top level data dir
-export DATADIR=`pwd`/tmp
+# Top level data dir (using name DATADIR as DATA was conflicting with docker)
+export DATADIR=`pwd`/skyportdata
 mkdir -p $DATADIR
 
+# this is being used for CWL_Runner to download etc.
 export SKYPORT_TMPDIR=$DATADIR/tmp
 mkdir -p ${SKYPORT_TMPDIR}
 
@@ -25,12 +26,20 @@ mkdir -p ${SKYPORT_TMPDIR}
 export SHOCKDIR=${DATADIR}/shock/
 mkdir -p ${SHOCKDIR}/data
 mkdir -p ${SHOCKDIR}/log
+mkdir -p ${SHOCKDIR}/db
 
-# Path to AWE
-export AWEDIR=${DATADIR}/awe
-mkdir -p ${DATADIR}/awe
-mkdir -p ${DATADIR}/awe/db
+# Path to AWE-server
+export AWEDIR=${DATADIR}/awe-server
+mkdir -p ${AWEDIR}
+mkdir -p ${AWEDIR}/db
+mkdir -p ${AWEDIR}/logs
+
+# Path for AWE-worker
 mkdir -p ${DATADIR}/awe-worker/work
+
+# Path for MySQL DB
+export AUTHDB=${DATADIR}/authdb
+mkdir -p ${AUTHDB}
 
 
 # Path to primary log dir

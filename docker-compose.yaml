@@ -1,18 +1,22 @@
-# Use root/example as user/password credentials
 
 # you need a recent version of Docker compose
 version: '3.1'
 
+
+# these variables are set in init.sh (change storage location there)
+# 
 # set TAG to specify docker image version
 # set CONFIGDIR to path to config
-# set SHOCKDIR for persistent Shock data store , e.g. /Users/Andi/Development/Shock
+# set SHOCKDIR for persistent Shock data store , e.g. /var/tmp/Shock
+# set DATADIR for persistent data store , e.g. /var/tmp
 # set LOGDIR to path to local log dir
 # set DOCKER_BINARY to the path of the docker client binary (Linux binary, not OSX/Windows)
 
 
 services:
 
-    # the SHOCK object store 
+    # the SHOCK object store  
+    # to make SHOCK data persistent uncomment the lines here and in "mongo" below
     shock:
         image: mgrast/shock
         depends_on:
@@ -24,7 +28,8 @@ services:
         volumes:
           - ${CONFIGDIR}/Shock/shock-server.container.cfg:/shock-config/shock-server.cfg
           - ${LOGDIR}/shock:/var/log/shock
-          - ${SHOCKDIR}/data:/usr/local/shock
+          # remove the comment below to make SHOCK data persistent
+          #- ${SHOCKDIR}/data:/usr/local/shock
         ports:
           - 7445:7445
           - 8083:80
@@ -39,6 +44,7 @@ services:
           - ${CONFIGDIR}/ShockBrowser/config.js:/usr/share/nginx/html/js/config.js
 
     # local Oauth2 server for user, password and tokens
+    # to make Auth data persistent make the MySQL DB persistent
     auth:
         image: mgrast/authserver:${TAG}
         environment:
@@ -55,7 +61,8 @@ services:
         ports:
           - 8081:80
 
-    # AWE resource manager
+    # AWE resource manager 
+    # uncomment AWEDIR to make data and logs persistent (also requires AWE-mongo for full persistence) 
     awe-server:
         image: mgrast/awe:develop
         entrypoint:
@@ -69,11 +76,11 @@ services:
           - 8081
         volumes:
           - ${CONFIGDIR}/awe/awe-server.conf:/awe-config/awe-server.cfg:ro
-          - ${DATADIR}/awe:/mnt/data/awe/
-          - ${LOGDIR}/awe/:/mnt/data/awe/logs
+          #- ${AWEDIR}:/mnt/data/awe/
 
 
     # the AWE worker that will execute the workflow steps
+    # the data and logs for the awe worker are persistent in this configuration
     awe-worker:
         image: mgrast/awe-worker:develop
         # worker needs to wait for AWE-server to start up
@@ -121,16 +128,23 @@ services:
           - ${CONFIGDIR}/nginx/drone.jpg:/usr/share/nginx/html/drone.jpg
           - ${LOGDIR}/nginx/:/var/log/nginx/
 
+    # a graphical front end for MySQL useful for debugging
     adminer:
         image: adminer
         ports:
             - 8080:8080
 
+    # mongoDB for the SHOCK service, provides metadata storage
     mongo:
         image: mongo
         ports:
           - 27017
+        # uncomment the next two lines to make SHOCK mongo data persistent
+        # volumes:
+        #  - ${SHOCKDIR}/db:/data/db
 
+   # the MySQL server is a component of the auth server
+   # 
     db:
         image: mysql
         environment:
@@ -140,12 +154,21 @@ services:
             MYSQL_PASSWORD: authServicePassword
         volumes:
           - /var/lib/mysql
+          #- ${AUTHDB}:/var/lib/mysql
 
+   # we use a volume (see below) to make data persistent between runs
+   #      - 
 
+    # the mongo database stores the awe server information during the run
+    #
+    # mount a volume in the mongo server to make data persistent between runs
     awe-mongo:
         image: mongo
         ports:
           - 27017
+        # to make the AWE jobs persistent between runs uncomment the lines below
+        #volumes:
+        #  - ${SHOCKDIR}/db:/data/db
 
 
 
