@@ -1,5 +1,7 @@
 #!/bin/sh
-# 
+# Skyport2 submit script
+#
+# submit a CWL workflow, a jobinput file and a data directory for processing
 
 
 # example use:
@@ -12,7 +14,7 @@
 # jobinput.yaml
 # workflow-simple.yaml
 
-#submit_cwl_to_awe.sh \
+#skyport2_submit.sh \
         -d  ~/data \             [ set DATADIR]
         -j jobinput.yaml \
         -w workflow-simple.yaml
@@ -20,7 +22,7 @@
 
 # usage info
 function usage () {
-        echo "Usage: submit_cwl_to_awe.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml "
+        echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml "
  }
 
  # get options
@@ -79,7 +81,6 @@ SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 docker run -ti \
   --network compose_default \
   --rm \
-  -v `pwd`/CWL/:/CWL/ \
   -v ${WORKFLOWDIR}:/mnt/workflows/ \
   -v ${JOBINPUTDIR}:/mnt/jobinputs/ \
   -v ${DATADIR}:/mnt/data/ \
