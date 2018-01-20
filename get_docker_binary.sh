@@ -32,7 +32,7 @@ if [ ! -e ${DOCKER_BINARY} ] ; then
   
   if [ ! -e ${SKYPORT_TMPDIR}/docker-${DOCKER_VERSION}.tgz ] ; then
     echo "docker binary not found"
-    exit 1
+    return 1
   fi
   
   tar -xvzf ${SKYPORT_TMPDIR}/docker-${DOCKER_VERSION}.tgz -C ${SKYPORT_TMPDIR} docker/docker 
