@@ -7,11 +7,12 @@ function usage () {
  }
 
  # get options
-while getopts d:w:j:s: option; do
+while getopts d:a:s: option; do
     case "${option}"
         in
                 d) DATADIR=${OPTARG};;
                 s) SKYPORT_HOST=${OPTARG};;
+                a) SKYPORT_AUTH=${OPTARG};;
                 *)
                 usage
                 ;;
@@ -23,6 +24,12 @@ if [ -z ${SKYPORT_HOST} ]
 then
         usage
         exit 1
+fi
+
+# check on the auth situation
+if [ -z ${SKYPORT_AUTH} ]
+then
+	echo "We did not find an auth token (-a or $SKYPORT_AUTH). Running in anonymous mode"
 fi
 
 # set the AWE_SERVER relative to the SKYPORT SERVER
