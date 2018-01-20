@@ -15,7 +15,7 @@ function usage () {
  }
 
  # get options
-while getopts d:w:j:s: option; do
+while getopts d:w:j:s:a: option; do
     case "${option}"
         in
                 w) WORKFLOW=${OPTARG};;
@@ -27,6 +27,12 @@ while getopts d:w:j:s: option; do
                 ;;
     esac
 done
+
+# check on the auth situation
+if [ -z ${SKYPORT_AUTH} ]
+then
+        echo "We did not find an auth token (-a or $SKYPORT_AUTH). Running in anonymous mode"
+fi
 
 # make sure the required options are present
 if [[ -z ${WORKFLOW} ]]
@@ -77,20 +83,43 @@ fi
 AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 
+# check if we have an AUTH token
+if [ -z ${SKYPORT_AUTH} ]
+then
+	docker run -ti \
+	  --network compose_default \
+	  --rm \
+	  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
+	  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
+	  -v `pwd`/${DATADIR}:/mnt/data/ \
+	  --workdir=`pwd`/${DATADIR} \
+	  mgrast/awe-submitter:develop \
+	  /go/bin/awe-submitter \
+	  --pack \
+	  --shockurl=${SHOCK_SERVER} \
+	  --serverurl=${AWE_SERVER} \
+	  /mnt/workflows/${WORKFLOW-FILE} \
+	  /mnt/jobinputs/${JOBINPUT-FILE}
+
+else
+# run with auth param
 docker run -ti \
-  --network compose_default \
-  --rm \
-  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
-  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
-  -v `pwd`/${DATADIR}:/mnt/data/ \
-  --workdir=`pwd`/${DATADIR} \
-  mgrast/awe-submitter:develop \
-  /go/bin/awe-submitter \
-  --pack \
-  --shockurl=${SHOCK_SERVER} \
-  --serverurl=${AWE_SERVER} \
-  /mnt/workflows/${WORKFLOW-FILE} \
-  /mnt/jobinputs/${JOBINPUT-FILE}
+          --network compose_default \
+          --rm \
+          -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
+          -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
+          -v `pwd`/${DATADIR}:/mnt/data/ \
+          --workdir=`pwd`/${DATADIR} \
+          mgrast/awe-submitter:develop \
+          /go/bin/awe-submitter \
+          --pack \
+          --shockurl=${SHOCK_SERVER} \
+          --serverurl=${AWE_SERVER} \
+          --auth=${SKYPORT_AUTH} \
+          /mnt/workflows/${WORKFLOW-FILE} \
+          /mnt/jobinputs/${JOBINPUT-FILE}
+
+fi
 
 
 
