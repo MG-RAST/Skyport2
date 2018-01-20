@@ -6,8 +6,6 @@
 # 
 # simple AWE submitter
 
-# example use:
-#
 # PLEASE NOTE: all path info must be relative to DATADIR (in this case ./data)
 
 # usage info
