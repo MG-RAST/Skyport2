@@ -10,8 +10,12 @@
 
 # usage info
 function usage () {
-        echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
-	echo "if not -S <var> is provided, SKYPORT_HOST environment variable is used, if neither is present default is localhost"
+        echo "Usage: skyport_submit.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
+	echo "Notes: if -s <var> is not provided, SKYPORT_HOST is used, otherwise defaults to localhost"
+	echo "Example:  skyport_submit.sh  \ "
+        echo "              -w ./CWL/Workflows/simple-bioinformatic-example.cwl \ "
+        echo "              -j ./CWL/Workflows/simple-bioinformatic-example.job.yaml \ "
+        echo "              -d ./CWL/Data/ "
  }
 
  # get options
@@ -63,14 +67,14 @@ then
 	  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 	fi
 	# set to external host IP
-	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
+	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 fi
 
-WORKFLOWDIR=dirname ${WORKFLOW}
-JOBINPUTDIR=dirname ${JOBINPUT} 
+WORKFLOWDIR=$(dirname ${WORKFLOW})
+JOBINPUTDIR=$(dirname ${JOBINPUT})
 
-WORKFLOW-FILE=basename ${WORKFLOW}
-JOBINPUT-FILE=basename ${JOBINPUT}
+WORKFLOW_FILE=$(basename ${WORKFLOW})
+JOBINPUT_FILE=$(basename ${JOBINPUT})
 
 if [ ! -d ${DATADIR} ]
 then
@@ -98,8 +102,8 @@ then
 	  --pack \
 	  --shockurl=${SHOCK_SERVER} \
 	  --serverurl=${AWE_SERVER} \
-	  /mnt/workflows/${WORKFLOW-FILE} \
-	  /mnt/jobinputs/${JOBINPUT-FILE}
+	  /mnt/workflows/${WORKFLOW_FILE} \
+	  /mnt/jobinputs/${JOBINPUT_FILE}
 
 else
 # run with auth param
@@ -116,8 +120,8 @@ docker run -ti \
           --shockurl=${SHOCK_SERVER} \
           --serverurl=${AWE_SERVER} \
           --auth=${SKYPORT_AUTH} \
-          /mnt/workflows/${WORKFLOW-FILE} \
-          /mnt/jobinputs/${JOBINPUT-FILE}
+          /mnt/workflows/${WORKFLOW_FILE} \
+          /mnt/jobinputs/${JOBINPUT_FILE}
 
 fi
 
