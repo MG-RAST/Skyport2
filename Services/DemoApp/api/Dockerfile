@@ -1,4 +1,9 @@
-# docker build -t mgrast/dempo-app-api .
+# docker build -t mgrast/demo-app-api .
+
+# e.g. DOCKER_BINARY="${HOME}/git/Skyport2/live-data/docker-17.12.0-ce"
+# docker run --rm -p 5000:5000  -v ${DOCKER_BINARY}:/usr/local/bin/docker -v /var/run/docker.sock:/var/run/docker.sock  mgrast/demo-app-api
+# development: -v `pwd`:/usr/src/app
+
 FROM python:3
 
 WORKDIR /usr/src/app
