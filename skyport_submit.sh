@@ -76,7 +76,7 @@ then
 	# set to external host IP
 	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 fi
-if [ -s ${SKYPORT_HOST} ] 
+if [ -s ${SKYPORT_HOST} ]
 then
     SKYPORT_HOST=localhost
 fi
@@ -101,7 +101,7 @@ AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 
 SHOCK_SERVER=http://shock:7445
-AWE_SERVER=http://awe-server:8081
+AWE_SERVER=http://awe-server:8001
 
 # check if we have an AUTH token
 if [ -z ${SKYPORT_AUTH} ]
@@ -116,6 +116,7 @@ then
 	  mgrast/awe-submitter:develop \
 	  /go/bin/awe-submitter \
 	  --pack \
+          --wait \
 	  --shockurl=${SHOCK_SERVER} \
 	  --serverurl=${AWE_SERVER} \
 	  /mnt/workflows/${WORKFLOW_FILE} \
@@ -133,6 +134,7 @@ docker run -ti \
           mgrast/awe-submitter:develop \
           /go/bin/awe-submitter \
           --pack \
+          --wait \
           --shockurl=${SHOCK_SERVER} \
           --serverurl=${AWE_SERVER} \
           --auth=${SKYPORT_AUTH} \
