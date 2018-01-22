@@ -1,0 +1,10 @@
+# docker build -t mgrast/dempo-app-api .
+FROM python:3
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+
+COPY . .
+
+CMD ["gunicorn", "-w", "5", "-b", "0.0.0.0:5000", "app:app"]
