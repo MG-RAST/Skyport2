@@ -1,12 +1,17 @@
 from flask import Blueprint
 from flask import Response
 from flask import request
-#from flask import jsonify
+from flask import jsonify
 #from flask import stream_with_context
+import uuid
 import logging
 import re
 import sys
+import os
 import time
+import subprocess
+import psutil
+from subprocess import Popen, PIPE, STDOUT
 sys.path.append("../..")
 #import export
 sys.path.pop()
@@ -27,6 +32,56 @@ STATUS_Bad_Request = 400  # A client error
 STATUS_Unauthorized = 401
 STATUS_Not_Found = 404
 STATUS_Server_Error = 500
+
+
+def execute_command(command, env):
+    #global args
+    
+    print("execute command")
+    
+    if env:
+        for key in env:
+            #print("key: %s" % (key))
+            search_string = "${"+key+"}"
+            #if args.debug:
+            #    print("search_string: %s" % (search_string))
+            value = env[key]
+            command = command.replace(search_string, value)
+        
+        #if args.debug:
+        #   print("exec: %s" % (command), flush=True)
+            
+        process = subprocess.Popen(command, shell=True,  stdout=PIPE, stderr=STDOUT, close_fds=True, executable='/bin/bash', env=env)
+    else:
+        #if args.debug:
+        print("exec: %s" % (command), flush=True)
+        #print("no special environment")
+        process = subprocess.Popen(command, shell=True,  stdout=PIPE, stderr=STDOUT, close_fds=True, executable='/bin/bash')
+  
+    last_line = ''
+    while True:
+        #print('loop')
+        output = process.stdout.readline()
+        rc = process.poll()
+        if output == '' and process.poll() is not None:
+            #print("Cond 1")
+            break
+        
+        if output:
+            last_line = output.decode("utf-8").rstrip()
+            print(last_line)
+        if rc==0:
+            #print("Cond 2")
+            break
+       
+    
+    #if args.debug:
+        #print(last_line)
+        
+    if process.returncode:
+        raise MyException("Command failed (return code %d, command: %s): %s" % (process.returncode, command, last_line[0:500]))    
+        
+    return last_line
 
 
 class InvalidUsage(Exception):
@@ -56,6 +111,113 @@ def handle_invalid_usage(error):
     return response
 
 
+@api.route('/submit/<node_id>')
+def api_submit(node_id):
+    
+    #status : submitted | error | complete ,
+    #result : null |error-text |  status-id
+    logger.info("__ api_submit()  node_id = {}".format(node_id))
+    
+    node_id = node_id.lower()
+    
+    
+    tmp_jobid = str(uuid.uuid4())
+    tmp_dir = '/tmp/'+tmp_jobid
+    os.makedirs(tmp_dir)
+    
+    command = "docker run" \
+     ' --network skyport2_default' \
+     ' --rm ' \
+     ' -v `pwd`/CWL/:/CWL/' \
+     ' --workdir=/CWL/Data/' \
+     ' mgrast/awe-submitter:develop' \
+     ' /go/bin/awe-submitter' \
+     ' --pack' \
+     ' --shockurl=http://shock:7445' \
+     ' --serverurl=http://awe-server:8001' \
+     ' --output=%s/results.cwl' \
+     ' /CWL/Workflows/simple-bioinformatic-example.cwl' \
+     ' /CWL/Workflows/simple-bioinformatic-example.job.yaml'
+ 
+
+    
+    popen_object = subprocess.Popen(command % (tmp_dir), shell=True)
+    
+    
+    the_pid = popen_object.pid
+    
+    time.sleep(5) # wait 5 seconds and check if process is still running
+    
+    p = psutil.Process(the_pid)
+    if p.status != psutil.STATUS_RUNNING:
+        status = "error"
+        result = "awe-submitter container or process died"
+    
+    
+        return jsonify({
+                'status': status,
+                'result': result,
+        })
+    
+    #try:
+    #    execute_command(command, None)
+    #except Exception as e:
+    #    status = "error"
+    #    result = str(e)
+    #    return jsonify({
+    #            'status': status,
+    #            'result': result,
+    #    })
+    
+    status = "submitted"
+    result = tmp_jobid
+    
+    
+    return jsonify({
+            'debug' : node_id,
+            'status': status,
+            'result': result,
+    })
+
+
+
+@api.route('/status/<jobid>')
+def api_status(jobid):
+    
+    
+    #status : running | error | complete ,
+    #result : null | error-text | node-id
+
+    output_dir = '/tmp/'+jobid
+    output_file = output_dir+'/results.cwl'
+
+    if os.path.isfile(output_file):
+        
+        status = "complete"
+        result = "shock_node_id_of_output" # TODO get node id of output file
+    
+        return jsonify({
+                'status': status,
+                'result': result,
+        })
+        
+    if os.path.exists(output_dir):
+        
+        status = "running"
+    
+        return jsonify({
+                'status': status
+        })
+        
+        
+
+    status = "error"
+    result = "job not found"
+    
+    return jsonify({
+            'status': status,
+            'result': result,
+    })
 
 
 @api.route('/testing')
