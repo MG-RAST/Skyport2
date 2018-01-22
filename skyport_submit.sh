@@ -19,7 +19,7 @@ function usage () {
 	echo "Example:  skyport_submit.sh  \ "
         echo "              -w ./CWL/Workflows/simple-bioinformatic-example.cwl \ "
         echo "              -j ./CWL/Workflows/simple-bioinformatic-example.job.yaml \ "
-        echo "              -d ./CWL/data/ "
+        echo "              -d ./CWL/Data/ "
  }
 
  # get options
@@ -67,7 +67,7 @@ fi
 # we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
 if [[ -z ${SKYPORT_HOST} ]]
 then   
-	if [ ${OS} == "Darwin" ]
+	if [[ "$OSTYPE" == *"arwin"* ]]
 	then
 	  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 	else
@@ -76,6 +76,7 @@ then
 	# set to external host IP
 	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 fi
+echo SKYPORT_HOST ${SKYPORT_HOST}
 
 WORKFLOWDIR=$(dirname ${WORKFLOW})
 JOBINPUTDIR=$(dirname ${JOBINPUT})
@@ -131,3 +132,4 @@ docker run -ti \
           /mnt/jobinputs/${JOBINPUT_FILE}
 
 fi
+echo
