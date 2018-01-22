@@ -75,7 +75,7 @@ services:
           - 8001
           - 8081
         volumes:
-          - ${CONFIGDIR}/awe/awe-server.conf:/awe-config/awe-server.cfg:ro
+          - ${CONFIGDIR}/AWE/awe-server.conf:/awe-config/awe-server.cfg:ro
           #- ${AWEDIR}:/mnt/data/awe/
 
 
