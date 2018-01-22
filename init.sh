@@ -8,10 +8,15 @@
 
 if [[ $_ == $0 ]]; then 
   echo "Error: please use command \"source ./init.sh\""
-  return 1
+  exit 1
 fi
 
-docker-compose -v 
+docker -v  > /dev/null
+if [[ $? -ne 0 ]]; then
+  echo "docker is missing.  Follow instructions at https://docs.docker.com/compose/install/ to install"
+  return 1
+fi
+docker-compose -v  > /dev/null
 if [[ $? -ne 0 ]]; then
   echo "docker-compose is missing or not configured.  Follow instructions at https://docs.docker.com/compose/install/ to install"
   return 1
@@ -19,6 +24,7 @@ fi
 
 if [[ "$(docker-compose -v)" == "docker-compose version 1.8.0"* ]] ; then
   echo "Version of docker-compose is out of date, follow instructions at https://docs.docker.com/compose/install/"
+  echo "Note: the default ubuntu repositories will not help you here."
   return 1
 fi
   
