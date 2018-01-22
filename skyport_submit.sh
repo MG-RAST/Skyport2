@@ -10,12 +10,16 @@
 
 # usage info
 function usage () {
-        echo "Usage: skyport_submit.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
-	echo "Notes: if -s <var> is not provided, SKYPORT_HOST is used, otherwise defaults to localhost"
+        echo "Usage: skyport_submit.sh -d <datadir> -j <input.job>  -w <workflow.cwl> [-s SKYPORT_HOST]"
+        echo "Options: "
+        echo "              -d <datadir>          data directory"
+        echo "              -j <input.job>        workflow job file,  specifies input files, yaml"
+        echo "              -w <workflow.cwl>     workflow file, specifies workflow"
+        echo "             [-s SKYPORT_HOST]      defaults to environment variable SKYPORT_HOST, then to localhost"
 	echo "Example:  skyport_submit.sh  \ "
         echo "              -w ./CWL/Workflows/simple-bioinformatic-example.cwl \ "
         echo "              -j ./CWL/Workflows/simple-bioinformatic-example.job.yaml \ "
-        echo "              -d ./CWL/Data/ "
+        echo "              -d ./CWL/data/ "
  }
 
  # get options
@@ -41,18 +45,21 @@ fi
 # make sure the required options are present
 if [[ -z ${WORKFLOW} ]]
 then
+        echo "Required parameter -w <workflow.cwl> is missing"
         usage
         exit 1
 fi
 # make sure the required options are present
 if [[ -z ${JOBINPUT} ]]
 then
+        echo "Required parameter -j <job.yaml> is missing"
         usage
         exit 1
 fi
 # make sure the required options are present
 if [[ -z ${DATADIR} ]]
 then
+        echo "Required parameter -d <datadir> is missing"
         usage
         exit 1
 fi
@@ -124,6 +131,3 @@ docker run -ti \
           /mnt/jobinputs/${JOBINPUT_FILE}
 
 fi
-
-
-
