@@ -29,7 +29,7 @@ steps:
   qc:
     label: Quality Control
     doc: Filtering and removing reads below a certain quality threshold
-    run: ../Tools/qc.cwl
+    run: qc.cwl
     # scatter: [filter]
     # scatterMethod: dotproduct
     in:
@@ -39,7 +39,7 @@ steps:
   similaritySearch:
     # label: none
     doc: none
-    run: ../Tools/Similarity-Search.cwl
+    run: Similarity-Search.cwl
     # scatter: [nucleotide_sequences]
     # scatterMethod: dotproduct
     in:
