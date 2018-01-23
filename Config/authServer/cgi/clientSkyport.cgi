@@ -23,7 +23,7 @@ use JSON;
 use LWP::UserAgent;
 use URI::Escape;
 
-use ClientConfig;
+use ClientConfigSkyport;
 
 my $json = new JSON;
 my $cgi = new CGI();
@@ -31,8 +31,9 @@ my $cgi = new CGI();
 my $settings = { app_id => APPLICATION_NAME,
 		 app_secret => APPLICATION_SECRET,
 		 dialog_url => BASE_URL.'/oAuth.cgi?action=dialog',
-		 token_url  => BASE_URL.'/oAuth.cgi?action=token',
-		 data_url   => BASE_URL.'/oAuth.cgi?action=data' };
+		 token_url  => 'http://auth/cgi-bin/oAuth.cgi?action=token',
+		 data_url   => 'http://auth/cgi-bin/oAuth.cgi?action=data'
+	       };
 
 my $app_id = $settings->{app_id};
 my $app_secret = $settings->{app_secret};
@@ -40,7 +41,7 @@ my $dialog_url = $settings->{dialog_url};
 my $token_url = $settings->{token_url};
 my $data_url = $settings->{data_url};
 
-my $my_url = BASE_URL."/clientAWE.cgi";
+my $my_url = BASE_URL."/clientSkyport.cgi";
 
 my $code = $cgi->param('code');
 

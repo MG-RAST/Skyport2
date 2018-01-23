@@ -5,7 +5,7 @@ package OAuthConfig;
 require Exporter;
 
 # name and timeout of the cookie used by the authServer
-use constant SESSION_COOKIE_NAME => 'AuthWebSession';
+use constant SESSION_COOKIE_NAME => 'oAuthWebSession';
 use constant SESSION_TIMEOUT => "+2d";
 
 # user / permission database
@@ -36,8 +36,8 @@ use constant APPLICATION_URL => "http://localhost:8001/auth/";
 
 # Setting this to true will enable the registration of applications / users (if oAuth.cgi is
 # called without any parameters)
-use constant ALLOW_REGISTER_APPLICATION => 0;
-use constant ALLOW_REGISTER_USER => 0 ;
+use constant ALLOW_REGISTER_APPLICATION => 1;
+use constant ALLOW_REGISTER_USER => 1;
 
 # Added
 

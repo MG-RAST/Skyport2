@@ -33,7 +33,7 @@ my $settings = { app_id => APPLICATION_NAME,
 		 dialog_url => BASE_URL.'/oAuth.cgi?action=dialog',
 		 # Intern
 		 token_url  => 'http://auth/cgi-bin/oAuth.cgi?action=token',
-		 data_url   => 'http://auth/cgi-bin/oAuth.cgi?action=data' ,
+		 data_url   => 'http://auth/cgi-bin/oAuth.cgi?action=data'
 		 };
 
 my $app_id = $settings->{app_id};
