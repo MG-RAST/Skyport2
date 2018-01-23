@@ -11,10 +11,6 @@ inputs:
     type: File
     doc: PDF file for text extraction
 
-# output mapping
-# outputs: <LIST OF NAMED OUTPUTS AND MAPPING \
-#          FROM TOOL OUTPUT TO WORKFLOW OUTPUT>
-
 # list of workflow steps
 steps:
   # step name
@@ -31,8 +27,23 @@ steps:
       text:
         # assign constant output file name
         default: "extracted.txt"
-
     out: [extractedText]
+
+  # second step  
+  text2wordCloud:
+    label: word-cloud
+    doc: create png from text file
+    # path to tool
+    run: .wordcloud.cwl
+    # assign values to step/tool inputs
+    in:
+      # assign output from previous step to tool input:
+      # <tool input name>:<previous step/tool output name>
+      text: pdf2text/extractedText
+      outname:
+        default: "extracted.txt.png"
+    # return output from tool
+    out: [image]
 
 # mapping of output parameter to step outputs
 outputs:

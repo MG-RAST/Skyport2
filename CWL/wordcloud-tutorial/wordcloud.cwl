@@ -13,13 +13,12 @@ label: Word-Cloud
 
 # optional description/documentation
 # doc: <DETAILED DESCRIPTION>
-# optional hints for CWL execution
 
+# optional hints for CWL execution
 hints:
 # set execution environment for baseCommand
 - class: DockerRequirement
   dockerPull: mgrast/pdf2wordcloud:demo
-
 
 # required, name of command line tool
 baseCommand: wordcloud_cli.py
