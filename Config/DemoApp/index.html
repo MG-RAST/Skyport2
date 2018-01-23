@@ -87,7 +87,7 @@
 	stm.user = user;
 	stm.user.firstname = stm.user.name;
 	stm.user.lastname = "";
-	stm.authHeader = { "Authorization": "oauth "+stm.user.token };
+	stm.authHeader = {};//{ "Authorization": "oauth "+stm.user.token };
 	$('#logoutButton').css('display', '');
 	$('#tokenButton').css('display', '');
 	document.getElementById('tokenButton').innerHTML = stm.user.name;
@@ -134,6 +134,22 @@
 							  window.currentnode.attributes.status = 'complete';
 							  window.currentnode.attributes.resultid = data.result;
 							  document.getElementById('statusResult').innerHTML = '<div class="alert alert-success">Your computation has completed!</div>';
+							  var sb = Retina.WidgetInstances.shockbrowse[1];
+							  var url = sb.shockBase+'/node/'+data.result;
+							  var fd = new FormData();
+							  fd.append('attributes', new Blob([ JSON.stringify({"type": "wordcloud", "source": currentnode.id, "inputfilename": currentnode.file.name }) ], { "type" : "text\/json" }));
+							  jQuery.ajax(url, {
+							      contentType: false,
+							      processData: false,
+							      data: fd,
+							      success: function(data){
+							      },
+							      error: function(jqXHR, error){
+							      },
+							      crossDomain: true,
+							      headers: sb.authHeader,
+							      type: "PUT"
+							  });
 						      }
 						      updateAttributes();
 						  } else {
@@ -151,13 +167,13 @@
 			} else {
 			    html.push('<div style="margin-top: 50px; text-align: center;"><button class="btn" onclick="submitNode(\''+node.id+'\');" id="createButton">create word-cloud</button></div>')
 			}
-		    } else {
-			html.push('<div class="alert alert-info" style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">This is not a pdf file and cannot be submitted.</div>');
+		    } else if (node.file.name.match(/\.png$/)) {
+			html.push('<div class="alert alert-info" style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">This is the result file of<br>'+currentnode.attributes.inputfilename+'</div><div style="text-align: center;"><button class="btn" onclick="window.open(\'http://localhost:8001/shock/api/node/'+currentnode.id+'?download\');">download</button></div>');
 		    }
 		    html.push('<br><div style="text-align: center;"><button class="btn btn-danger" onclick="if(confirm(\'really delete this file?\')){Retina.WidgetInstances.shockbrowse[1].removeNode({node:\''+node.id+'\'});}">delete node</button></div>');
 		    return html.join('');
 		},
-		"fileDoneAttributes": { "type": "word-explorer",
+		"fileDoneAttributes": { "type": "pdf",
 					"user": stm.user.email },
 		"fileSectionColumns": [
 		    { "path": "file.name", "name": "name", "width": "50%", "type": "file", "sortable": true },

@@ -47,9 +47,8 @@ steps:
       text: pdf2text/extractedText
       outname:
         # derive output name from pdf input filename
-        default: "demo.png"
-        #source: pdf
-        #valueFrom: $(self.nameroot).png
+        source: pdf
+        valueFrom: wordcloud.png
     # return output from tool
     out: [image]
 

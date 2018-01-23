@@ -1,0 +1,4 @@
+# ignore live-data and tmp files
+live-data/
+tmp?
+temp?

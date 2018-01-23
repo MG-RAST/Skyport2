@@ -70,22 +70,20 @@ then
 	if [[ "$OSTYPE" == *"arwin"* ]]
 	then
 	  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+    #MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
 	else
 	  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 	fi
 	# set to external host IP
-	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
-  if [ -s ${SKYPORT_HOST} ]
-  then
-      SKYPORT_HOST=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
-  fi
+	SKYPORT_HOST=${MYIP}
+  
 fi
 if [ -s ${SKYPORT_HOST} ]
 then
     SKYPORT_HOST=localhost
 fi
 
-echo SKYPORT_HOST ${SKYPORT_HOST}
+echo "SKYPORT_HOST=${SKYPORT_HOST}"
 
 WORKFLOWDIR=$(dirname ${WORKFLOW})
 JOBINPUTDIR=$(dirname ${JOBINPUT})
@@ -104,8 +102,8 @@ fi
 AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 
-SHOCK_SERVER=http://shock:7445
-AWE_SERVER=http://awe-server:8001
+#SHOCK_SERVER=http://shock:7445
+#AWE_SERVER=http://awe-server:8001
 
 # check if we have an AUTH token
 if [ -z ${SKYPORT_AUTH} ]
