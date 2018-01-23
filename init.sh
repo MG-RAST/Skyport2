@@ -6,12 +6,17 @@
 
 
 
-if [[ $_ == $0 ]]; then 
+if [[ $_ == $0 ]]; then
   echo "Error: please use command \"source ./init.sh\""
-  return 1
+  exit 1
 fi
 
-docker-compose -v 
+docker -v  > /dev/null
+if [[ $? -ne 0 ]]; then
+  echo "docker is missing.  Follow instructions at https://docs.docker.com/compose/install/ to install"
+  return 1
+fi
+docker-compose -v  > /dev/null
 if [[ $? -ne 0 ]]; then
   echo "docker-compose is missing or not configured.  Follow instructions at https://docs.docker.com/compose/install/ to install"
   return 1
@@ -19,14 +24,23 @@ fi
 
 if [[ "$(docker-compose -v)" == "docker-compose version 1.8.0"* ]] ; then
   echo "Version of docker-compose is out of date, follow instructions at https://docs.docker.com/compose/install/"
+  echo "Note: the default ubuntu repositories will not help you here."
   return 1
 fi
-  
 
+
+
+export REPO_DIR=`pwd`
 
 # Top level data dir
-export DATADIR=`pwd`/live-data
+export DATADIR=${REPO_DIR}/live-data
 mkdir -p $DATADIR
+
+# Path to config dir with service specific subdirs. Contains config for demo case
+export CONFIGDIR=${REPO_DIR}/Config/
+
+export CWL_DIR=${REPO_DIR}/CWL
+
 
 export SKYPORT_TMPDIR=$DATADIR/tmp
 mkdir -p ${SKYPORT_TMPDIR}
@@ -44,8 +58,12 @@ mkdir -p ${DATADIR}/awe/db
 mkdir -p ${DATADIR}/awe-worker/work
 
 
+
+
+
+
 # Path to primary log dir
-export LOGDIR=`pwd`/data/log/
+export LOGDIR=${DATADIR}/log/
 
 # Create log dirs for Shock , nginx
 mkdir -p ${LOGDIR}
@@ -54,11 +72,16 @@ mkdir -p ${LOGDIR}/nginx
 mkdir -p ${LOGDIR}/awe
 mkdir -p ${LOGDIR}/awe-worker
 
-# Path to config dir with service specific subdirs. Contains config for demo case
-export CONFIGDIR=`pwd`/Config/
 
-# Docker image tag , used by Dockerfiles and Compose file 
+
+# Docker image tag , used by Dockerfiles and Compose file
 export TAG=demo
+
+
+
+# pulling docker images
+docker-compose pull
+
 
 
 

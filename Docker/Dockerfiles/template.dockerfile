@@ -1,6 +1,6 @@
 # Build from base image
 # FROM ubuntu:latest
-FROM <BASE IMAGE>
+FROM ubuntu:latest
 
 
 # Update base images with latest patches

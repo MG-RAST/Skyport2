@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # 
 # skyport_submit script
 #
@@ -9,9 +9,17 @@
 # PLEASE NOTE: all path info must be relative to DATADIR (in this case ./data)
 
 # usage info
-function usage () {
-        echo "Usage: skyport2.sh -d ~/data -j jobinput.yaml  -w workflow-simple.yaml [-s SKYPORT_HOST]"
-	echo "if not -S <var> is provided, SKYPORT_HOST environment variable is used, if neither is present default is localhost"
+usage () {
+        echo "Usage: skyport_submit.sh -d <datadir> -j <input.job>  -w <workflow.cwl> [-s SKYPORT_HOST]"
+        echo "Options: "
+        echo "              -d <datadir>          data directory"
+        echo "              -j <input.job>        workflow job file,  specifies input files, yaml"
+        echo "              -w <workflow.cwl>     workflow file, specifies workflow"
+        echo "             [-s SKYPORT_HOST]      defaults to environment variable SKYPORT_HOST, then to localhost"
+	echo "Example:  skyport_submit.sh  \ "
+        echo "              -w ./CWL/Workflows/simple-bioinformatic-example.cwl \ "
+        echo "              -j ./CWL/Workflows/simple-bioinformatic-example.job.yaml \ "
+        echo "              -d ./CWL/Data/ "
  }
 
  # get options
@@ -35,42 +43,51 @@ then
 fi
 
 # make sure the required options are present
-if [[ -z ${WORKFLOW} ]]
+if [ -z ${WORKFLOW} ]
 then
+        echo "Required parameter -w <workflow.cwl> is missing"
         usage
         exit 1
 fi
 # make sure the required options are present
-if [[ -z ${JOBINPUT} ]]
+if [ -z ${JOBINPUT} ]
 then
+        echo "Required parameter -j <job.yaml> is missing"
         usage
         exit 1
 fi
 # make sure the required options are present
-if [[ -z ${DATADIR} ]]
+if [ -z ${DATADIR} ]
 then
+        echo "Required parameter -d <datadir> is missing"
         usage
         exit 1
 fi
 
 # we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
-if [[ -z ${SKYPORT_HOST} ]]
+if [ -z ${SKYPORT_HOST} ]
 then   
-	if [ ${OS} == "Darwin" ]
+	if [[ "$OSTYPE" == *"arwin"* ]]
 	then
 	  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 	else
 	  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 	fi
 	# set to external host IP
-	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)	
+	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+fi
+if [ -s ${SKYPORT_HOST} ]
+then
+    SKYPORT_HOST=localhost
 fi
 
-WORKFLOWDIR=dirname ${WORKFLOW}
-JOBINPUTDIR=dirname ${JOBINPUT} 
+echo SKYPORT_HOST ${SKYPORT_HOST}
 
-WORKFLOW-FILE=basename ${WORKFLOW}
-JOBINPUT-FILE=basename ${JOBINPUT}
+WORKFLOWDIR=$(dirname ${WORKFLOW})
+JOBINPUTDIR=$(dirname ${JOBINPUT})
+
+WORKFLOW_FILE=$(basename ${WORKFLOW})
+JOBINPUT_FILE=$(basename ${JOBINPUT})
 
 if [ ! -d ${DATADIR} ]
 then
@@ -83,11 +100,14 @@ fi
 AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 
+SHOCK_SERVER=http://shock:7445
+AWE_SERVER=http://awe-server:8001
+
 # check if we have an AUTH token
 if [ -z ${SKYPORT_AUTH} ]
 then
 	docker run -ti \
-	  --network compose_default \
+	  --network skyport2_default \
 	  --rm \
 	  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
 	  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
@@ -96,15 +116,16 @@ then
 	  mgrast/awe-submitter:develop \
 	  /go/bin/awe-submitter \
 	  --pack \
+          --wait \
 	  --shockurl=${SHOCK_SERVER} \
 	  --serverurl=${AWE_SERVER} \
-	  /mnt/workflows/${WORKFLOW-FILE} \
-	  /mnt/jobinputs/${JOBINPUT-FILE}
+	  /mnt/workflows/${WORKFLOW_FILE} \
+	  /mnt/jobinputs/${JOBINPUT_FILE}
 
 else
 # run with auth param
 docker run -ti \
-          --network compose_default \
+          --network skyport2_default \
           --rm \
           -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
           -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
@@ -113,13 +134,12 @@ docker run -ti \
           mgrast/awe-submitter:develop \
           /go/bin/awe-submitter \
           --pack \
+          --wait \
           --shockurl=${SHOCK_SERVER} \
           --serverurl=${AWE_SERVER} \
           --auth=${SKYPORT_AUTH} \
-          /mnt/workflows/${WORKFLOW-FILE} \
-          /mnt/jobinputs/${JOBINPUT-FILE}
+          /mnt/workflows/${WORKFLOW_FILE} \
+          /mnt/jobinputs/${JOBINPUT_FILE}
 
 fi
-
-
-
+echo

@@ -1,0 +1,4 @@
+flask==0.12
+gunicorn
+psutil
+
