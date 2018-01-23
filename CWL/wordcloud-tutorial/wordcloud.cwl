@@ -39,6 +39,7 @@ inputs:
     doc: Name for text output file
     inputBinding:
       prefix: --imagefile
+    default: wordcloud.png
 
 # output mapping
 outputs:
