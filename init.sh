@@ -80,12 +80,7 @@ export TAG=demo
 
 
 # pulling docker images
-for i in  mgrast/shock mgrast/shock-browser:${TAG} mgrast/authserver:${TAG} \
-          mgrast/awe:develop mgrast/awe-worker:develop mgrast/demo-app-api:latest \
-          mgrast/demo-app:latest nginx adminer mongo mysql mongo
-do
-  docker pull $i
-done
+docker-compose pull
 
 
 
