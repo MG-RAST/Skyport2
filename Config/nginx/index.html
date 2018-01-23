@@ -13,16 +13,45 @@
     <!-- resources -->
     <link rel="icon" href="skyportlogo.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-
+    <script src="jquery.min.js"></script>
+    <script src="jquery.cookie.js"></script>
+    <script>
+      jQuery( document ).ready(function(){
+	  window.user = jQuery.cookie('AuthWebSession');
+	  window.logout = function () {
+	      
+		  jQuery.removeCookie('AuthWebSession', { path: '/' });
+		  window.location.reload();
+	  };
+	  window.login = function () {
+	      if (user) {
+		  alert(user.token);
+	      } else {
+		  window.location = 'http://localhost:8001/auth/cgi-bin/clientSkyport.cgi';
+	      }
+	  }
+    
+	  if (user) {
+	      user = JSON.parse(user);
+	      user.authHeader = { "Authorization": "oauth "+user.token };
+	      $('#logoutButton').css('display', '');
+	      document.getElementById('tokenButton').innerHTML = user.name;	
+	  }
+      });
+    </script>
+    
     <style>
+      h3 {
+      font-weight: 300;
+      }
       .main-container:after {
       content: ' ';
       display: block;
       position: absolute;
-      left: 190px;
+      left: 0%;
       top: 0;
-      width: 50%;
-      height: 80%;
+      width: 100%;
+      height: 100%;
       z-index: -1;
       opacity: 0.03;
       background-image: url('skyportlogo.png');
@@ -35,20 +64,35 @@
       background-size: cover;
       }
 
-      .fly{
-      animation-duration: 10s;
-      animation-name: ufo;
-      animation-direction: alternate;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-      position: absolute;
-      z-index: -1;
-      width: 50px;
-      top: -25px;
+      .block {
+      padding: 10px;
+      border: 1px solid #7171d5;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 4px 4px 4px gray;
+      height: 180px;
       }
-      @keyframes ufo {
-      from {left: 150px; }
-      to {left: 650px;}
+
+      .block-header {
+      color: white;
+      background-image: linear-gradient(160deg, #171780, #494998);
+      position: relative;
+      border-radius: 3px 3px 0px 0px;
+      padding: 8px;
+      margin-left: -10px;
+      margin-right: -10px;
+      margin-top: -10px;
+      margin-bottom: 5px;
+      padding-bottom: 2px;
+      padding-left: 20px;
+      }
+
+      .block-header > img {
+      float: right;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: white;
+      width: 32px;
       }
     </style>
 
@@ -56,7 +100,7 @@
   
   <body>
 
-    <div style="position: relative; bottom: 10px;">
+    <div style="position: relative; bottom: 10px;" id="container">
 
       <!-- logo -->
       <div style="float: left; margin-right: 25px; margin-left: 15px;">
@@ -64,39 +108,112 @@
       </div>
 
       <div class="page-header" style="padding-bottom: 30px;">
-	<h1 style="position: relative; top: 16px; color: #171780; cursor: pointer;" onclick="window.open('https://github.com/MG-RAST/Skyport2')">Skyport 2.0 <small>Infrastructure setup for app/service development</small></h1>
-
+	<h1 style="position: relative; top: 16px; color: #171780; cursor: pointer;" onclick="window.open('https://github.com/MG-RAST/Skyport2')">Skyport 2.0 <small>large scale data management and multi-cloud workflow execution</small></h1>
+	<button class="btn btn-danger" onclick="logout();" id="logoutButton" style="position: absolute; right: 20px; top: 20px; display: none;" title="logout"><img src="remove.png" style="width: 16px; position: relative; bottom: 2px; left: 2px; opacity: 0.3;" /></button>
+	<button class="btn btn-inverse" onclick="login();" id="tokenButton" style="position: absolute; right: 70px; top: 20px;">login</button>
       </div>
       <div style="clear: both; margin-bottom: 20px;"></div>
       
     </div>
 
-    <div class="row-fluid main-container" style="min-height: 600px; position: relative;">
-
-      <img src="drone.jpg" class="fly">
-      
-      <!-- main content -->
-      <div class="span7 offset1">
-
-	<h3>Services Overview</h3>
-
-	<p style="margin-bottom: 50px;">The following services are available in the current setup. Click the URL for the startpage of the respective service.</p>
-	
-	<table class="table">
-	  <tr><th>Service</th><th>URL</th></tr>
-	  <tr><td>Shock browser</td><td><a href="http://localhost:8001/shock" target="_blank">http://localhost:8001/shock</a></td></tr>
-	  <tr><td>Shock API</td><td><a href="http://localhost:8001/shock/api" target="_blank">http://localhost:8001/shock/api</a></td></tr>
-	  <tr><td>MySQL browser</td><td><a href="http://localhost:8001/mysql" target="_blank">http://localhost:8001/mysql</a></td></tr>
-	  <tr><td>AWE browser</td><td><a href="http://localhost:8001/awe" target="_blank">http://localhost:8001/awe</a></td></tr>
-	  <tr><td>AWE API</td><td><a href="http://localhost:8001/awe/api" target="_blank">http://localhost:8001/awe/api</a></td></tr>
-	  <tr><td>Auth Register</td><td><a href="http://localhost:8001/auth/" target="_blank">http://localhost:8001/auth</a></td></tr>
-	  <tr><td>Auth API</td><td><a href="http://localhost:8001/auth/user" target="_blank">http://localhost:8001/auth/user</a></td></tr>
-	</table>
-	
-      </div>
+    <div style="background-image: linear-gradient(160deg, #171780, #494998); color: white; padding: 60px; padding-bottom: 40px; position: relative; bottom: 40px; text-align: center; margin-bottom: -40px;">
+      <h1 style="font-size: 60px;">Skyport Sample Application</h1>
+      <p style="font-weight: 100; padding-top: 10px; padding-bottom: 20px; font-size: 18px;">Try out the Skyport Word-Cloud explorer - a sample application in the Skyport framework!</p>
+      <p>
+        <button class="btn btn-inverse btn-large" onclick="window.open('http://localhost:8001/demo-app');">
+          start app
+        </button>
+      </p>
     </div>
     
-    
-    </body>
+    <div class="row-fluid main-container" style="min-height: 875px; position: relative;">
+      
+      <!-- main content -->
+      <div class="span8 offset2">
 
+	<h3>what is Skyport2 ?</h3>
+	<p>
+	  Skyport2 is a RESTful framework for large scale data management and reproducible multi-cloud workflow execution.
+	</p>
+	<p>
+	  Scientists and engineers are accustomed to using a different computer systems to accomplish scientific workflow execution. Skyport2 handles data management and execution of CWL workflows across.
+	</p>
+	<p>
+	  Data is stored in the RESTful SHOCK object store that handles indexing, subsetting and format conversions. SHOCK is programmable and can be customized to perform additional functions e.g. convert image formats.
+	  AWE worker nodes connect to the AWE resource manager and check execute workflows described in the common workflow language.
+	</p>
+
+	<h3 style="margin-top: 50px;">the building blocks</h3>
+
+	<p>Click below for documentation, user interface and source-code links.</p>
+	
+	<div style="margin-top: 30px;">
+
+	  <div class="span4 block">
+	    <div class="block-header">
+	      <img src="shock.png">
+	      <h3>Shock</h3>
+	    </div>
+	    <p>Programmable object store that handles indexing, subsetting and format conversions.</p>
+	    <div style="clear: both;">
+	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/Shock/wiki/_pages" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="http://localhost:8001/shock" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/Shock" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
+	    </div>
+          </div>
+
+	  <div class="span4 block">
+	    <div class="block-header">
+	      <img src="awe.png">
+	      <h3>AWE</h3>
+	    </div>
+	    <p>Workflow engine with Common Workflow Language support.</p>
+	    <div style="clear: both;">
+	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/AWE/wiki" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="http://localhost:8001/awe" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/AWE" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
+	    </div>
+          </div>
+
+	  <div class="span4 block">
+	    <div class="block-header">
+	      <img src="oauth.png">
+	      <h3>authServer</h3>
+	    </div>
+	    <p>Authentication server that supports oAuth2 and permission management.</p>
+	    <div style="clear: both;">
+	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/authServer/blob/master/README.md" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="http://localhost:8001/auth/cgi-bin/oAuth.cgi" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/authServer" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
+	    </div>
+          </div>
+	  
+	</div>
+
+	<div style="clear: both;"></div>
+      
+      <h3 style="margin-top: 50px;">Standard Operating Procedures - Day 1</h3>
+      <div style="float: left; margin-right: 25px;">
+	<img src="file-pdf.png">
+	<a href="day1_skyport2_login.pdf" target=_blank>Skyport login</a>
+      </div>
+      <div style="float: left; margin-right: 25px;">
+	<img src="file-pdf.png">
+	<a href="day1_starting_awe_worker.pdf" target=_blank>starting an AWE worker node</a>
+      </div>
+      <div style="float: left; margin-right: 25px;">
+	<img src="file-pdf.png">
+	<a href="day1_running_a_simple_workflow_with_awe.pdf" target=_blank>running a simple workflow with AWE</a>	
+      </div>
+
+    </div>
+	
+      </div>
+
+    <div style="clear: both;"></div>
+      
+    <div style="border-top: 1px solid #171780; font-color: #171780; font-size: 14px; height: 70px; padding-top: 10px;">
+      <span style="margin-left: 50px; position: relative; top: 18px;"><a href="http://localhost:8001/mysql" target=_blank title="mySQL admin tool"><img src="data.png" style="height: 30px; position: relative; bottom: 5px;"></a></span>
+      <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.docker.com/"><img style="height: 30px;" src="https://www.docker.com/sites/default/files/horizontal_large.png" /></a></span>
+      <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.mysql.com/"><img src="https://www.mysql.com/common/logos/powered-by-mysql-88x31.png" /></a></span>
+      <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.mongodb.com"><img style="height: 30px;" src="https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg" /></a></span>
+      <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://www.gnu.org/graphics/gplv3-88x31.png" /></a></span>
+    </div>
+    
+  </body>
+  
 </html>

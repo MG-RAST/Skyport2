@@ -81,8 +81,8 @@ services:
           - 8001:8001 
         volumes: 
           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro 
-          - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
-          - ${LOGDIR}/nginx/:/var/log/nginx/    
+          - ${CONFIGDIR}/nginx/:/usr/share/nginx/html/
+          - ${LOGDIR}/nginx/:/var/log/nginx/
 
     awe-mongo:
         image: mongo
@@ -108,7 +108,7 @@ services:
           - ${CONFIGDIR}/AWE/awe-server.conf:/awe-config/awe-server.cfg:ro
           - ${DATADIR}/awe:/mnt/data/awe/
           - ${LOGDIR}/awe/:/mnt/data/awe/logs
-          - ${AWE_ROOT_DIR}:/go/src/github.com/MG-RAST/AWE
+          - ${AWEDIR}:/go/src/github.com/MG-RAST/AWE
           
           
  
