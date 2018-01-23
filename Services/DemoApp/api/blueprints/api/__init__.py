@@ -120,19 +120,40 @@ def api_submit(node_id):
     
     node_id = node_id.lower()
     
-    # TODO: Create job input from node_id
+    shock_host = None
+    if 'SHOCK_HOST' in os.environ:
+        shock_host = os.environ['SHOCK_HOST']
     
+    if not shock_host:
+        shock_host = 'http://shock:7445'
+    
+    
+    
+    
+    job_file_content_template = 
+      'pdf:' \
+      '  class: File' \
+      '  location: {}/node/{}?download' 
+
+    job_file_content  = job_file_content_template .format(shock_host, node_id)
+# basename: demo.pdf if required
     
     
     tmp_jobid = str(uuid.uuid4())
-    tmp_dir = '/tmp/'+tmp_jobid
+    tmp_dir = '/host_tmp/'+tmp_jobid
     os.makedirs(tmp_dir)
     
-    cwl_dir = os.environ['CWL_DIR']
+    
+    job_file = tmp_dir + '/input.yaml'
     
     
-    info = {}
-    info['CWL_DIR']=cwl_dir
+    with open(job_file, "w") as text_file:
+        text_file.write(job_file_content)
+    
+    cwl_dir = None
+    if 'CWL_DIR' in os.environ:
+        cwl_dir = os.environ['CWL_DIR']
+   
     
     if not cwl_dir:
         return jsonify({
@@ -140,7 +161,8 @@ def api_submit(node_id):
                 'result': 'CWL_DIR is not set',
         })
     
-    
+    info = {}
+    info['CWL_DIR']=cwl_dir
     
     
     
@@ -148,6 +170,7 @@ def api_submit(node_id):
      ' --network skyport2_default' \
      ' --rm ' \
      ' -v %s:/CWL/' \
+     ' -v /tmp/:/host_tmp/' \
      ' --workdir=/CWL/Data/' \
      ' mgrast/awe-submitter:develop' \
      ' /go/bin/awe-submitter' \
@@ -156,11 +179,11 @@ def api_submit(node_id):
      ' --serverurl=http://awe-server:8001' \
      ' --output=%s/results.cwl' \
      ' --wait' \
-     ' /CWL/Workflows/simple-bioinformatic-example.cwl' \
-     ' /CWL/Workflows/simple-bioinformatic-example.job.yaml'
+     ' /CWL/Workflows/pdf2wordcloud.cwl' \
+     ' %s/input.yaml'
  
 
-    final_command = command % ( cwl_dir, tmp_dir)
+    final_command = command % ( cwl_dir, tmp_dir, tmp_dir)
     print("execute: "+ final_command)
     popen_object = subprocess.Popen(final_command, shell=True)
     
@@ -210,7 +233,7 @@ def api_status(jobid):
     #status : running | error | complete ,
     #result : null | error-text | node-id
 
-    output_dir = '/tmp/'+jobid
+    output_dir = '/host_tmp/'+jobid
     output_file = output_dir+'/results.cwl'
 
     if os.path.isfile(output_file):
