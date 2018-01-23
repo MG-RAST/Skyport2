@@ -130,6 +130,10 @@ def api_submit(node_id):
     
     cwl_dir = os.environ['CWL_DIR']
     
+    
+    info = {}
+    info['CWL_DIR']=cwl_dir
+    
     if not cwl_dir:
         return jsonify({
                 'status': 'error',
@@ -173,6 +177,7 @@ def api_submit(node_id):
     
     
         return jsonify({
+                'info' : info,
                 'status': status,
                 'result': result,
         })
