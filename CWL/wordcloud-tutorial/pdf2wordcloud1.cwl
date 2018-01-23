@@ -11,10 +11,6 @@ inputs:
     type: File
     doc: PDF file for text extraction
 
-# output mapping
-# outputs: <LIST OF NAMED OUTPUTS AND MAPPING \
-#          FROM TOOL OUTPUT TO WORKFLOW OUTPUT>
-
 # list of workflow steps
 steps:
   # step name
