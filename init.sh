@@ -81,7 +81,7 @@ export TAG=demo
 
 # pulling docker images
 docker-compose pull
-
+docker pull mgrast/awe-submitter:develop
 
 
 
