@@ -114,7 +114,7 @@ services:
     demo-app-api:
         image: mgrast/demo-app-api
         environment:
-          CWL_DIR=${CWL_DIR}
+          CWL_DIR: ${CWL_DIR}
         depends_on: 
           - awe-server
           - shock
