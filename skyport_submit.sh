@@ -75,6 +75,10 @@ then
 	fi
 	# set to external host IP
 	SKYPORT_HOST=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+  if [ -s ${SKYPORT_HOST} ]
+  then
+      SKYPORT_HOST=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+  fi
 fi
 if [ -s ${SKYPORT_HOST} ]
 then
