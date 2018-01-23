@@ -34,7 +34,7 @@ steps:
     label: word-cloud
     doc: create png from text file
     # path to tool
-    run: .wordcloud.cwl
+    run: wordcloud.cwl
     # assign values to step/tool inputs
     in:
       # assign output from previous step to tool input:
