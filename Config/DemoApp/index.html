@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Word-Cloud Explorer</title>
+    <link rel="icon" href="images/shock.ico" type="image/x-icon">
+	<script src="Retina/js/jquery.min.js"></script>
+	<script src="Retina/js/stm.js"></script>
+	<script src="Retina/js/retina.js"></script>
+	<script src="Retina/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="Retina/js/jquery.cookie.js"></script>
+
+	<script src="js/config.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="Retina/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="Retina/css/jsoneditor.min.css">
+        <script>
+    jQuery( document ).ready(function(){
+	window.user = jQuery.cookie('AuthWebSession');
+	window.logout = function () {
+	    jQuery.removeCookie('AuthWebSession', { path: '/' });
+	    window.location.reload();
+	};
+	window.login = function () {
+	    if (user) {
+		alert(user.token);
+	    } else {
+		window.location = 'http://localhost:8001/auth/cgi-bin/clientDemoApp.cgi';
+	    }
+	};
+	
+	if (user) {
+	    user = JSON.parse(user);
+	    user.authHeader = { "Authorization": "oauth "+user.token };
+	    $('#logoutButton').css('display', '');
+	    document.getElementById('tokenButton').innerHTML = user.name;	
+	}
+	
+	stm.init({});
+	Retina.init({});
+
+	window.updateAttributes = function () {
+	    var sb = Retina.WidgetInstances.shockbrowse[1];
+	    var url = sb.shockBase+'/node/'+currentnode.id;
+	    var fd = new FormData();
+	    fd.append('attributes', new Blob([ JSON.stringify(currentnode.attributes) ], { "type" : "text\/json" }));
+	    jQuery.ajax(url, {
+		contentType: false,
+		processData: false,
+		data: fd,
+		success: function(data){
+		    Retina.WidgetInstances.shockbrowse[1].updateData();
+		},
+		error: function(jqXHR, error){
+		    var widget = Retina.WidgetInstances.shockbrowse[1];
+		    widget.sections.detailSectionContent.innerHTML = "<div class='alert alert-error' style='margin: 10px;'>An error occurred saving the edited attributes.</div>";
+		},
+		crossDomain: true,
+		headers: sb.authHeader,
+		type: "PUT"
+	    });
+	};
+	
+	window.submitNode = function () {
+	    document.getElementById('createButton').innerHTML = '<img src="Retina/images/waiting.gif" style="width: 16px;">';
+	    document.getElementById('createButton').setAttribute('disabled', 'disabled');
+	    jQuery.ajax( { url: "http://localhost:8001/demo-app/api/submit/" + currentnode.id,
+			   dataType: "json",
+			   success: function(data) {
+			       if (data.status == 'submitted') {
+				   currentnode.attributes.status = 'submitted';
+				   currentnode.attributes.submissionid = data.result;
+				   updateAttributes();
+			       } else if (data.status == 'error') {
+				   var widget = Retina.WidgetInstances.shockbrowse[1];
+				   widget.sections.detailSectionContent.innerHTML = "<div class='alert alert-error' style='margin: 10px;'>An error occurred submitting the job:<br>"+data.result+"</div>";
+			       }
+			   },
+			   error: function(jqXHR, error) {
+			       var widget = Retina.WidgetInstances.shockbrowse[1];
+			       widget.sections.detailSectionContent.innerHTML = "<div class='alert alert-error' style='margin: 10px;'>An error occurred submitting the job.</div>";
+			   },
+			   crossDomain: true,
+			 } );
+	};
+	
+	stm.user = user;
+	stm.user.firstname = stm.user.name;
+	stm.user.lastname = "";
+	stm.authHeader = { "Authorization": "oauth "+stm.user.token };
+	$('#logoutButton').css('display', '');
+	$('#tokenButton').css('display', '');
+	document.getElementById('tokenButton').innerHTML = stm.user.name;
+	Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( function() {
+	    var sb = Retina.Widget.create('shockbrowse', {
+		"target": document.getElementById("content"),
+		"title": "Word-Cloud Explorer",
+		"order": "created_on",
+		"user": stm.user,
+		"authHeader": stm.authHeader,
+		"direction": "desc",
+		"querymode": "full",
+		"allowMultiselect": true,
+		"autoSizeAtStartup": true,
+		"allowMultiFileUpload": true,
+		"showDetailBar": false,
+		"showFilter": false,
+		"detailType": "preview",
+		"autoUploadRefresh": true,
+		"calculateMD5": true,
+		"customPreview": function (node, data, error) {
+		    var html = [];
+		    node = node.node;
+		    window.currentnode = node;
+		    if (node.file.name.match(/\.pdf$/)) {
+			html.push('<h3>Create Word Cloud</h3>');
+			html.push('<table class="table"><tr><th style="text-align: left;">filename</th><td>'+node.file.name+'</td></tr><tr><th style="text-align: left;">size</th><td>'+node.file.size.byteSize()+'</td></tr></table>');
+			
+			if (node.attributes.hasOwnProperty('submissionid')) {
+			    if (node.attributes.status == 'complete') {
+				html.push('<div class="alert alert-success">Your computation has completed!</div>');
+			    } else if (node.attributes.status == 'running' || node.attributes.status == 'submitted') {
+				html.push('<div id="statusResult"><div class="alert alert-info">checking status... <img src="Retina/images/waiting.gif" style="width: 16px;"></div></div>');
+
+				jQuery.ajax({ url: "http://localhost:8001/demo-app/api/status/" + node.attributes.submissionid,
+					      success: function(data) {
+						  if (data.status == 'error' || data.status == 'complete') {
+						      if (data.status == 'error') {
+							  document.getElementById('statusResult').innerHTML = '<div class="alert alert-danger">Your computation has failed:<br>'+data.result+'</div>';
+							  window.currentnode.attributes.status = 'error';
+							  window.currentnode.attributes.error = data.result;
+						      } else {
+							  window.currentnode.attributes.status = 'complete';
+							  window.currentnode.attributes.resultid = data.result;
+							  document.getElementById('statusResult').innerHTML = '<div class="alert alert-success">Your computation has completed!</div>';
+						      }
+						      updateAttributes();
+						  } else {
+						      document.getElementById('statusResult').innerHTML = '<div class="alert alert-info">Your computation is in progress</div>';
+						  }
+					      },
+					      error: function(jqXHR, error) {
+						  document.getElementById('statusResult').innerHTML = '<div class="alert alert-danger">there was an error retrieving the status of your submission</div>';
+					      },
+					      crossDomain: true
+					    });
+			    } else if (node.attributes.status == 'error') {
+				html.push('<div class="alert alert-danger">Your computation has failed:<br>'+node.attributes.error+'</div>');
+			    }
+			} else {
+			    html.push('<div style="margin-top: 50px; text-align: center;"><button class="btn" onclick="submitNode(\''+node.id+'\');" id="createButton">create word-cloud</button></div>')
+			}
+		    } else {
+			html.push('<div class="alert alert-info" style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">This is not a pdf file and cannot be submitted.</div>');
+		    }
+		    html.push('<br><div style="text-align: center;"><button class="btn btn-danger" onclick="if(confirm(\'really delete this file?\')){Retina.WidgetInstances.shockbrowse[1].removeNode({node:\''+node.id+'\'});}">delete node</button></div>');
+		    return html.join('');
+		},
+		"fileDoneAttributes": { "type": "word-explorer",
+					"user": stm.user.email },
+		"fileSectionColumns": [
+		    { "path": "file.name", "name": "name", "width": "50%", "type": "file", "sortable": true },
+		    { "path": "file.size", "name": "size", "width": "25%", "type": "size", "align": "right", "sortable": true },
+		    { "path": "attributes.status", "name": "status", "width": "25%", "type": "string", "align": "left", "sortable": true }
+		]
+	     });
+	});
+    });
+	</script>
+  </head>
+
+  <body>
+    <div style="position: relative; bottom: 10px;" id="container">
+
+      <!-- logo -->
+      <div style="float: left; margin-right: 25px; margin-left: 15px;">
+        <img src="images/skyportlogo.png" style="float: left; height: 59px; margin-top: 3px;">
+      </div>
+
+      <div class="page-header" style="padding-bottom: 30px;">
+	<h1 style="position: relative; top: 16px; color: #171780;">Word-Cloud Explorer <small>a demo application using Skyport2</small></h1>
+	<button class="btn btn-danger" onclick="logout();" id="logoutButton" style="position: absolute; right: 20px; top: 20px; display: none;" title="logout"><img src="images/remove.png" style="width: 16px; position: relative; bottom: 2px; left: 2px; opacity: 0.3;" /></button>
+	<button class="btn btn-inverse" onclick="login();" id="tokenButton" style="position: absolute; right: 70px; top: 20px;">login</button>
+      </div>
+      <div style="clear: both; margin-bottom: 20px;"></div>
+      
+    </div>
+
+    <div class="row-fluid main-container">
+      <div id="content" style="margin-left: 5%; margin-right: 5%;"></div>
+    </div>
+
+  </body>
+</html>

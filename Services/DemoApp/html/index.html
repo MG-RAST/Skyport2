@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Word-Cloud Explorer</title>
+    <link rel="icon" href="images/shock.ico" type="image/x-icon">
+	<script src="Retina/js/jquery.min.js"></script>
+	<script src="Retina/js/stm.js"></script>
+	<script src="Retina/js/retina.js"></script>
+	<script src="Retina/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="Retina/js/jquery.cookie.js"></script>
+
+	<script src="js/config.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="Retina/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="Retina/css/jsoneditor.min.css">
+        <script>
+    jQuery( document ).ready(function(){
+	window.user = jQuery.cookie('AuthWebSession');
+	window.logout = function () {
+	    jQuery.removeCookie('AuthWebSession', { path: '/' });
+	    window.location.reload();
+	};
+	window.login = function () {
+	    if (user) {
+		alert(user.token);
+	    } else {
+		window.location = 'http://localhost:8001/auth/cgi-bin/clientDemoApp.cgi';
+	    }
+	};
+	
+	if (user) {
+	    user = JSON.parse(user);
+	    user.authHeader = { "Authorization": "oauth "+user.token };
+	    $('#logoutButton').css('display', '');
+	    document.getElementById('tokenButton').innerHTML = user.name;	
+	}
+	
+	stm.init({});
+	Retina.init({});
+	
+	stm.user = user;
+	stm.user.firstname = stm.user.name;
+	stm.user.lastname = "";
+	stm.authHeader = { "Authorization": "oauth "+stm.user.token };
+	$('#logoutButton').css('display', '');
+	$('#tokenButton').css('display', '');
+	document.getElementById('tokenButton').innerHTML = stm.user.name;
+	Retina.load_widget({ name: "shockbrowse", resource: "Retina/widgets"}).then( function() {
+	    var sb = Retina.Widget.create('shockbrowse', {
+		"target": document.getElementById("content"),
+		"order": "created_on",
+		"user": stm.user,
+		"authHeader": stm.authHeader,
+		"direction": "desc",
+		"querymode": "full",
+		"allowMultiselect": true,
+		"autoSizeAtStartup": true,
+		"allowMultiFileUpload": true,
+		"fileSectionColumns": [
+		    { "path": "file.name", "name": "Name", "width": "50%", "type": "file", "sortable": true },
+		    { "path": "file.size", "name": "Size", "width": "25%", "type": "size", "align": "right", "sortable": true },
+		    { "path": "created_on", "name": "Date Created", "width": "25%", "type": "date", "align": "left", "sortable": true }
+		]
+	     });
+	});
+    });
+	</script>
+  </head>
+
+  <body style="margin-top: 60px;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+  	    <div class="container" style="width: 100%; padding-left: 10px;">
+              <img src="images/anl.png" style="float: left; margin-left: -10px; height: 55px; margin-top: 12px;">
+      	      <a class="brand" href="#" style="color: white; cursor: default; margin-top: 12px; margin-left: 30px; font-size: 35px; font-weight: 100;">Word-Cloud Explorer</a>
+	      <button class="btn btn-danger" onclick="logout();" id="logoutButton" style="position: absolute; right: 20px; top: 20px; display: none;" title="logout"><img src="remove.png" style="width: 16px; position: relative; bottom: 2px; left: 2px; opacity: 0.3;" /></button>
+	      <button class="btn btn-inverse" onclick="login();" id="tokenButton" style="position: absolute; right: 70px; top: 20px;">login</button>
+  	    </div>
+      </div>
+    </div>
+    <div id="fu" style="margin-left: 20px; margin-right: 20px; margin-top: 80px;"></div>
+    <div id="content' style='margin-left: 20px; margin-right: 20px; margin-top: 80px;"></div>
+
+  </body>
+</html>
