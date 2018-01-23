@@ -108,6 +108,7 @@
 		"detailType": "preview",
 		"autoUploadRefresh": true,
 		"calculateMD5": true,
+		"uploadRestrictions": [ { "expression": /^(.(?!\.pdf$))+$/, "text": 'You are only allowed to upload pdf files' } ],
 		"customPreview": function (node, data, error) {
 		    var html = [];
 		    node = node.node;
