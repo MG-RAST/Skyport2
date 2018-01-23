@@ -119,6 +119,7 @@ services:
           - awe-server
           - shock
         volumes:
+          - /tmp/:/host_tmp
           - ${DOCKER_BINARY}:/usr/local/bin/docker
           - /var/run/docker.sock:/var/run/docker.sock
 
