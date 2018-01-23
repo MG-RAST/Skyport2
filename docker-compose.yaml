@@ -112,7 +112,7 @@ services:
 
     # api for submission of demo workflow (part of demo-app)
     demo-app-api:
-        image: mgrast/demo-app-api
+        image: mgrast/demo-app-api:latest
         environment:
           CWL_DIR: ${CWL_DIR}
         ports:
@@ -141,9 +141,12 @@ services:
         image: nginx
         depends_on:
           - shock
+          - shock-browser
           - adminer
           - auth
           - awe-server
+          - demo-app-api
+          - demo-app-web
         ports:
           - 8001:8001
         volumes:
