@@ -120,15 +120,57 @@ def api_submit(node_id):
     
     node_id = node_id.lower()
     
+    shock_host = None
+    if 'SHOCK_HOST' in os.environ:
+        shock_host = os.environ['SHOCK_HOST']
+    
+    if not shock_host:
+        shock_host = 'http://shock:7445'
+    
+    
+    
+    
+    job_file_content_template = 
+      'pdf:' \
+      '  class: File' \
+      '  location: {}/node/{}?download' 
+
+    job_file_content  = job_file_content_template .format(shock_host, node_id)
+# basename: demo.pdf if required
+    
     
     tmp_jobid = str(uuid.uuid4())
-    tmp_dir = '/tmp/'+tmp_jobid
+    tmp_dir = '/host_tmp/'+tmp_jobid
     os.makedirs(tmp_dir)
+    
+    
+    job_file = tmp_dir + '/input.yaml'
+    
+    
+    with open(job_file, "w") as text_file:
+        text_file.write(job_file_content)
+    
+    cwl_dir = None
+    if 'CWL_DIR' in os.environ:
+        cwl_dir = os.environ['CWL_DIR']
+   
+    
+    if not cwl_dir:
+        return jsonify({
+                'status': 'error',
+                'result': 'CWL_DIR is not set',
+        })
+    
+    info = {}
+    info['CWL_DIR']=cwl_dir
+    
+    
     
     command = "docker run" \
      ' --network skyport2_default' \
      ' --rm ' \
-     ' -v `pwd`/CWL/:/CWL/' \
+     ' -v %s:/CWL/' \
+     ' -v /tmp/:/host_tmp/' \
      ' --workdir=/CWL/Data/' \
      ' mgrast/awe-submitter:develop' \
      ' /go/bin/awe-submitter' \
@@ -136,12 +178,14 @@ def api_submit(node_id):
      ' --shockurl=http://shock:7445' \
      ' --serverurl=http://awe-server:8001' \
      ' --output=%s/results.cwl' \
-     ' /CWL/Workflows/simple-bioinformatic-example.cwl' \
-     ' /CWL/Workflows/simple-bioinformatic-example.job.yaml'
+     ' --wait' \
+     ' /CWL/Workflows/pdf2wordcloud.cwl' \
+     ' %s/input.yaml'
  
 
-    
-    popen_object = subprocess.Popen(command % (tmp_dir), shell=True)
+    final_command = command % ( cwl_dir, tmp_dir, tmp_dir)
+    print("execute: "+ final_command)
+    popen_object = subprocess.Popen(final_command, shell=True)
     
     
     the_pid = popen_object.pid
@@ -149,12 +193,14 @@ def api_submit(node_id):
     time.sleep(5) # wait 5 seconds and check if process is still running
     
     p = psutil.Process(the_pid)
-    if p.status != psutil.STATUS_RUNNING:
+    status = p.status()
+    if status != psutil.STATUS_RUNNING and status != psutil.STATUS_SLEEPING:
         status = "error"
-        result = "awe-submitter container or process died"
+        result = "awe-submitter container or process died ("+status+")"
     
     
         return jsonify({
+                'info' : info,
                 'status': status,
                 'result': result,
         })
@@ -174,7 +220,6 @@ def api_submit(node_id):
     
     
     return jsonify({
-            'debug' : node_id,
             'status': status,
             'result': result,
     })
@@ -188,14 +233,19 @@ def api_status(jobid):
     #status : running | error | complete ,
     #result : null | error-text | node-id
 
-    output_dir = '/tmp/'+jobid
+    output_dir = '/host_tmp/'+jobid
     output_file = output_dir+'/results.cwl'
 
     if os.path.isfile(output_file):
         
         status = "complete"
-        result = "shock_node_id_of_output" # TODO get node id of output file
+        
     
+        data = None
+        with open(output_file, 'r') as myfile:
+            data=myfile.read()
+            
+        result = str(data[:])# TODO  should be result = "shock_node_id_of_output" 
         return jsonify({
                 'status': status,
                 'result': result,
