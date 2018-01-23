@@ -16,9 +16,13 @@ OS=`uname -s`
 # 
 if [ ${OS} == "Darwin" ]
 then
-  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | cut -f 1 | head -n 1)
 else
   MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+  if [ -z ${MYIP} ]
+  then
+  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | cut -f 1 | head -n 1)
+  fi
 fi
 
 
@@ -33,4 +37,7 @@ mkdir -p ${SKYPORT_TMPDIR}
 export AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 export SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 
+echo SKYPORT_HOST=${SKYPORT_HOST}
+echo AWE_SERVER  =${AWE_SERVER}
+echo SHOCK_SERVER=${SHOCK_SERVER}
 
