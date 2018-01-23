@@ -11,7 +11,7 @@ version: '3.1'
 # set DATADIR for persistent data store , e.g. /var/tmp
 # set LOGDIR to path to local log dir
 # set DOCKER_BINARY to the path of the docker client binary (Linux binary, not OSX/Windows)
-
+# set CWL_DIR for location of demo workflow
 
 services:
 
@@ -108,6 +108,18 @@ services:
           # mount the binary we have downloaded with the init.sh command
           - ${DOCKER_BINARY}:/usr/local/bin/docker
           # mount the docker socker to allow container to execute docker commands (for CWL runner)
+          - /var/run/docker.sock:/var/run/docker.sock
+
+    # api for submission of demo workflow (part of demoapp)
+    demo-app-api:
+        image: mgrast/demo-app-api
+        enviornment:
+          CWL_DIR=${CWL_DIR}
+        depends_on: 
+          - awe-server
+          - shock
+        volumes:
+          - ${DOCKER_BINARY}:/usr/local/bin/docker
           - /var/run/docker.sock:/var/run/docker.sock
 
     # nginx integrates various containers and exposes required ports

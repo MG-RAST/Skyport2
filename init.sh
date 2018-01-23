@@ -50,6 +50,10 @@ mkdir -p ${DATADIR}/awe/db
 mkdir -p ${DATADIR}/awe-worker/work
 
 
+export CWL_DIR=${DATADIR}/CWL
+
+
+
 # Path to primary log dir
 export LOGDIR=`pwd`/data/log/
 
