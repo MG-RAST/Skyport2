@@ -48,7 +48,7 @@ steps:
       outname:
         # derive output name from pdf input filename
         source: pdf
-        valueFrom: $(self.nameroot).png
+        valueFrom: wordcloud.png
     # return output from tool
     out: [image]
 
