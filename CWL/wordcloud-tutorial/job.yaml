@@ -1,0 +1,5 @@
+pdf:
+  class: File
+  path: submission/demo.pdf
+text: demo.txt  
+
