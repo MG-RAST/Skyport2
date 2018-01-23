@@ -47,11 +47,11 @@ RUN apt-get install -y default-mysql-client
 COPY Services/authServer/html /usr/local/apache2/htdocs/
 COPY Services/authServer/cgi-bin /usr/local/apache2/htdocs/cgi-bin
 COPY Config/authServer/httpd.conf /usr/local/apache2/conf/
-COPY Config/authServer/OAuthConfig.pm /usr/local/apache2/htdocs/cgi-bin/
-COPY Config/authServer/ClientConfigAWE.pm /usr/local/apache2/htdocs/cgi-bin/
-COPY Config/authServer/ClientConfigShock.pm /usr/local/apache2/htdocs/cgi-bin/
-COPY Config/authServer/clientAWE.cgi /usr/local/apache2/htdocs/cgi-bin/
-COPY Config/authServer/clientShock.cgi /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/cgi/OAuthConfig.pm /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/cgi/ClientConfigAWE.pm /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/cgi/ClientConfigShock.pm /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/cgi/clientAWE.cgi /usr/local/apache2/htdocs/cgi-bin/
+COPY Config/authServer/cgi/clientShock.cgi /usr/local/apache2/htdocs/cgi-bin/
 COPY Config/authServer/setup.sh /usr/local/bin/
 COPY Config/authServer/dbsetup.demo.mysql /tmp/
 RUN chmod a+x /usr/local/apache2/htdocs/cgi-bin/*.cgi
