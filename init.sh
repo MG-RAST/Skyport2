@@ -30,9 +30,18 @@ fi
   
 
 
+
+export REPO_DIR=`pwd`
+
 # Top level data dir
-export DATADIR=`pwd`/live-data
+export DATADIR=${REPO_DIR}/live-data
 mkdir -p $DATADIR
+
+# Path to config dir with service specific subdirs. Contains config for demo case
+export CONFIGDIR=${REPO_DIR}/Config/
+
+export CWL_DIR=${REPO_DIR}/CWL
+
 
 export SKYPORT_TMPDIR=$DATADIR/tmp
 mkdir -p ${SKYPORT_TMPDIR}
@@ -50,12 +59,12 @@ mkdir -p ${DATADIR}/awe/db
 mkdir -p ${DATADIR}/awe-worker/work
 
 
-export CWL_DIR=${DATADIR}/CWL
+
 
 
 
 # Path to primary log dir
-export LOGDIR=`pwd`/data/log/
+export LOGDIR=${DATADIR}/log/
 
 # Create log dirs for Shock , nginx
 mkdir -p ${LOGDIR}
@@ -64,8 +73,7 @@ mkdir -p ${LOGDIR}/nginx
 mkdir -p ${LOGDIR}/awe
 mkdir -p ${LOGDIR}/awe-worker
 
-# Path to config dir with service specific subdirs. Contains config for demo case
-export CONFIGDIR=`pwd`/Config/
+
 
 # Docker image tag , used by Dockerfiles and Compose file 
 export TAG=demo
