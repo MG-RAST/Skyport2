@@ -4,7 +4,7 @@ version: '3.1'
 
 
 # these variables are set in init.sh (change storage location there)
-# 
+#
 # set TAG to specify docker image version
 # set CONFIGDIR to path to config
 # set SHOCKDIR for persistent Shock data store , e.g. /var/tmp/Shock
@@ -15,7 +15,7 @@ version: '3.1'
 
 services:
 
-    # the SHOCK object store  
+    # the SHOCK object store
     # to make SHOCK data persistent uncomment the lines here and in "mongo" below
     shock:
         image: mgrast/shock
@@ -61,8 +61,8 @@ services:
         ports:
           - 8081:80
 
-    # AWE resource manager 
-    # uncomment AWEDIR to make data and logs persistent (also requires AWE-mongo for full persistence) 
+    # AWE resource manager
+    # uncomment AWEDIR to make data and logs persistent (also requires AWE-mongo for full persistence)
     awe-server:
         image: mgrast/awe:develop
         entrypoint:
@@ -110,12 +110,26 @@ services:
           # mount the docker socker to allow container to execute docker commands (for CWL runner)
           - /var/run/docker.sock:/var/run/docker.sock
 
-    # api for submission of demo workflow (part of demoapp)
+    # api for submission of demo workflow (part of demo-app)
     demo-app-api:
         image: mgrast/demo-app-api
         environment:
           CWL_DIR: ${CWL_DIR}
-        depends_on: 
+        ports:
+          - 5000:5000
+        depends_on:
+          - awe-server
+          - shock
+        volumes:
+          - ${DOCKER_BINARY}:/usr/local/bin/docker
+          - /var/run/docker.sock:/var/run/docker.sock
+
+    # UI for demo-app
+    demo-app-web:
+        image: mgrast/demo-app:latest
+        environment:
+          CWL_DIR: ${CWL_DIR}
+        depends_on:
           - awe-server
           - shock
         volumes:
@@ -135,6 +149,7 @@ services:
         volumes:
           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
           - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
+          - ${CONFIGDIR}/nginx/services.html:/usr/share/nginx/html/services.html
           - ${CONFIGDIR}/nginx/bootstrap.min.css:/usr/share/nginx/html/bootstrap.min.css
           - ${CONFIGDIR}/nginx/skyportlogo.png:/usr/share/nginx/html/skyportlogo.png
           - ${CONFIGDIR}/nginx/drone.jpg:/usr/share/nginx/html/drone.jpg
@@ -156,7 +171,7 @@ services:
         #  - ${SHOCKDIR}/db:/data/db
 
    # the MySQL server is a component of the auth server
-   # 
+   #
     db:
         image: mysql
         environment:
@@ -169,7 +184,7 @@ services:
           #- ${AUTHDB}:/var/lib/mysql
 
    # we use a volume (see below) to make data persistent between runs
-   #      - 
+   #      -
 
     # the mongo database stores the awe server information during the run
     #
@@ -181,6 +196,3 @@ services:
         # to make the AWE jobs persistent between runs uncomment the lines below
         #volumes:
         #  - ${SHOCKDIR}/db:/data/db
-
-
-
