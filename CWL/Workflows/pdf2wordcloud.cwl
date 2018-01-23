@@ -47,8 +47,9 @@ steps:
       text: pdf2text/extractedText
       outname:
         # derive output name from pdf input filename
-        source: pdf
-        valueFrom: $(self.nameroot).png
+        default: "demo.png"
+        #source: pdf
+        #valueFrom: $(self.nameroot).png
     # return output from tool
     out: [image]
 
