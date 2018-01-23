@@ -67,13 +67,14 @@ fi
 # we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
 if [ -z ${SKYPORT_HOST} ]
 then   
-	if [[ "$OSTYPE" == *"arwin"* ]]
-	then
-	  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+	#if [[ "$OSTYPE" == *"arwin"* ]]
+	#then
+	#  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
     #MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
-	else
-	  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
-	fi
+    #else
+	#  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+	#fi
+  MYIP=$(for i in $(ifconfig -a | cut -d ' ' -f 1 | cut -d $'\t' -f 1 | grep -Ev "^$" | grep -v "^veth\|^lo\|^docker\|^br" | cut -d : -f 1) ; do ifconfig $i ; done | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 	# set to external host IP
 	SKYPORT_HOST=${MYIP}
   
