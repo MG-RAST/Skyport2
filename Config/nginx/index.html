@@ -16,23 +16,28 @@
     <script src="jquery.min.js"></script>
     <script src="jquery.cookie.js"></script>
     <script>
-jQuery( document ).ready(function(){
-    window.logout = function () {
-	if (user) {
-	    jQuery.removeCookie('AuthWebSession', { path: '/' });
-	    window.location.reload();
-	} else {
-	    window.location = RetinaConfig.auth_url+'/client.cgi';
-	}
-    }
-    window.user = jQuery.cookie('AuthWebSession');
-    if (user ) {
-	user = JSON.parse(user);
-	user.authHeader = { "Authorization": "oauth "+stm.user.token };
-	$('#logoutButton').css('display', '');
-	document.getElementById('tokenButton').innerHTML = user.name;	
-    }
-});
+      jQuery( document ).ready(function(){
+	  window.user = jQuery.cookie('AuthWebSession');
+	  window.logout = function () {
+	      
+		  jQuery.removeCookie('AuthWebSession', { path: '/' });
+		  window.location.reload();
+	  };
+	  window.login = function () {
+	      if (user) {
+		  alert(user.token);
+	      } else {
+		  window.location = 'http://localhost:8001/auth/cgi-bin/clientSkyport.cgi';
+	      }
+	  }
+    
+	  if (user) {
+	      user = JSON.parse(user);
+	      user.authHeader = { "Authorization": "oauth "+user.token };
+	      $('#logoutButton').css('display', '');
+	      document.getElementById('tokenButton').innerHTML = user.name;	
+	  }
+      });
     </script>
     
     <style>
@@ -105,7 +110,7 @@ jQuery( document ).ready(function(){
       <div class="page-header" style="padding-bottom: 30px;">
 	<h1 style="position: relative; top: 16px; color: #171780; cursor: pointer;" onclick="window.open('https://github.com/MG-RAST/Skyport2')">Skyport 2.0 <small>large scale data management and multi-cloud workflow execution</small></h1>
 	<button class="btn btn-danger" onclick="logout();" id="logoutButton" style="position: absolute; right: 20px; top: 20px; display: none;" title="logout"><img src="remove.png" style="width: 16px; position: relative; bottom: 2px; left: 2px; opacity: 0.3;" /></button>
-	<button class="btn btn-inverse" onclick="alert(stm.user.token);" id="tokenButton" style="position: absolute; right: 70px; top: 20px;">login</button>
+	<button class="btn btn-inverse" onclick="login();" id="tokenButton" style="position: absolute; right: 70px; top: 20px;">login</button>
       </div>
       <div style="clear: both; margin-bottom: 20px;"></div>
       
@@ -115,9 +120,9 @@ jQuery( document ).ready(function(){
       <h1 style="font-size: 60px;">Skyport Sample Application</h1>
       <p style="font-weight: 100; padding-top: 10px; padding-bottom: 20px; font-size: 18px;">Try out the Skyport Word-Cloud explorer - a sample application in the Skyport framework!</p>
       <p>
-        <a class="btn btn-inverse btn-large">
+        <button class="btn btn-inverse btn-large" onclick="window.open('http://localhost:8001/demo-app');">
           start app
-        </a>
+        </button>
       </p>
     </div>
     
@@ -179,13 +184,25 @@ jQuery( document ).ready(function(){
 	  
 	</div>
 
+	<div style="clear: both;"></div>
+      
+      <h3 style="margin-top: 50px;">Standard Operating Procedures - Day 1</h3>
+      <div style="float: left; margin-right: 25px;">
+	<img src="file-pdf.png">
+	<a href="day1_skyport2_login.pdf" target=_blank>Skyport login</a>
       </div>
-
-      <div>
-
+      <div style="float: left; margin-right: 25px;">
+	<img src="file-pdf.png">
+	<a href="day1_starting_awe_worker.pdf" target=_blank>starting an AWE worker node</a>
+      </div>
+      <div style="float: left; margin-right: 25px;">
+	<img src="file-pdf.png">
+	<a href="day1_running_a_simple_workflow_with_awe.pdf" target=_blank>running a simple workflow with AWE</a>	
       </div>
 
     </div>
+	
+      </div>
 
     <div style="clear: both;"></div>
       

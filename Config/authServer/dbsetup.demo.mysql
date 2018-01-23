@@ -13,3 +13,7 @@ INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
 ('Shock',    'http://localhost:8001/auth/cgi-bin/clientShock.cgi',    'vcZYffLyDabuyxXN8vstbsaMdNwpMKfk');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
 ('AWE',    'http://localhost:8001/auth/cgi-bin/clientAWE.cgi',    'abXYffLyDabuyxXN8vstbsaMdNwpMKfk');
+INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
+('Skyport2',    'http://localhost:8001/auth/cgi-bin/clientSkyport.cgi',    'giJhYfLyDabuyxXN8vstbsaMdNwpMKfk');
+INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
+('demo-app',    'http://localhost:8001/auth/cgi-bin/clientDemoApp.cgi',    'pOlGDLyDabuyxXN8vstbsaMdNwpMKfk');

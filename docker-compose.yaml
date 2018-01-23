@@ -56,8 +56,7 @@ services:
           - db
         volumes:
           - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
-          - ${CONFIGDIR}/authServer/OAuthConfig.pm:/usr/local/apache2/htdocs/OAuthConfig.pm:ro
-          - ${CONFIGDIR}/authServer/client.cgi:/usr/local/apache2/htdocs/cgi-bin/client.cgi:ro
+          - ${CONFIGDIR}/authServer/cgi/:/usr/local/apache2/htdocs/cgi-bin/
         ports:
           - 8081:80
 
@@ -151,11 +150,7 @@ services:
           - 8001:8001
         volumes:
           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
-          - ${CONFIGDIR}/nginx/index.html:/usr/share/nginx/html/index.html
-          - ${CONFIGDIR}/nginx/services.html:/usr/share/nginx/html/services.html
-          - ${CONFIGDIR}/nginx/bootstrap.min.css:/usr/share/nginx/html/bootstrap.min.css
-          - ${CONFIGDIR}/nginx/skyportlogo.png:/usr/share/nginx/html/skyportlogo.png
-          - ${CONFIGDIR}/nginx/drone.jpg:/usr/share/nginx/html/drone.jpg
+          - ${CONFIGDIR}/nginx/:/usr/share/nginx/html/
           - ${LOGDIR}/nginx/:/var/log/nginx/
 
     # a graphical front end for MySQL useful for debugging
