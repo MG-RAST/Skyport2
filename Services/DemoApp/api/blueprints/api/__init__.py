@@ -11,6 +11,8 @@ import os
 import time
 import subprocess
 import psutil
+import json
+
 from subprocess import Popen, PIPE, STDOUT
 sys.path.append("../..")
 #import export
@@ -130,10 +132,9 @@ def api_submit(node_id):
     
     
     
-    job_file_content_template = 
-      'pdf:' \
-      '  class: File' \
-      '  location: {}/node/{}?download' 
+    job_file_content_template = """pdf:
+  class: File 
+  location: '{}/node/{}?download'""" 
 
     job_file_content  = job_file_content_template .format(shock_host, node_id)
 # basename: demo.pdf if required
@@ -236,19 +237,52 @@ def api_status(jobid):
     output_dir = '/host_tmp/'+jobid
     output_file = output_dir+'/results.cwl'
 
+
+    
+    
+    
+
     if os.path.isfile(output_file):
         
-        status = "complete"
-        
-    
-        data = None
         with open(output_file, 'r') as myfile:
             data=myfile.read()
-            
-        result = str(data[:])# TODO  should be result = "shock_node_id_of_output" 
+    
+
+        try:
+            parsed_json = json.loads(data)
+        except Exception as e:
+            return jsonify({
+                    'status': 'error',
+                    'result': "could not parse json: "+str(e),
+            })
+    
+    
+        wordCloudImage= None
+        if 'wordCloudImage' in parsed_json:
+            wordCloudImage = parsed_json['wordCloudImage']
+        else:
+            return jsonify({
+                    'status': 'error',
+                    'result': "wordCloudImage not found in json",
+            })
+    
+        location = None
+        if 'location' in wordCloudImage:
+            location = wordCloudImage['location']
+        else:
+            return jsonify({
+                    'status': 'error',
+                    'result': "wordCloudImage/location not found in json",
+            })
+    
+        if location.endswith('?download'):
+            location = location[:-9]
+    
+        node_id = location[-36:]
+    
         return jsonify({
-                'status': status,
-                'result': result,
+                'status': 'complete',
+                'result': node_id,
         })
         
     if os.path.exists(output_dir):
