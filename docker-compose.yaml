@@ -113,7 +113,7 @@ services:
     # api for submission of demo workflow (part of demoapp)
     demo-app-api:
         image: mgrast/demo-app-api
-        enviornment:
+        environment:
           CWL_DIR=${CWL_DIR}
         depends_on: 
           - awe-server
