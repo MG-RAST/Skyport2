@@ -51,4 +51,4 @@ outputs:
   words:
     type: File
     # assign value from specified step output to output parameter
-    outputSource: pdf2text/extractedText
+    outputSource: text2wordCloud/image
