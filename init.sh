@@ -6,7 +6,7 @@
 
 
 
-if [[ $_ == $0 ]]; then 
+if [[ $_ == $0 ]]; then
   echo "Error: please use command \"source ./init.sh\""
   exit 1
 fi
@@ -27,7 +27,6 @@ if [[ "$(docker-compose -v)" == "docker-compose version 1.8.0"* ]] ; then
   echo "Note: the default ubuntu repositories will not help you here."
   return 1
 fi
-  
 
 
 
@@ -75,8 +74,19 @@ mkdir -p ${LOGDIR}/awe-worker
 
 
 
-# Docker image tag , used by Dockerfiles and Compose file 
+# Docker image tag , used by Dockerfiles and Compose file
 export TAG=demo
+
+
+
+# pulling docker images
+for i in  mgrast/shock mgrast/shock-browser:${TAG} mgrast/authserver:${TAG} \
+          mgrast/awe:develop mgrast/awe-worker:develop mgrast/demo-app-api:latest \
+          mgrast/demo-app:latest nginx adminer mongo mysql mongo
+do
+  docker pull $i
+done
+
 
 
 
