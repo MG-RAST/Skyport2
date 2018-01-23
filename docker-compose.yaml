@@ -132,6 +132,7 @@ services:
         depends_on:
           - demo-app-api
         volumes:
+          - ${CONFIGDIR}/DemoApp/index.html:/usr/share/nginx/html/index.html:ro
           - ${DOCKER_BINARY}:/usr/local/bin/docker
           - /var/run/docker.sock:/var/run/docker.sock
 
