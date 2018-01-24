@@ -75,7 +75,7 @@ The AWE development environment is the basic skyport app service stack whith per
 2. `export AWE_ROOT_DIR=`PATH_TO_LOCAL_AWE_REPOSITORY
 3. `docker-compose -f Docker/Compose/skyport-awe-devel.yaml config`
 4. `docker exec -ti compose_awe-server_1 ash`
-5. Inside container:
+5. Inside the container:
     1. `cd /go/src/github.com/MG-RAST/AWE`
     2. `go get -d ./awe-worker/ ./awe-server/`
     3. `./compile.sh`
