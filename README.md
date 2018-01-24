@@ -16,7 +16,7 @@
 All docker images required for the quick start are available at Docker Hub. To start the demo environment run:
 
 1. ```source ./init.sh ```
-2. ```docker-compose -f Docker/Compose/skyport-demo.yaml up```
+2. ```docker-compose up```
 
 
 
@@ -54,10 +54,10 @@ To run the demo with a full stack of services:
 
 - Check config:
 
-  `docker-compose -f Docker/Compose/skyport-demo.yaml config`
+  `docker-compose config`
 - Start services:
 
-  `docker-compose -f Docker/Compose/skyport-demo.yaml up`
+  `docker-compose up`
 
   The web services are mapped to port 8001 on localhost[http:/localhost:8001]:
 
