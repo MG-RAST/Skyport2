@@ -152,6 +152,7 @@ services:
         volumes:
           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
           - ${CONFIGDIR}/nginx/:/usr/share/nginx/html/
+          - ${DOCSDIR}:/usr/share/nginx/html/docs/:ro
           - ${LOGDIR}/nginx/:/var/log/nginx/
 
     # a graphical front end for MySQL useful for debugging

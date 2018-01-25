@@ -46,7 +46,7 @@ mkdir -p $DATADIR
 
 # Path to config dir with service specific subdirs. Contains config for demo case
 export CONFIGDIR=${REPO_DIR}/Config/
-
+export DOCSDIR=${REPO_DIR}/Documents/
 export CWL_DIR=${REPO_DIR}/CWL
 
 
