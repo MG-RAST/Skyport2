@@ -32,6 +32,14 @@ fi
 
 export REPO_DIR=`pwd`
 
+if [ $(basename `pwd`) != "Skyport2" ] ; then
+  echo "Please run \"source ./init.sh\" inside the Skyport2 repository directory"
+  return
+fi
+
+
+
+
 # Top level data dir
 export DATADIR=${REPO_DIR}/live-data
 mkdir -p $DATADIR
@@ -84,6 +92,10 @@ cp -f `pwd`/Documents/*.pdf ${CONFIGDIR}/nginx/
 docker-compose pull
 docker pull mgrast/awe-submitter:develop
 
+# update the git submodules
+if [ -d  .git ] ; then
+  git submodule update
+fi
 
 
 source ./get_docker_binary.sh
