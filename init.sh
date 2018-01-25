@@ -97,10 +97,6 @@ mkdir -p ${LOGDIR}/awe-worker
 # Docker image tag , used by Dockerfiles and Compose file
 export TAG=demo
 
-# Document files for the webserver
-cp -f `pwd`/Documents/*.pdf ${CONFIGDIR}/nginx/
-
-
 
 
 source ./get_docker_binary.sh
