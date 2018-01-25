@@ -29,6 +29,18 @@ if [[ "$(docker-compose -v)" == "docker-compose version 1.8.0"* ]] ; then
 fi
 
 
+# update the git submodules
+if [ -d  .git ] ; then
+  git pull
+  git submodule update
+fi
+
+# pulling docker images
+docker-compose pull
+docker pull mgrast/awe-submitter:develop
+
+
+
 
 export REPO_DIR=`pwd`
 
@@ -88,14 +100,7 @@ export TAG=demo
 # Document files for the webserver
 cp -f `pwd`/Documents/*.pdf ${CONFIGDIR}/nginx/
 
-# pulling docker images
-docker-compose pull
-docker pull mgrast/awe-submitter:develop
 
-# update the git submodules
-if [ -d  .git ] ; then
-  git submodule update
-fi
 
 
 source ./get_docker_binary.sh
