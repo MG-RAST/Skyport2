@@ -35,12 +35,6 @@ if [ -d  .git ] ; then
   git submodule update
 fi
 
-# pulling docker images
-docker-compose pull
-docker pull mgrast/awe-submitter:develop
-
-
-
 
 export REPO_DIR=`pwd`
 
@@ -97,6 +91,12 @@ mkdir -p ${LOGDIR}/awe-worker
 # Docker image tag , used by Dockerfiles and Compose file
 export TAG=demo
 
+
+
+
+# pulling docker images
+docker-compose pull
+docker pull mgrast/awe-submitter:develop
 
 
 source ./get_docker_binary.sh
