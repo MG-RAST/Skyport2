@@ -130,7 +130,12 @@ def api_submit(node_id):
         shock_host = 'http://shock:7445'
     
     
+    awe_server_host = None
+    if 'AWE_SERVER_HOST' in os.environ:
+        awe_server_host = os.environ['AWE_SERVER_HOST']
     
+    if not awe_server_host:
+        awe_server_host = 'http://awe-server:8001'
     
     job_file_content_template = """pdf:
   class: File 
@@ -176,15 +181,15 @@ def api_submit(node_id):
      ' mgrast/awe-submitter:develop' \
      ' /go/bin/awe-submitter' \
      ' --pack' \
-     ' --shockurl=http://shock:7445' \
-     ' --serverurl=http://awe-server:8001' \
+     ' --shockurl=%s '\
+     ' --serverurl=%s ' \
      ' --output=%s/results.cwl' \
      ' --wait' \
      ' /CWL/Workflows/pdf2wordcloud.cwl' \
      ' %s/input.yaml'
  
 
-    final_command = command % ( cwl_dir, tmp_dir, tmp_dir)
+    final_command = command % ( cwl_dir, shock_host, awe_server_host, tmp_dir, tmp_dir)
     print("execute: "+ final_command)
     popen_object = subprocess.Popen(final_command, shell=True)
     
