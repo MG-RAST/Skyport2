@@ -67,9 +67,6 @@ services:
         entrypoint:
           - /go/bin/awe-server
           - --conf=/awe-config/awe-server.cfg
-        environment: 
-          AWE_SERVER_URL: ${AWE_SERVER_URL}
-          SHOCK_SERVER_URL: ${SHOCK_SERVER_URL}
         depends_on:
           - awe-mongo
           - auth
@@ -95,7 +92,7 @@ services:
             --data=${DATADIR}/awe-worker/data
             --logs=/mnt/data/logs
             --workpath=${DATADIR}/awe-worker/work
-            --serverurl=http://awe-server:8001
+            --serverurl=${AWE_SERVER_URL}
             --group=docker
             --supported_apps=*
             --auto_clean_dir=false
@@ -117,6 +114,8 @@ services:
         image: mgrast/demo-app-api:latest
         environment:
           CWL_DIR: ${CWL_DIR}
+          AWE_SERVER_URL: ${AWE_SERVER_URL}
+          SHOCK_SERVER_URL: ${SHOCK_SERVER_URL}
         ports:
           - 5000:5000
         depends_on:
@@ -151,7 +150,7 @@ services:
           - demo-app-api
           - demo-app-web
         ports:
-          - 8001:8001
+          - ${NGINX_PORT}:80
         volumes:
           - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
           - ${CONFIGDIR}/nginx/:/usr/share/nginx/html/
