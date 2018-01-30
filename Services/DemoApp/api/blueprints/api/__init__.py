@@ -13,6 +13,8 @@ import subprocess
 import psutil
 import json
 
+from flask import current_app
+
 from subprocess import Popen, PIPE, STDOUT
 sys.path.append("../..")
 #import export
@@ -21,9 +23,14 @@ sys.path.append("..")
 
 
 
+
+
+#logger = logging.getLogger(__name__)
+#logger.debug('logged from thread --------------------------------------- ')
+
 api = Blueprint('api', __name__, template_folder='templates')
 
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 port = 80
 #api_url_internal = 'http://localhost'
@@ -115,7 +122,8 @@ def handle_invalid_usage(error):
 
 @api.route('/submit/<node_id>')
 def api_submit(node_id):
-    
+    #current_app.logger.info('submit ---------------------------------------')
+    logger=current_app.logger
     #status : submitted | error | complete ,
     #result : null |error-text |  status-id
     logger.info("__ api_submit()  node_id = {}".format(node_id))
@@ -129,6 +137,7 @@ def api_submit(node_id):
     if not shock_server_url:
         shock_server_url = 'http://shock:7445'
     
+    logger.info("shock_server_url={}".format(shock_server_url))
     
     awe_server_url = None
     if 'AWE_SERVER_URL' in os.environ:
@@ -136,6 +145,8 @@ def api_submit(node_id):
     
     if not awe_server_url:
         awe_server_url = 'http://awe-server:8001'
+    
+    logger.info("awe_server_url={}".format(awe_server_url))
     
     job_file_content_template = """pdf:
   class: File 
@@ -152,6 +163,8 @@ def api_submit(node_id):
     
     job_file = tmp_dir + '/input.yaml'
     
+    
+    logger.debug("writing file {}".format(job_file))
     
     with open(job_file, "w") as text_file:
         text_file.write(job_file_content)
@@ -188,9 +201,9 @@ def api_submit(node_id):
      ' /CWL/Workflows/pdf2wordcloud.cwl' \
      ' %s/input.yaml'
  
-
+    time.sleep(2)
     final_command = command % ( cwl_dir, shock_server_url, awe_server_url, tmp_dir, tmp_dir)
-    print("execute: "+ final_command)
+    logger.debug("execute: {}".format( final_command))
     popen_object = subprocess.Popen(final_command, shell=True)
     
     
