@@ -67,6 +67,9 @@ services:
         entrypoint:
           - /go/bin/awe-server
           - --conf=/awe-config/awe-server.cfg
+        environment: 
+          AWE_SERVER_URL: ${AWE_SERVER_URL}
+          SHOCK_SERVER_URL: ${SHOCK_SERVER_URL}
         depends_on:
           - awe-mongo
           - auth
@@ -138,7 +141,7 @@ services:
 
     # nginx integrates various containers and exposes required ports
     nginx:
-        image: nginx
+        image: nginx:1.13-alpine
         depends_on:
           - shock
           - shock-browser
@@ -163,7 +166,7 @@ services:
 
     # mongoDB for the SHOCK service, provides metadata storage
     mongo:
-        image: mongo
+        image: mongo:3.6.2
         ports:
           - 27017
         # uncomment the next two lines to make SHOCK mongo data persistent
@@ -173,7 +176,7 @@ services:
    # the MySQL server is a component of the auth server
    #
     db:
-        image: mysql
+        image: mysql:5.7
         environment:
             MYSQL_ROOT_PASSWORD: secret
             MYSQL_DATABASE: DemoAppUsers
@@ -190,7 +193,7 @@ services:
     #
     # mount a volume in the mongo server to make data persistent between runs
     awe-mongo:
-        image: mongo
+        image: mongo:3.6.2
         ports:
           - 27017
         # to make the AWE jobs persistent between runs uncomment the lines below

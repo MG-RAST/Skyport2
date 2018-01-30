@@ -26,8 +26,8 @@ api = Blueprint('api', __name__, template_folder='templates')
 logger = logging.getLogger(__name__)
 
 port = 80
-api_url_internal = 'http://localhost'
-api_url = 'http://submission-api'
+#api_url_internal = 'http://localhost'
+#api_url = 'http://submission-api'
 
 # modify /etc/hosts/: 127.0.0.1    localhost submission-api
 STATUS_Bad_Request = 400  # A client error
@@ -122,26 +122,26 @@ def api_submit(node_id):
     
     node_id = node_id.lower()
     
-    shock_host = None
-    if 'SHOCK_HOST' in os.environ:
-        shock_host = os.environ['SHOCK_HOST']
+    shock_server_url = None
+    if 'SHOCK_SERVER_URL' in os.environ:
+        shock_server_url = os.environ['SHOCK_SERVER_URL']
     
-    if not shock_host:
-        shock_host = 'http://shock:7445'
+    if not shock_server_url:
+        shock_server_url = 'http://shock:7445'
     
     
-    awe_server_host = None
-    if 'AWE_SERVER_HOST' in os.environ:
-        awe_server_host = os.environ['AWE_SERVER_HOST']
+    awe_server_url = None
+    if 'AWE_SERVER_URL' in os.environ:
+        awe_server_url = os.environ['AWE_SERVER_URL']
     
-    if not awe_server_host:
-        awe_server_host = 'http://awe-server:8001'
+    if not awe_server_url:
+        awe_server_url = 'http://awe-server:8001'
     
     job_file_content_template = """pdf:
   class: File 
   location: '{}/node/{}?download'""" 
 
-    job_file_content  = job_file_content_template .format(shock_host, node_id)
+    job_file_content  = job_file_content_template .format(shock_server_url, node_id)
 # basename: demo.pdf if required
     
     
@@ -189,7 +189,7 @@ def api_submit(node_id):
      ' %s/input.yaml'
  
 
-    final_command = command % ( cwl_dir, shock_host, awe_server_host, tmp_dir, tmp_dir)
+    final_command = command % ( cwl_dir, shock_server_url, awe_server_url, tmp_dir, tmp_dir)
     print("execute: "+ final_command)
     popen_object = subprocess.Popen(final_command, shell=True)
     

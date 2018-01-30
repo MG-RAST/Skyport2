@@ -101,6 +101,11 @@ docker pull mgrast/awe-submitter:develop
 
 source ./get_docker_binary.sh
 
+source ./get_ip_address.sh
+
+
+AWE_SERVER_URL=${SKYPORT_HOST}
+SHOCK_SERVER_URL=${SKYPORT_HOST}
 
 echo Set config to:
 echo "TAG=${TAG}"
@@ -108,6 +113,11 @@ echo "CONFIGDIR=${CONFIGDIR}"
 echo "SHOCKDIR=${SHOCKDIR}"
 echo "DATADIR=${DATADIR}"
 echo "LOGDIR=${LOGDIR}"
+
+echo "SKYPORT_HOST=${SKYPORT_HOST}" 
+echo "AWE_SERVER_URL=${AWE_SERVER_URL}"
+echo "SHOCK_SERVER_URL=${SHOCK_SERVER_URL}"
+
 echo "DOCKER_VERSION=${DOCKER_VERSION}"
 echo "DOCKER_BINARY=${DOCKER_BINARY}"
 
