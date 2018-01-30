@@ -1,6 +1,9 @@
 #/bin/bash
 
 
+# this script trys to detect the IP address under Linux and OSX
+
+
 if [[ $_ == $0 ]]; then 
   echo "Error: please use command \"source ./get_ip_address.sh\""
   exit 1
