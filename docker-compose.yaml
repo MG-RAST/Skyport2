@@ -152,7 +152,7 @@ services:
         ports:
           - ${NGINX_PORT}:80
         volumes:
-          - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/skyport.conf:ro
+          - ${CONFIGDIR}/nginx/skyport-demo.conf:/etc/nginx/conf.d/default.conf:ro
           - ${CONFIGDIR}/nginx/:/usr/share/nginx/html/
           - ${DOCSDIR}:/usr/share/nginx/html/docs/:ro
           - ${LOGDIR}/nginx/:/var/log/nginx/
