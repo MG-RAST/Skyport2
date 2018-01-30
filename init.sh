@@ -44,7 +44,7 @@ if [ $(basename `pwd`) != "Skyport2" ] ; then
 fi
 
 
-
+export NGINX_PORT=8001
 
 # Top level data dir
 export DATADIR=${REPO_DIR}/live-data
@@ -92,6 +92,13 @@ mkdir -p ${LOGDIR}/awe-worker
 export TAG=demo
 
 
+source ./get_docker_binary.sh
+
+source ./get_ip_address.sh
+
+SKYPORT_URL=${SKYPORT_HOST}:${NGINX_PORT}
+AWE_SERVER_URL=${SKYPORT_URL}/awe/api
+SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api
 
 
 # pulling docker images
@@ -99,13 +106,6 @@ docker-compose pull
 docker pull mgrast/awe-submitter:develop
 
 
-source ./get_docker_binary.sh
-
-source ./get_ip_address.sh
-
-
-AWE_SERVER_URL=${SKYPORT_HOST}
-SHOCK_SERVER_URL=${SKYPORT_HOST}
 
 echo Set config to:
 echo "TAG=${TAG}"
