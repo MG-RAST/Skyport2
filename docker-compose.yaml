@@ -174,7 +174,7 @@ services:
 
     # mongoDB for the SHOCK service, provides metadata storage
     mongo:
-        image: mongo:3.6.2
+        image: mongo:3.6
         ports:
           - 27017
         # uncomment the next two lines to make SHOCK mongo data persistent
@@ -201,7 +201,7 @@ services:
     #
     # mount a volume in the mongo server to make data persistent between runs
     awe-mongo:
-        image: mongo:3.6.2
+        image: mongo:3.6
         ports:
           - 27017
         # to make the AWE jobs persistent between runs uncomment the lines below
