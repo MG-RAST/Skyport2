@@ -97,8 +97,8 @@ source ./get_docker_binary.sh
 source ./get_ip_address.sh
 
 SKYPORT_URL=http://${SKYPORT_HOST}:${NGINX_PORT}
-AWE_SERVER_URL=${SKYPORT_URL}/awe/api
-SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api
+AWE_SERVER_URL=${SKYPORT_URL}/awe/api/
+SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api/
 
 
 # pulling docker images
