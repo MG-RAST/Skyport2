@@ -125,3 +125,6 @@ echo "DOCKER_BINARY=${DOCKER_BINARY}"
 echo ""
 echo "Next step: docker-compose up"
 echo ""
+echo "...then open http://localhost:${NGINX_PORT} in your browser."
+echo ""
+
