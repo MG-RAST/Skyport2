@@ -29,12 +29,6 @@ if [[ "$(docker-compose -v)" == "docker-compose version 1.8.0"* ]] ; then
 fi
 
 
-# update the git submodules
-if [ -d  .git ] ; then
-  git pull
-  git submodule update
-fi
-
 
 export REPO_DIR=`pwd`
 
@@ -100,10 +94,6 @@ SKYPORT_URL=http://${SKYPORT_HOST}:${NGINX_PORT}
 AWE_SERVER_URL=${SKYPORT_URL}/awe/api/
 SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api/
 
-
-# pulling docker images
-docker-compose pull
-docker pull mgrast/awe-submitter:develop
 
 
 
