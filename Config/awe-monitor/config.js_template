@@ -14,5 +14,5 @@ var RetinaConfig = {
     "mgrast_api": "http://api.metagenomics.anl.gov",
     "authentication": true,
     "useOAuthServer": true,
-    "auth_url": "${AUTH_API_URL}/cgi-bin"
+    "auth_url": "${AUTH_URL}/cgi-bin"
 }

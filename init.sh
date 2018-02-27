@@ -93,11 +93,11 @@ source ./get_ip_address.sh
 export SKYPORT_URL=http://${SKYPORT_HOST}:${NGINX_PORT}
 export AWE_SERVER_URL=${SKYPORT_URL}/awe/api/
 export SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api/
-export AUTH_API_URL=${SKYPORT_URL}/auth/api/
+export AUTH_URL=${SKYPORT_URL}/auth/
 
 
 # create awe-monitor config
-sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_API_URL};${AUTH_API_URL};g" ${CONFIGDIR}/awe-monitor/config.js_template > ${CONFIGDIR}/awe-monitor/config.js
+sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/awe-monitor/config.js_template > ${CONFIGDIR}/awe-monitor/config.js
 
 
 
