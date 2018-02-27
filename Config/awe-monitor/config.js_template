@@ -1,6 +1,6 @@
 var RetinaConfig = {
-    "awe_ip": "http://localhost:8001/awe/api/",
-    "workflow_ip": "http://localhost:8001/awe/api/awf",
+    "awe_ip": "${AWE_SERVER_URL}",
+    "workflow_ip": "${AWE_SERVER_URL}/awf",
     "authResources": { 
         "default": "OAUTH",
         "OAUTH": {
@@ -14,5 +14,5 @@ var RetinaConfig = {
     "mgrast_api": "http://api.metagenomics.anl.gov",
     "authentication": true,
     "useOAuthServer": true,
-    "auth_url": "http://localhost:8001/auth/cgi-bin"
+    "auth_url": "${AUTH_API_URL}/cgi-bin"
 }
