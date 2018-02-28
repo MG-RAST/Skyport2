@@ -101,26 +101,38 @@ sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL}
 
 
 
-echo Set config to:
-echo "TAG=${TAG}"
-echo "CONFIGDIR=${CONFIGDIR}"
-echo "SHOCKDIR=${SHOCKDIR}"
-echo "DATADIR=${DATADIR}"
-echo "LOGDIR=${LOGDIR}"
-echo ""
-echo "SKYPORT_HOST=${SKYPORT_HOST}" 
-echo "SKYPORT_URL=${SKYPORT_URL}"
-echo "AWE_SERVER_URL=${AWE_SERVER_URL}"
-echo "SHOCK_SERVER_URL=${SHOCK_SERVER_URL}"
-echo "AUTH_API_URL=${AUTH_API_URL}"
-echo ""
-echo "DOCKER_VERSION=${DOCKER_VERSION}"
-echo "DOCKER_BINARY=${DOCKER_BINARY}"
 
+cat <<EOF > skyport2.env
 
+export TAG=${TAG}
+export CONFIGDIR=${CONFIGDIR}
+export SHOCKDIR=${SHOCKDIR}
+export DATADIR=${DATADIR}
+export LOGDIR=${LOGDIR}
+
+export SKYPORT_HOST=${SKYPORT_HOST}
+export NGINX_PORT=${NGINX_PORT}
+export SKYPORT_URL=${SKYPORT_URL}
+export AWE_SERVER_URL=${AWE_SERVER_URL}
+export HOCK_SERVER_URL=${SHOCK_SERVER_URL}
+export AUTH_API_URL=${AUTH_API_URL}
+
+export DOCKER_VERSION=${DOCKER_VERSION}
+export DOCKER_BINARY=${DOCKER_BINARY}
+EOF
+
+cat skyport2.env
+
+echo "skyport2.env has been written"
+
+echo ""
+
+echo "If SKYPORT_HOST=${SKYPORT_HOST} is wrong, overwrite it with \"export USE_SKYPORT_HOST=< your ip >\""
+
+echo ""
 echo ""
 echo "Next step: docker-compose up"
 echo ""
-echo "...then open http://localhost:${NGINX_PORT} in your browser."
+echo "...then open http://localhost:${NGINX_PORT} (or ${SKYPORT_URL}) in your browser."
 echo ""
 
