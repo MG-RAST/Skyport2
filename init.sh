@@ -123,6 +123,11 @@ EOF
 
 cat skyport2.env
 
+# this directory can be mounted by other containers
+mkdir -p ${DATADIR}/env/
+cp skyport2.env ${DATADIR}/env/
+
+
 echo "skyport2.env has been written"
 
 echo ""
