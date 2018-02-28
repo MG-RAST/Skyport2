@@ -4,3 +4,4 @@ __pycache__/
 data/*
 CWL/tmp/*
 live-data/
+Config/awe-monitor/config.js
