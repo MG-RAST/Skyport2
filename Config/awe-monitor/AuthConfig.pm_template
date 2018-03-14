@@ -3,10 +3,10 @@ package AuthConfig;
 require Exporter;
 
 # This is the base url of the authServer
-use constant AUTH_URL => 'http://localhost:8001/auth/cgi-bin';
+use constant AUTH_URL => '${SKYPORT_URL}/auth/cgi-bin';
 
 # This is the CGI directory of the app that contains authclient.cgi
-use constant APPLICATION_CGI_URL => "${SKYPORT_URL}/auth/cgi-bin";
+use constant APPLICATION_CGI_URL => "${SKYPORT_URL}/awe/monitor/cgi-bin";
 
 # These values must correspond to what the app was registered with on the
 # application registration page of the authServer
