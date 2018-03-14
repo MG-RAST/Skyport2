@@ -67,7 +67,7 @@ mkdir -p ${DATADIR}/awe-worker/work
 
 
 
-
+export SKYPORT_DOCKER_GATEWAY=$(docker network inspect skyport2_default -f '{{(index .IPAM.Config 0).Gateway}}')
 
 
 # Path to primary log dir
@@ -96,10 +96,13 @@ export SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api/
 export AUTH_URL=${SKYPORT_URL}/auth/
 
 
+
+export AWE_SERVER_URL_INTERNAL=${SKYPORT_DOCKER_GATEWAY}/awe/api/
+
 # create awe-monitor config
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/awe-monitor/config.js_template > ${CONFIGDIR}/awe-monitor/config.js
 
-
+sed -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/awe-monitor/AuthConfig.pm_template > ${CONFIGDIR}/awe-monitor/AuthConfig.pm
 
 
 cat <<EOF > skyport2.env
@@ -117,6 +120,7 @@ export AWE_SERVER_URL=${AWE_SERVER_URL}
 export SHOCK_SERVER_URL=${SHOCK_SERVER_URL}
 export AUTH_URL=${AUTH_URL}
 
+export SKYPORT_DOCKER_GATEWAY=${SKYPORT_DOCKER_GATEWAY}
 export DOCKER_VERSION=${DOCKER_VERSION}
 export DOCKER_BINARY=${DOCKER_BINARY}
 EOF
