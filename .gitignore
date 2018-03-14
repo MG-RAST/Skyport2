@@ -6,3 +6,4 @@ CWL/tmp/*
 live-data/
 Config/awe-monitor/config.js
 skyport2.env
+AuthConfig.pm
