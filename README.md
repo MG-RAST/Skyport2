@@ -22,7 +22,7 @@ docker-compose up
 
 Open Skyport in your browser:
 
-[http://localhost:8001]http://localhost:8001
+http://localhost:8001
 
 
 ## IP detection failed ?
