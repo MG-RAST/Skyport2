@@ -1,14 +1,13 @@
 
-
-# ![skyport logo](data/pictures/skyportlogo.small.jpg) Skyport2
-
-Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE.
+Skyport2
+========
 
 
+# ![skyport logo](data/pictures/skyportlogo.small.jpg) 
 
+Skyport2 is a RESTful framework for large scale data management and reproducible multi-cloud workflow execution. 
 
-
-[skyport]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/skyportlogo.png "Containerized infrastructure"
+Scientists and engineers are accustomed to using a different computer systems to accomplish scientific workflow execution. Skyport2 handles data management and execution of CWL workflows across. Data is stored in the RESTful SHOCK object store that handles indexing, subsetting and format conversions. SHOCK is programmable and can be customized to perform additional functions e.g. convert image formats. AWE worker nodes connect to the AWE resource manager and check execute workflows described in the common workflow language. 
 
 
 ## Quick start
