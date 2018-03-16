@@ -1,13 +1,13 @@
 
 
 # ![skyport logo](data/pictures/skyportlogo.small.jpg) Skyport2
- Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE ([M]ASA).
+
+Infrastructure setup for app/service development using MySQL, MongoDB, Auth , Shock and AWE.
 
 
 
 
 
-[logo]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/donkey.jpg "Donkey aka ass"
 [skyport]: https://github.com/wilke/App-Service-Stack/blob/master/data/pictures/skyportlogo.png "Containerized infrastructure"
 
 
@@ -15,59 +15,93 @@
 
 All docker images required for the quick start are available at Docker Hub. To start the demo environment run:
 
-1. ```source ./init.sh ```
-2. ```docker-compose up```
+```bash
+source ./init.sh
+docker-compose up
+```
+
+Open Skyport in your browser:
+
+[http://localhost:8001]http://localhost:8001
+
+
+## IP detection failed ?
+
+This skyport deployment need to detect your IP address. If this fails, you can set the IP address manually:
+
+```bash
+export USE_SKYPORT_HOST=<your-ip-address>
+```
+
+
+You can execute ```ifconfig -a``` to find your ip address.
 
 
 
 
-## Building docker images
-
-All builds start within the root directory within this repository.
-
-1. git submodule init
-2. git submodule update or `git submodule update --remote`  
-3. `source ./init.sh`
-4. `./create-docker-images.sh`
-
-If you want to build the images manually you have to set build tag. The image tag is derived from the TAG environment variable:
-`export TAG=demo`
-
-### Shock Browser
-
- `docker build -t shock-browser:${TAG} -f Docker/Dockerfiles/shock-browser.dockerfile .`
-
-### authServer
-
- `docker build -t auth:${TAG} -f Docker/Dockerfiles/authServer.dockerfile .`
+## Updates
 
 
+To get the latest code and docker images you can run the ```update.sh``` script.
 
-## Starting services
+```
+./update.sh
+```
+
+
+## Finding services
+
+If you need a listing of all skyport services run ```skyport2-overview.sh```: 
+
+
+```bash
+> ./skyport2-overview.sh 
+
+------- Skyport2 -----------------------------
+Skyport2 main URL: http://130.202.135.80:8001
+
+AWE monitor:       http://130.202.135.80:8001/awe/api/
+
+AWE server API:    http://130.202.135.80:8001/awe/api/
+Shock server API:  http://130.202.135.80:8001/shock/api/
+
+Auth server:       http://130.202.135.80:8001/auth/
+
+----------------------------------------------
+```
+
+You can also use ```skyport2.env``` to see the full configuration (i.e. URLs) via environment variables:
+
+```bash
+> cat skyport2.env
+
+export TAG=demo
+export CONFIGDIR=/Users/wolfganggerlach/git/Skyport2/Config/
+export SHOCKDIR=/Users/wolfganggerlach/git/Skyport2/live-data/shock/
+export DATADIR=/Users/wolfganggerlach/git/Skyport2/live-data
+export LOGDIR=/Users/wolfganggerlach/git/Skyport2/live-data/log/
+
+export SKYPORT_HOST=130.202.135.80
+export NGINX_PORT=8001
+export SKYPORT_URL=http://130.202.135.80:8001
+export AWE_SERVER_URL=http://130.202.135.80:8001/awe/api/
+export SHOCK_SERVER_URL=http://130.202.135.80:8001/shock/api/
+export AUTH_URL=http://130.202.135.80:8001/auth/
+
+export SKYPORT_DOCKER_GATEWAY=172.18.0.1
+export DOCKER_VERSION=17.12.0-ce
+export DOCKER_BINARY=/Users/wolfganggerlach/git/Skyport2/live-data/docker-17.12.0-ce
+```
+
+and you can source this file to update your environment variables:
+```bash
+source skyport2.env 
+```
 
 
 
 
-### Skyport demo
-
-To run the demo with a full stack of services:
-
-- Check config:
-
-  `docker-compose config`
-- Start services:
-
-  `docker-compose up`
-
-  The web services are mapped to port 8001 on localhost[http:/localhost:8001]:
-
-  - Shock browser: http://localhost:8001/shock
-  - Shock API: http://localhost:8001/shock/api
-  - AWE browser: http://localhost:8001/awe
-  - AWE API: http://localhost:8001/awe/api
-  - MySQL browser: http://localhost:8001/mysql
-
-### Skyport - AWE development stack
+### Skyport2 development
 
 The AWE development environment is the basic skyport app service stack whith persistent (mounted) database storage and mounted AWE source repository. Coding can be done outside a container with an editor of your choice while the source code will be compiled inside the awe-server container.
 
