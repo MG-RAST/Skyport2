@@ -31,10 +31,11 @@ This skyport deployment need to detect your IP address. If this fails, you can s
 
 ```bash
 export USE_SKYPORT_HOST=<your-ip-address>
+source ./init.sh
 ```
 
 
-You can execute ```ifconfig -a``` to find your ip address.
+You can execute ```ifconfig -a``` to find your ip address. Do not forget to source ```init.sh```.
 
 
 
