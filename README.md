@@ -3,7 +3,7 @@ Skyport2
 ========
 
 
-# ![skyport logo](data/pictures/skyportlogo.small.jpg) 
+![skyport logo](data/pictures/skyportlogo.small.jpg) 
 
 Skyport2 is a RESTful framework for large scale data management and reproducible multi-cloud workflow execution. 
 
