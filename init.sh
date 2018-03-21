@@ -5,6 +5,10 @@
 ############################
 
 
+export NGINX_PORT=8001
+export SKYPORT_NETWORK_NAME="skyport2_default"
+
+
 
 if [[ $_ == $0 ]]; then
   echo "Error: please use command \"source ./init.sh\""
@@ -38,71 +42,54 @@ if [ $(basename `pwd`) != "Skyport2" ] ; then
 fi
 
 
-export NGINX_PORT=8001
-
-# Top level data dir
-export DATADIR=${REPO_DIR}/live-data
-mkdir -p $DATADIR
-
-# Path to config dir with service specific subdirs. Contains config for demo case
-export CONFIGDIR=${REPO_DIR}/Config/
-export DOCSDIR=${REPO_DIR}/Documents/
-export CWL_DIR=${REPO_DIR}/CWL
-
-
-export SKYPORT_TMPDIR=$DATADIR/tmp
-mkdir -p ${SKYPORT_TMPDIR}
-
-
-# Path to shock data and log dir
-export SHOCKDIR=${DATADIR}/shock/
-mkdir -p ${SHOCKDIR}/data
-mkdir -p ${SHOCKDIR}/log
-
-# Path to AWE
-export AWEDIR=${DATADIR}/awe
-mkdir -p ${DATADIR}/awe
-mkdir -p ${DATADIR}/awe/db
-mkdir -p ${DATADIR}/awe-worker/work
+source ./scripts/init-directories.sh
 
 
 
-export SKYPORT_DOCKER_GATEWAY=$(docker network inspect skyport2_default -f '{{(index .IPAM.Config 0).Gateway}}')
+if [ $(cat /etc/hosts | grep "skyport" | wc -l) -eq 0 ] ; then
+  echo ""
+  echo "skyport entry in your /etc/hosts file is missing. Please execute:"
+  echo "> sudo ./scripts/add_etc_hosts_entry.sh"
+  echo ""
+  echo "Afterwards execute \"source ./init.sh\" again."
+  return 1
+fi
 
 
-# Path to primary log dir
-export LOGDIR=${DATADIR}/log/
 
-# Create log dirs for Shock , nginx
-mkdir -p ${LOGDIR}
-mkdir -p ${LOGDIR}/shock
-mkdir -p ${LOGDIR}/nginx
-mkdir -p ${LOGDIR}/awe
-mkdir -p ${LOGDIR}/awe-worker
+# we create this docker network to get its IP address
+if [ $(docker network list --filter name=${SKYPORT_NETWORK_NAME} -q | wc -l ) -eq 0 ] ; then
+    docker network create ${SKYPORT_NETWORK_NAME}
+fi
 
+
+export SKYPORT_DOCKER_GATEWAY=$(docker network inspect ${SKYPORT_NETWORK_NAME} -f '{{(index .IPAM.Config 0).Gateway}}')
 
 
 # Docker image tag , used by Dockerfiles and Compose file
 export TAG=demo
 
 
-source ./get_docker_binary.sh
+source ./scripts/get_docker_binary.sh
 
-source ./get_ip_address.sh
+source ./scripts/get_ip_address.sh
 
 export SKYPORT_URL=http://${SKYPORT_HOST}:${NGINX_PORT}
 export AWE_SERVER_URL=${SKYPORT_URL}/awe/api/
 export SHOCK_SERVER_URL=${SKYPORT_URL}/shock/api/
 export AUTH_URL=${SKYPORT_URL}/auth/
 
-
-
 export AWE_SERVER_URL_INTERNAL=${SKYPORT_DOCKER_GATEWAY}/awe/api/
 
-# create awe-monitor config
+
+
+# create variuos config files from temaples
+
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/awe-monitor/config.js_template > ${CONFIGDIR}/awe-monitor/config.js
 
 sed -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/awe-monitor/AuthConfig.pm_template > ${CONFIGDIR}/awe-monitor/AuthConfig.pm
+
+
 
 
 cat <<EOF > skyport2.env
@@ -137,6 +124,8 @@ echo "skyport2.env has been written"
 echo ""
 
 echo "If SKYPORT_HOST=${SKYPORT_HOST} is wrong, overwrite it with \"export USE_SKYPORT_HOST=< your ip >\""
+
+
 
 echo ""
 echo ""
