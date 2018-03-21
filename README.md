@@ -15,6 +15,7 @@ Scientists and engineers are accustomed to using a different computer systems to
 All docker images required for the quick start are available at Docker Hub. To start the demo environment run:
 
 ```bash
+sudo ./scripts/add_etc_hosts_entry.sh
 source ./init.sh
 docker-compose up
 ```
