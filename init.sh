@@ -73,6 +73,10 @@ export TAG=demo
 source ./scripts/get_docker_binary.sh
 
 source ./scripts/get_ip_address.sh
+if [ $? -ne 0 ] ; then
+  return 1
+fi  
+
 
 export SKYPORT_URL=http://${SKYPORT_HOST}:${NGINX_PORT}
 export AWE_SERVER_URL=${SKYPORT_URL}/awe/api/

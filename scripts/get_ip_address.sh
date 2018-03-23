@@ -42,4 +42,4 @@ export SKYPORT_HOST=${MY_IP}
 echo "SKYPORT_HOST=${SKYPORT_HOST}"
 
 
-
+return 0
