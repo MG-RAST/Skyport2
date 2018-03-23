@@ -21,11 +21,16 @@ fi
 
 MY_IP=$(for i in $(ifconfig -a | cut -d ' ' -f 1 | cut -d $'\t' -f 1 | grep -Ev "^$" | grep -v "^veth\|^lo\|^docker\|^br" | cut -d : -f 1) ; do ifconfig $i ; done | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')  
 
-COUNT=$(echo ${MYIP} | wc -l )
+echo "MY_IP: ${MY_IP}"
+
+
+COUNT=$(echo "${MY_IP}" | wc -l | tr -d ' ')
+
+echo "COUNT: ${COUNT}"
 
 if [ ${COUNT} -gt 1 ] || [ ${COUNT} -eq 0 ] ; then
   echo ""
-  echo ${MYIP}
+  echo "detected: ${MY_IP}"
   echo ""
   echo "Auto-detection of IP address failed: Please specify one manually:"
   echo "> export USE_SKYPORT_HOST=<your IP address>"
