@@ -114,7 +114,7 @@ then
 	  --rm \
 	  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
 	  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
-	  -v `pwd`/${DATADIR}:/mnt/data/ \
+	  -v `pwd`/${DATADIR}:/mnt/Data/ \
 	  --workdir=`pwd`/${DATADIR} \
 	  mgrast/awe-submitter:develop \
 	  /go/bin/awe-submitter \
@@ -132,7 +132,7 @@ docker run -ti \
           --rm \
           -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
           -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
-          -v `pwd`/${DATADIR}:/mnt/data/ \
+          -v `pwd`/${DATADIR}:/mnt/Data/ \
           --workdir=`pwd`/${DATADIR} \
           mgrast/awe-submitter:develop \
           /go/bin/awe-submitter \
