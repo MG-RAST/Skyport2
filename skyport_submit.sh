@@ -109,7 +109,7 @@ SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 # check if we have an AUTH token
 if [ -z ${SKYPORT_AUTH} ]
 then
-	echo docker run -ti \
+	docker run -ti \
 	  --network skyport2_default \
 	  --rm \
 	  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
@@ -124,22 +124,6 @@ then
 	  --serverurl=${AWE_SERVER} \
 	  /mnt/workflows/${WORKFLOW_FILE} \
 	  /mnt/jobinputs/${JOBINPUT_FILE}
-  
-  docker run -ti \
-  	  --network skyport2_default \
-  	  --rm \
-  	  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
-  	  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
-  	  -v `pwd`/${DATADIR}:/mnt/Data/ \
-  	  --workdir=`pwd`/${DATADIR} \
-  	  mgrast/awe-submitter:develop \
-  	  /go/bin/awe-submitter \
-  	  --pack \
-            --wait \
-  	  --shockurl=${SHOCK_SERVER} \
-  	  --serverurl=${AWE_SERVER} \
-  	  /mnt/workflows/${WORKFLOW_FILE} \
-  	  /mnt/jobinputs/${JOBINPUT_FILE}  
 
 else
 # run with auth param
