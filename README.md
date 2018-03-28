@@ -12,7 +12,51 @@ Scientists and engineers are accustomed to using a different computer systems to
 
 ## Quick start
 
-All docker images required for the quick start are available at Docker Hub. To start the demo environment run:
+# Install docker 
+
+Install docker, see Docker website for platform specific instructions:
+
+https://www.docker.com/get-docker
+
+
+E.g. on a recent ubuntu version you can install docker with this command:
+
+```bash
+sudo apt-get update && sudo apt-get -y install docker.io
+```
+
+Linux: Add user to docker group
+```bash
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+newgrp docker
+```
+
+# Install docker-compose
+
+Install docker-compose (note that the docker-compose version in the ubuntu repository might be too old) 
+
+
+https://docs.docker.com/compose/install/
+
+For ubuntu:
+
+```bash
+sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose 
+```
+
+Note that with a newer version of docker you might need a newer version of docker-compose. (Note to self: Find mechanism to determine correct version) 
+
+# Install Skyport2
+
+Clone the Skyport repository:
+
+```bash
+git clone https://github.com/MG-RAST/Skyport2.git
+cd Skyport2
+```
+
 
 ```bash
 sudo ./scripts/add_etc_hosts_entry.sh
