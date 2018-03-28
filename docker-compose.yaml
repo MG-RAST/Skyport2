@@ -152,6 +152,7 @@ services:
           CWL_DIR: ${CWL_DIR}
           AWE_SERVER_URL: ${AWE_SERVER_URL}
           SHOCK_SERVER_URL: ${SHOCK_SERVER_URL}
+          SKYPORT_DOCKER_GATEWAY: ${SKYPORT_DOCKER_GATEWAY}
         ports:
           - 5000:5000
         depends_on:
