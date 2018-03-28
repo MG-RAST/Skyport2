@@ -72,10 +72,13 @@ export TAG=demo
 
 source ./scripts/get_docker_binary.sh
 
-source ./scripts/get_ip_address.sh
-if [ $? -ne 0 ] ; then
-  return 1
-fi  
+# This script van be used to determine the IP address
+#source ./scripts/get_ip_address.sh
+#if [ $? -ne 0 ] ; then
+#  return 1
+#fi  
+
+export SKYPORT_HOST="skyport.local"  # The suffix .local is needed as some older go libraries e.g. as used in the awe-worker cannot handle a domain names without suffix
 
 
 export SKYPORT_URL=http://${SKYPORT_HOST}:${NGINX_PORT}
@@ -126,9 +129,6 @@ cp skyport2.env ${DATADIR}/env/
 echo "skyport2.env has been written"
 
 echo ""
-
-echo "If SKYPORT_HOST=${SKYPORT_HOST} is wrong, overwrite it with \"export USE_SKYPORT_HOST=< your ip >\""
-
 
 
 echo ""

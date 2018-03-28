@@ -92,11 +92,11 @@ services:
         image: mgrast/awe-worker:develop
         # worker needs to wait for AWE-server to start up
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         entrypoint:
-          - ash
+          - ash 
           - -c
-          - 'sleep 30 ;
+          - 'while [ $$(nc -z awe-server 8001 ; echo $$?) != 0 ] ; do echo "wait..." ; sleep 2 ; done ;
             /go/bin/awe-worker
             --name compose_worker-1
             --data=${DATADIR}/awe-worker/data
@@ -109,6 +109,7 @@ services:
             --debuglevel=0'
         depends_on:
           - awe-server
+        restart: on-failure
         volumes:
           - /tmp:/tmp
           - ${CONFIGDIR}/AWE/awe-worker.cfg:/awe-config/awe-worker.cfg:ro
