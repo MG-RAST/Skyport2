@@ -20,7 +20,7 @@ services:
     shock:
         image: mgrast/shock
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         depends_on:
           - mongo
         entrypoint:
@@ -39,7 +39,7 @@ services:
     # web frontend for the shock browser
     shock-browser:
       extra_hosts:
-        - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+        - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
       image: mgrast/shock-browser:${TAG}
       depends_on:
         - shock
@@ -52,7 +52,7 @@ services:
     auth:
         image: mgrast/authserver:${TAG}
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         environment:
             MYSQL_HOST: db
             MYSQL_DATABASE: DemoAppUsers
@@ -71,7 +71,7 @@ services:
     awe-server:
         image: mgrast/awe:develop
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         entrypoint:
           - /go/bin/awe-server
           - --conf=/awe-config/awe-server.cfg
@@ -92,11 +92,11 @@ services:
         image: mgrast/awe-worker:develop
         # worker needs to wait for AWE-server to start up
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         entrypoint:
-          - ash
+          - ash 
           - -c
-          - 'sleep 30 ;
+          - 'while [ $$(nc -z awe-server 8001 ; echo $$?) != 0 ] ; do echo "wait..." ; sleep 2 ; done ;
             /go/bin/awe-worker
             --name compose_worker-1
             --data=${DATADIR}/awe-worker/data
@@ -109,6 +109,7 @@ services:
             --debuglevel=0'
         depends_on:
           - awe-server
+        restart: on-failure
         volumes:
           - /tmp:/tmp
           - ${CONFIGDIR}/AWE/awe-worker.cfg:/awe-config/awe-worker.cfg:ro
@@ -122,7 +123,7 @@ services:
   #  awe-monitor-apache:
   #    image: mgrast/awe-monitor:apache
   #    extra_hosts:
-  #      - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+  #      - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
   #    depends_on:
   #      - awe-server
   #    volumes:
@@ -134,7 +135,7 @@ services:
     awe-monitor:
       image: mgrast/awe-monitor
       extra_hosts:
-        - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+        - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
       depends_on:
         - awe-server
       volumes:
@@ -146,11 +147,12 @@ services:
     demo-app-api:
         image: mgrast/demo-app-api:latest
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         environment:
           CWL_DIR: ${CWL_DIR}
           AWE_SERVER_URL: ${AWE_SERVER_URL}
           SHOCK_SERVER_URL: ${SHOCK_SERVER_URL}
+          SKYPORT_DOCKER_GATEWAY: ${SKYPORT_DOCKER_GATEWAY}
         ports:
           - 5000:5000
         depends_on:
@@ -165,7 +167,7 @@ services:
     demo-app-web:
         image: mgrast/demo-app:latest
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         environment:
           CWL_DIR: ${CWL_DIR}
         depends_on:
@@ -179,7 +181,7 @@ services:
     nginx:
         image: nginx:1.13-alpine
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         depends_on:
           - shock
           - shock-browser
@@ -200,7 +202,7 @@ services:
     adminer:
         image: adminer
         extra_hosts:
-          - "skyport:${SKYPORT_DOCKER_GATEWAY}"
+          - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         ports:
             - 8080:8080
 

@@ -130,6 +130,11 @@ def api_submit(node_id):
     
     node_id = node_id.lower()
     
+    skyport_docker_gateway = "unknown"
+    if 'SKYPORT_DOCKER_GATEWAY' in os.environ:
+        skyport_docker_gateway = os.environ['SKYPORT_DOCKER_GATEWAY']
+        
+        
     shock_server_url = None
     if 'SHOCK_SERVER_URL' in os.environ:
         shock_server_url = os.environ['SHOCK_SERVER_URL']
@@ -186,6 +191,7 @@ def api_submit(node_id):
     
     
     command = "docker run" \
+     ' --add-host skyport.local:%s' \
      ' --network skyport2_default' \
      ' --rm ' \
      ' -v %s:/CWL/' \
@@ -202,7 +208,7 @@ def api_submit(node_id):
      ' %s/input.yaml'
  
     time.sleep(2)
-    final_command = command % ( cwl_dir, shock_server_url, awe_server_url, tmp_dir, tmp_dir)
+    final_command = command % ( skyport_docker_gateway, cwl_dir, shock_server_url, awe_server_url, tmp_dir, tmp_dir)
     logger.debug("execute: {}".format( final_command))
     popen_object = subprocess.Popen(final_command, shell=True)
     
