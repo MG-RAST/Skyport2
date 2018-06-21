@@ -36,7 +36,7 @@ services:
 
     # web frontend for the shock browser
     shock-browser:
-        image: mgrast/shock-browser
+        image: mgrast/shock-browser:demo
         depends_on:
           - shock
           - auth
@@ -46,7 +46,7 @@ services:
     # local Oauth2 server for user, password and tokens
     # to make Auth data persistent make the MySQL DB persistent
     auth:
-        image: mgrast/authserver:${TAG}
+        image: mgrast/authserver:demo
         environment:
             MYSQL_HOST: db
             MYSQL_DATABASE: DemoAppUsers
