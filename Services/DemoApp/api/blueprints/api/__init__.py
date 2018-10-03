@@ -200,6 +200,7 @@ def api_submit(node_id):
      ' mgrast/awe-submitter:develop' \
      ' /go/bin/awe-submitter' \
      ' --pack' \
+     ' --group docker' \
      ' --shockurl=%s '\
      ' --serverurl=%s ' \
      ' --output=%s/results.cwl' \
