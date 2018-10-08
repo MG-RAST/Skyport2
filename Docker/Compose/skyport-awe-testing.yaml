@@ -95,7 +95,6 @@ services:
             --workpath=${DATADIR}/awe-worker/work
             --serverurl=http://awe-server:8001
             --shockurl=http://shock-server:7445
-            --group=docker
             --supported_apps=*
             --auto_clean_dir=false
             --debuglevel=3'
