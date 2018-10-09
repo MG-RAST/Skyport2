@@ -4,6 +4,8 @@ __pycache__/
 data/*
 CWL/tmp/*
 live-data/
-Config/awe-monitor/config.js
 skyport2.env
 AuthConfig.pm
+Config/awe-monitor/config.js
+Config/AWE/awe-server.conf
+Config/ShockBrowser/config.js
