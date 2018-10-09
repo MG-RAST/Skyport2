@@ -98,6 +98,8 @@ sed -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/awe-monitor/AuthConfig.
 
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/ShockBrowser/config.js_template > ${CONFIGDIR}/ShockBrowser/config.js
 
+sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/AWE/awe-server.conf_template  > ${CONFIGDIR}/AWE/awe-server.conf
+
 
 cat <<EOF > skyport2.env
 
