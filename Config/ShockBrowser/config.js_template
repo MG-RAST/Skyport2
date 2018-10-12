@@ -1,0 +1,6 @@
+var RetinaConfig = {
+    "awe_url": "${AWE_SERVER_URL}",
+    "shock_url": "${SHOCK_SERVER_URL}",
+    "auth_url": "${AUTH_URL}"
+    // "auth_url": "http://localhost:8001/skyport/login/"
+};
