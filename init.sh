@@ -119,7 +119,9 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/dbsetup.demo.mysql_templ
 
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" Config/DemoApp/index.html_template > Config/DemoApp/index.html
 
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" Config/DemoApp/config.js_template > Config/DemoApp/config.js
 
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/nginx/index.html_template > Config/nginx/index.html
 
 
 

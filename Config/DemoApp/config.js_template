@@ -1,0 +1,5 @@
+var RetinaConfig = {
+    "awe_url": "${SKYPORT_URL}/awe",
+    "shock_url": "${SHOCK_SERVER_URL}",
+    "auth_url": "${AUTH_URL}cgi-bin/"
+};

@@ -27,7 +27,7 @@
 	      if (user) {
 		  alert(user.token);
 	      } else {
-		  window.location = 'http://localhost:8001/auth/cgi-bin/clientSkyport.cgi';
+		  window.location = '${AUTH_URL}cgi-bin/clientSkyport.cgi';
 	      }
 	  }
     
@@ -120,7 +120,7 @@
       <h1 style="font-size: 60px;">Skyport Sample Application</h1>
       <p style="font-weight: 100; padding-top: 10px; padding-bottom: 20px; font-size: 18px;">Try out the Skyport Word-Cloud explorer - a sample application in the Skyport framework!</p>
       <p>
-        <button class="btn btn-inverse btn-large" onclick="window.open('http://localhost:8001/demo-app/');">
+        <button class="btn btn-inverse btn-large" onclick="window.open('${SKYPORT_URL}/demo-app/');">
           start app
         </button>
       </p>
@@ -156,7 +156,7 @@
 	    </div>
 	    <p>Programmable object store that handles indexing, subsetting and format conversions.</p>
 	    <div style="clear: both;">
-	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/Shock/wiki/_pages" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="http://localhost:8001/shock/" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/Shock" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
+	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/Shock/wiki/_pages" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="${SKYPORT_URL}/shock/" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/Shock" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
 	    </div>
           </div>
 
@@ -167,7 +167,7 @@
 	    </div>
 	    <p>Workflow engine with Common Workflow Language support.</p>
 	    <div style="clear: both;">
-	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/AWE/wiki" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="http://localhost:8001/awe/monitor/" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/AWE" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
+	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/AWE/wiki" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="${SKYPORT_URL}/awe/monitor/" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/AWE" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
 	    </div>
           </div>
 
@@ -178,7 +178,7 @@
 	    </div>
 	    <p>Authentication server that supports oAuth2 and permission management.</p>
 	    <div style="clear: both;">
-	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/authServer/blob/master/README.md" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="http://localhost:8001/auth/cgi-bin/oAuth.cgi" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/authServer" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
+	      <table style="width: 100%; text-align: center;"><tr><td><a href="https://github.com/MG-RAST/authServer/blob/master/README.md" target=_blank><img src="file-pdf.png" title="documentation" style="height: 32px;"></a></td><td><a href="${AUTH_URL}cgi-bin/oAuth.cgi" target=_blank><img src="website.png" title="user interface" style="height: 32px;"></a></td><td><a href="https://github.com/MG-RAST/authServer" target=_blank><img src="github.png" title="github" style="height: 32px;"></a></td></tr></table>
 	    </div>
           </div>
 	  
@@ -207,7 +207,7 @@
     <div style="clear: both;"></div>
       
     <div style="border-top: 1px solid #171780; font-color: #171780; font-size: 14px; height: 70px; padding-top: 10px;">
-      <span style="margin-left: 50px; position: relative; top: 18px;"><a href="http://localhost:8001/mysql" target=_blank title="mySQL admin tool"><img src="data.png" style="height: 30px; position: relative; bottom: 5px;"></a></span>
+      <span style="margin-left: 50px; position: relative; top: 18px;"><a href="${SKYPORT_URL}/mysql" target=_blank title="mySQL admin tool"><img src="data.png" style="height: 30px; position: relative; bottom: 5px;"></a></span>
       <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.docker.com/"><img style="height: 30px;" src="https://www.docker.com/sites/default/files/horizontal_large.png" /></a></span>
       <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.mysql.com/"><img src="https://www.mysql.com/common/logos/powered-by-mysql-88x31.png" /></a></span>
       <span style="float: right; margin-top: 10px; margin-right: 10px;"><a href="https://www.mongodb.com"><img style="height: 30px;" src="https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg" /></a></span>
