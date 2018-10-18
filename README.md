@@ -90,7 +90,8 @@ You can execute ```ifconfig -a``` to find your ip address. Do not forget to sour
 To get the latest code and docker images you can run the ```update.sh``` script.
 
 ```
-./update.sh
+source ./init.sh
+./scripts/update.sh
 ```
 
 
