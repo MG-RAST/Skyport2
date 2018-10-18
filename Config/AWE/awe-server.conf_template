@@ -19,7 +19,7 @@ site-port=8081
 api-port=8001
 
 [External]
-site-url=http://localhost:8081/awe/
+site-url=${SKYPORT_URL}/awe/
 api-url=${AWE_SERVER_URL}
 
 [SSL]

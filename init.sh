@@ -98,7 +98,7 @@ sed -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/awe-monitor/AuthConfig.
 
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/ShockBrowser/config.js_template > ${CONFIGDIR}/ShockBrowser/config.js
 
-sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/AWE/awe-server.conf_template  > ${CONFIGDIR}/AWE/awe-server.conf
+sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-server.conf_template  > ${CONFIGDIR}/AWE/awe-server.conf
 
 
 sed -e "s;\${SKYPORT_HOST};${SKYPORT_HOST};g"  Config/authServer/httpd.conf_template > Config/authServer/httpd.conf
@@ -114,7 +114,7 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Co
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/cgi/OAuthConfig.pm_template > Config/authServer/cgi/OAuthConfig.pm
 
 
-
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/dbsetup.demo.mysql_template > Config/authServer/dbsetup.demo.mysql
 
 
 
