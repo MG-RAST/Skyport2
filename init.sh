@@ -123,7 +123,7 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e
 
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/nginx/index.html_template > Config/nginx/index.html
 
-
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" Config/nginx/services.html_template > Config/nginx/services.html
 
 
 cat <<EOF > skyport2.env
