@@ -8,6 +8,7 @@ skyport2.env
 AuthConfig.pm
 Config/awe-monitor/config.js
 Config/AWE/awe-server.conf
+Config/AWE/awe-worker.conf
 Config/ShockBrowser/config.js
 Config/authServer/cgi/ClientConfigAWE.pm
 Config/authServer/cgi/ClientConfigDemoApp.pm
@@ -16,3 +17,6 @@ Config/authServer/cgi/ClientConfigSkyport.pm
 Config/authServer/cgi/OAuthConfig.pm
 Config/authServer/dbsetup.demo.mysql
 Config/authServer/httpd.conf
+Config/DemoApp/config.js
+Config/DemoApp/index.html
+Config/nginx/index.html
