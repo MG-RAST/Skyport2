@@ -231,7 +231,7 @@ ServerAdmin mg-rast@rt.mcs.anl.gov
 # If your host doesn't have a registered DNS name, enter its IP address here.
 #
 #ServerName www.example.com:80
-ServerName localhost:80
+ServerName ${SKYPORT_HOST}:80
 
 #
 # Deny access to the entirety of your server's filesystem. You must

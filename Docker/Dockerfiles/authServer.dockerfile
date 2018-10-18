@@ -1,8 +1,8 @@
 
-# docker build -t mgrast/auth-server -f Docker/Dockerfiles/authServer.dockerfile .
-# docker rm auth-server ; docker run -d --name auth-server -p 7000:80  mgrast/auth-server
+# docker build -t mgrast/authserver -f Docker/Dockerfiles/authServer.dockerfile .
+# docker rm auth-server ; docker run -d --name auth-server -p 7000:80  mgrast/authserver
 
-FROM httpd:2.4
+FROM httpd:2.4.35
 
 # ARG service-dir=./
 

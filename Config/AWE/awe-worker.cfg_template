@@ -5,7 +5,7 @@ logs=/mnt/data/awe/logs
 pidfile=
 
 [Client]
-serverurl=http://localhost:8001
+serverurl=${SKYPORT_URL}
 group=default
 name=default
 host=127.0.0.1

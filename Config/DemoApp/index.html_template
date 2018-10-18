@@ -25,7 +25,7 @@
 	    if (user) {
 		alert(user.token);
 	    } else {
-		window.location = 'http://localhost:8001/auth/cgi-bin/clientDemoApp.cgi';
+		window.location = '${AUTH_URL}cgi-bin/clientDemoApp.cgi';
 	    }
 	};
 	
@@ -64,7 +64,7 @@
 	window.submitNode = function () {
 	    document.getElementById('createButton').innerHTML = '<img src="Retina/images/waiting.gif" style="width: 16px;">';
 	    document.getElementById('createButton').setAttribute('disabled', 'disabled');
-	    jQuery.ajax( { url: "http://localhost:8001/demo-app/api/submit/" + currentnode.id,
+	    jQuery.ajax( { url: "${SKYPORT_URL}/demo-app/api/submit/" + currentnode.id,
 			   dataType: "json",
 			   success: function(data) {
 			       if (data.status == 'submitted') {
@@ -123,7 +123,7 @@
 			    } else if (node.attributes.status == 'running' || node.attributes.status == 'submitted') {
 				html.push('<div id="statusResult"><div class="alert alert-info">checking status... <img src="Retina/images/waiting.gif" style="width: 16px;"></div></div>');
 
-				jQuery.ajax({ url: "http://localhost:8001/demo-app/api/status/" + node.attributes.submissionid,
+				jQuery.ajax({ url: "${SKYPORT_URL}/demo-app/api/status/" + node.attributes.submissionid,
 					      success: function(data) {
 						  if (data.status == 'error' || data.status == 'complete') {
 						      if (data.status == 'error') {
@@ -168,7 +168,7 @@
 			    html.push('<div style="margin-top: 50px; text-align: center;"><button class="btn" onclick="submitNode(\''+node.id+'\');" id="createButton">create word-cloud</button></div>')
 			}
 		    } else if (node.file.name.match(/\.png$/)) {
-			html.push('<div class="alert alert-info" style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">This is the result file of<br>'+currentnode.attributes.inputfilename+'</div><div style="text-align: center;"><button class="btn" onclick="window.open(\'http://localhost:8001/shock/api/node/'+currentnode.id+'?download\');">download</button></div>');
+			html.push('<div class="alert alert-info" style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">This is the result file of<br>'+currentnode.attributes.inputfilename+'</div><div style="text-align: center;"><button class="btn" onclick="window.open(\'${SHOCK_SERVER_URL}node/'+currentnode.id+'?download\');">download</button></div>');
 		    }
 		    html.push('<br><div style="text-align: center;"><button class="btn btn-danger" onclick="if(confirm(\'really delete this file?\')){Retina.WidgetInstances.shockbrowse[1].removeNode({node:\''+node.id+'\'});}">delete node</button></div>');
 		    return html.join('');

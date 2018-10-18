@@ -32,7 +32,7 @@ use constant DBI_CONNECT => "dbi:mysql:database=".DB_NAME.";host=".DB_HOST;
 # information with the app. Set this to 0 if you do not want to use any trusted application.
 use constant APPLICATION_NAME => "Authentication Server";
 use constant TRUSTED => 0 ;
-use constant APPLICATION_URL => "http://localhost:8001/auth/";
+use constant APPLICATION_URL => "${AUTH_URL}";
 
 # Setting this to true will enable the registration of applications / users (if oAuth.cgi is
 # called without any parameters)
@@ -53,10 +53,10 @@ use constant SHOCK_PREAUTH_URL => "" ;
 
 
 # base and relative urls for the authServer and its images, javascript and stylesheets
-use constant BASE_URL => 'http://localhost:8001/auth/';
-use constant IMAGE_DIR => 'http://localhost:8001/auth/images/';
-use constant JS_DIR => 'http://localhost:8001/auth/js/';
-use constant CSS_DIR => 'http://localhost:8001/auth/css/';
+use constant BASE_URL => '${AUTH_URL}';
+use constant IMAGE_DIR => '${AUTH_URL}images/';
+use constant JS_DIR => '${AUTH_URL}js/';
+use constant CSS_DIR => '${AUTH_URL}css/';
 
 
 # response email and SMTP server used in registration and sharing emails

@@ -63,6 +63,7 @@ services:
         volumes:
           - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           - ${CONFIGDIR}/authServer/cgi/:/usr/local/apache2/htdocs/cgi-bin/
+          - ${CONFIGDIR}/authServer/dbsetup.demo.mysql:/tmp/dbsetup.demo.mysql:ro
         ports:
           - 8081:80
 
@@ -83,6 +84,7 @@ services:
           - 8081
         volumes:
           - ${CONFIGDIR}/AWE/awe-server.conf:/awe-config/awe-server.cfg:ro
+          - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           #- ${AWEDIR}:/mnt/data/awe/
 
 

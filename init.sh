@@ -90,7 +90,7 @@ export AWE_SERVER_URL_INTERNAL=${SKYPORT_DOCKER_GATEWAY}/awe/api/
 
 
 
-# create variuos config files from temaples
+# create variuos config files from templates
 
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/awe-monitor/config.js_template > ${CONFIGDIR}/awe-monitor/config.js
 
@@ -98,7 +98,32 @@ sed -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/awe-monitor/AuthConfig.
 
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/ShockBrowser/config.js_template > ${CONFIGDIR}/ShockBrowser/config.js
 
-sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" ${CONFIGDIR}/AWE/awe-server.conf_template  > ${CONFIGDIR}/AWE/awe-server.conf
+sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-server.conf_template  > ${CONFIGDIR}/AWE/awe-server.conf
+
+sed  -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-worker.cfg_template  > ${CONFIGDIR}/AWE/awe-worker.cfg
+
+
+sed -e "s;\${SKYPORT_HOST};${SKYPORT_HOST};g"  Config/authServer/httpd.conf_template > Config/authServer/httpd.conf
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigShock.pm_template > Config/authServer/cgi/ClientConfigShock.pm
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigAWE.pm_template > Config/authServer/cgi/ClientConfigAWE.pm
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigDemoApp.pm_template > Config/authServer/cgi/ClientConfigDemoApp.pm
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigSkyport.pm_template > Config/authServer/cgi/ClientConfigSkyport.pm
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/cgi/OAuthConfig.pm_template > Config/authServer/cgi/OAuthConfig.pm
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/dbsetup.demo.mysql_template > Config/authServer/dbsetup.demo.mysql
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" Config/DemoApp/index.html_template > Config/DemoApp/index.html
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" Config/DemoApp/config.js_template > Config/DemoApp/config.js
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/nginx/index.html_template > Config/nginx/index.html
+
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" Config/nginx/services.html_template > Config/nginx/services.html
 
 
 cat <<EOF > skyport2.env
