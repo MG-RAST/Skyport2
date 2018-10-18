@@ -84,7 +84,7 @@ services:
           - 8081
         volumes:
           - ${CONFIGDIR}/AWE/awe-server.conf:/awe-config/awe-server.cfg:ro
-          - ${CONFIGDIR}/Config/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+          - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           #- ${AWEDIR}:/mnt/data/awe/
 
 
