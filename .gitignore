@@ -20,3 +20,4 @@ Config/authServer/httpd.conf
 Config/DemoApp/config.js
 Config/DemoApp/index.html
 Config/nginx/index.html
+Config/nginx/services.html
