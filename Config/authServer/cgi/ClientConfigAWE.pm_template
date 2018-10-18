@@ -1,15 +1,15 @@
-package ClientConfigSkyport;
+package ClientConfigAWE;
 
 require Exporter;
 
 # This is the base url of the authServer
-use constant BASE_URL => 'http://localhost:8001/auth/cgi-bin';
+use constant BASE_URL => '${AUTH_URL}cgi-bin';
 
 # These values must correspond to what the app was registered with on the
 # application registration page of the authServer
-use constant APPLICATION_NAME   => "Skyport2";
-use constant APPLICATION_URL    => "http://localhost:8001/index.html";
-use constant APPLICATION_SECRET => "giJhYfLyDabuyxXN8vstbsaMdNwpMKfk";
+use constant APPLICATION_NAME   => "AWE";
+use constant APPLICATION_URL    => "${SKYPORT_URL}/awe/main.html";
+use constant APPLICATION_SECRET => "abXYffLyDabuyxXN8vstbsaMdNwpMKfk";
 
 # This is the name of the cookie the user information will be stored in
 use constant COOKIE_NAME => 'AuthWebSession';
