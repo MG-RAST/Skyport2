@@ -100,7 +100,7 @@ sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${SHOCK_SERVER_URL};${S
 
 sed -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-server.conf_template  > ${CONFIGDIR}/AWE/awe-server.conf
 
-sed  -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-worker.conf_template  > ${CONFIGDIR}/AWE/awe-worker.conf
+sed  -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-worker.cfg_template  > ${CONFIGDIR}/AWE/awe-worker.cfg
 
 
 sed -e "s;\${SKYPORT_HOST};${SKYPORT_HOST};g"  Config/authServer/httpd.conf_template > Config/authServer/httpd.conf
