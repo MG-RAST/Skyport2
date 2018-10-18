@@ -8,7 +8,7 @@ skyport2.env
 AuthConfig.pm
 Config/awe-monitor/config.js
 Config/AWE/awe-server.conf
-Config/AWE/awe-worker.conf
+Config/AWE/awe-worker.cfg
 Config/ShockBrowser/config.js
 Config/authServer/cgi/ClientConfigAWE.pm
 Config/authServer/cgi/ClientConfigDemoApp.pm
