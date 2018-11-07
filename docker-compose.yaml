@@ -221,6 +221,7 @@ services:
    #
     db:
         image: mysql:5.7
+        command: ['--explicit_defaults_for_timestamp']
         environment:
             MYSQL_ROOT_PASSWORD: secret
             MYSQL_DATABASE: DemoAppUsers
