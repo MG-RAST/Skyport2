@@ -126,6 +126,11 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Co
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" Config/nginx/services.html_template > Config/nginx/services.html
 
 
+# temoporary solution (TODO: this is currently required by awe-monitor, use apache version of awe-monitor)
+cp Services/authServer/client/authclient.cgi ${CONFIGDIR}/authServer/cgi/
+cp Config/awe-monitor/AuthConfig.pm ${CONFIGDIR}/authServer/cgi/
+
+
 cat <<EOF > skyport2.env
 
 export TAG=${TAG}
