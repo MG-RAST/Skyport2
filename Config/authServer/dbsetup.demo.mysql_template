@@ -11,8 +11,10 @@ INSERT IGNORE INTO `user` (`login`, `password`, `cookie`, `name`, `email`, `conf
 INSERT IGNORE INTO `tokens` (`token`, `login`, `created`) VALUES ('1234',    'demo',    '2017-07-21');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
 ('Shock',    '${AUTH_URL}cgi-bin/clientShock.cgi',    'vcZYffLyDabuyxXN8vstbsaMdNwpMKfk');
+#INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
+#('AWE',    '${AUTH_URL}cgi-bin/clientAWE.cgi',    'abXYffLyDabuyxXN8vstbsaMdNwpMKfk');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
-('AWE',    '${AUTH_URL}cgi-bin/clientAWE.cgi',    'abXYffLyDabuyxXN8vstbsaMdNwpMKfk');
+('AWE',    'http://skyport.local:8001/awe/monitor/cgi-bin/authclient.cgi',    'abXYffLyDabuyxXN8vstbsaMdNwpMKfk');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
 ('Skyport2',    '${AUTH_URL}cgi-bin/clientSkyport.cgi',    'giJhYfLyDabuyxXN8vstbsaMdNwpMKfk');
 INSERT IGNORE INTO `apps` (`application`, `url`, `secret`) VALUES
