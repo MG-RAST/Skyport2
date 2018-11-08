@@ -153,7 +153,7 @@ services:
         SELF_URL: "http://skyport.local:8001/awe/monitor"
         AUTH_URL: "http://skyport.local:8001/auth/cgi-bin"
         APPLICATION_NAME: AWE
-        AUTH_CLIENT_URL: "http://skyport.local:8001/awe/index.html"
+        APPLICATION_URL: "http://skyport.local:8001/awe/monitor/index.html"
         APPLICATION_SECRET: "abXYffLyDabuyxXN8vstbsaMdNwpMKfk" 
       command: ['httpd', '-DFOREGROUND','-C' , 'Define servername http://skyport.local:8001/awe/monitor']
       depends_on:
