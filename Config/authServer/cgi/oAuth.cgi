@@ -377,7 +377,7 @@ unless ($cgi->param('action')) {
 	    exit 0;
 	  }
 	} else {
-	  respond('{ "ERROR": "redirect_url does not match client id" }', 400);
+	  respond('{ "ERROR": "redirect_url '. $cgi->param('redirect_url') . ' does not match client id '.$cgi->param("client_id").'" }', 400);
 	}
       }
     } elsif ($cgi->param("action") eq "token") {

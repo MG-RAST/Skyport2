@@ -54,12 +54,12 @@ services:
         extra_hosts:
           - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         environment:
-            MYSQL_HOST: db
+            MYSQL_HOST: auth-mysql
             MYSQL_DATABASE: DemoAppUsers
             MYSQL_USER: authService
             MYSQL_PASSWORD: authServicePassword
         depends_on:
-          - db
+          - auth-mysql
         volumes:
           - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
           - ${CONFIGDIR}/authServer/cgi/:/usr/local/apache2/htdocs/cgi-bin/
@@ -134,16 +134,36 @@ services:
   #    ports:
   #      - 80
     
+    #awe-monitor-old:
+    #  image: mgrast/awe-monitor
+    #  extra_hosts:
+    #    - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
+    #  depends_on:
+    #    - awe-server
+    #  volumes:
+    #    - ${CONFIGDIR}/awe-monitor/config.js:/usr/share/nginx/html/js/config.js
+    #  ports:
+    #    - 80
+    
     awe-monitor:
       image: mgrast/awe-monitor
       extra_hosts:
         - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
+      environment:
+        SELF_URL: "http://skyport.local:8001/awe/monitor"
+        AUTH_URL: "http://skyport.local:8001/auth/cgi-bin"
+        APPLICATION_NAME: AWE
+        AUTH_CLIENT_URL: "http://skyport.local:8001/awe/index.html"
+        APPLICATION_SECRET: "abXYffLyDabuyxXN8vstbsaMdNwpMKfk" 
+      command: ['httpd', '-DFOREGROUND','-C' , 'Define servername http://skyport.local:8001/awe/monitor']
       depends_on:
         - awe-server
       volumes:
-        - ${CONFIGDIR}/awe-monitor/config.js:/usr/share/nginx/html/js/config.js
+        - ${CONFIGDIR}/awe-monitor/config.js:/usr/local/apache2/htdocs/js/config.js
+        #- /Users/$USER/git/awe-monitor/www/index.html:/usr/local/apache2/htdocs/index.html:rw
       ports:
         - 80
+        
         
     # api for submission of demo workflow (part of demo-app)
     demo-app-api:
@@ -190,6 +210,7 @@ services:
           - adminer
           - auth
           - awe-server
+          - awe-monitor
           - demo-app-api
           - demo-app-web
         ports:
@@ -219,15 +240,17 @@ services:
 
    # the MySQL server is a component of the auth server
    #
-    db:
+    auth-mysql:
         image: mysql:5.7
+        command: ['--explicit_defaults_for_timestamp']
         environment:
             MYSQL_ROOT_PASSWORD: secret
             MYSQL_DATABASE: DemoAppUsers
             MYSQL_USER: authService
             MYSQL_PASSWORD: authServicePassword
         volumes:
-          - /var/lib/mysql
+          - auth-mysql:/var/lib/mysql
+          - ${CONFIGDIR}/authServer/dbsetup.demo.mysql:/tmp/dbsetup.demo.mysql
           #- ${AUTHDB}:/var/lib/mysql
 
    # we use a volume (see below) to make data persistent between runs
@@ -243,3 +266,9 @@ services:
         # to make the AWE jobs persistent between runs uncomment the lines below
         #volumes:
         #  - ${SHOCKDIR}/db:/data/db
+
+
+volumes:
+  auth-mysql:
+    
+    
