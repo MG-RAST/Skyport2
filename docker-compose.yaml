@@ -150,10 +150,9 @@ services:
       extra_hosts:
         - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
       environment:
-        SELF_URL: "http://skyport.local:8001/awe/monitor"
         AUTH_URL: "http://skyport.local:8001/auth/cgi-bin"
         APPLICATION_NAME: AWE
-        APPLICATION_URL: "http://skyport.local:8001/awe/monitor/index.html"
+        APPLICATION_URL: "http://skyport.local:8001/awe/monitor/"
         APPLICATION_SECRET: "abXYffLyDabuyxXN8vstbsaMdNwpMKfk" 
       command: ['httpd', '-DFOREGROUND','-C' , 'Define servername http://skyport.local:8001/awe/monitor']
       depends_on:
