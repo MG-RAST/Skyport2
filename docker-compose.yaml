@@ -150,15 +150,17 @@ services:
       extra_hosts:
         - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
       environment:
-        BASE_URL: "http://skyport.local:8001/auth/cgi-bin"
+        SELF_URL: "http://skyport.local:8001/awe/monitor"
+        AUTH_URL: "http://skyport.local:8001/auth/cgi-bin"
         APPLICATION_NAME: AWE
-        APPLICATION_URL: "http://skyport.local:8001/awe/index.html"
+        AUTH_CLIENT_URL: "http://skyport.local:8001/awe/index.html"
         APPLICATION_SECRET: "abXYffLyDabuyxXN8vstbsaMdNwpMKfk" 
       command: ['httpd', '-DFOREGROUND','-C' , 'Define servername http://skyport.local:8001/awe/monitor']
       depends_on:
         - awe-server
       volumes:
         - ${CONFIGDIR}/awe-monitor/config.js:/usr/local/apache2/htdocs/js/config.js
+        #- /Users/$USER/git/awe-monitor/www/index.html:/usr/local/apache2/htdocs/index.html:rw
       ports:
         - 80
         
