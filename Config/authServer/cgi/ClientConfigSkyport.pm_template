@@ -3,7 +3,7 @@ package ClientConfigSkyport;
 require Exporter;
 
 # This is the base url of the authServer
-use constant BASE_URL => '${AUTH_URL}auth/cgi-bin';
+use constant BASE_URL => '${AUTH_URL}cgi-bin';
 
 # These values must correspond to what the app was registered with on the
 # application registration page of the authServer
