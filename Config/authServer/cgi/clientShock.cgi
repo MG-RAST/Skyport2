@@ -33,8 +33,8 @@ my $settings = { app_id => APPLICATION_NAME,
 		 # Extern
 		 dialog_url => BASE_URL.'/oAuth.cgi?action=dialog',
 		 # Intern
-		 token_url  => 'http://auth/cgi-bin/oAuth.cgi?action=token',
-		 data_url   => 'http://auth/cgi-bin/oAuth.cgi?action=data' ,
+		 token_url  => 'http://auth-server/cgi-bin/oAuth.cgi?action=token',
+		 data_url   => 'http://auth-server/cgi-bin/oAuth.cgi?action=data' ,
 		 } ;
 
 
@@ -55,6 +55,9 @@ unless (defined($code)) {
 }
 
 my $call_url = $token_url . "&client_id=" . $app_id . "&client_secret=" . $app_secret . "&code=" . $code;
+
+print STDERR "token_url: ".$token_url ."\n";
+
 my $ua = LWP::UserAgent->new;
 my $response = $json->decode($ua->get($call_url)->content);
 my $access_token = $response->{token};
