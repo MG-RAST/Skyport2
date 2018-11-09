@@ -111,8 +111,6 @@ sed -e "s;\${SKYPORT_HOST};${SKYPORT_HOST};g"  Config/authServer/httpd.conf_temp
 
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigShock.pm_template > Config/authServer/cgi/ClientConfigShock.pm
 
-sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigAWE.pm_template > Config/authServer/cgi/ClientConfigAWE.pm
-
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigDemoApp.pm_template > Config/authServer/cgi/ClientConfigDemoApp.pm
 
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigSkyport.pm_template > Config/authServer/cgi/ClientConfigSkyport.pm
