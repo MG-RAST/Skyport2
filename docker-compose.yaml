@@ -123,28 +123,6 @@ services:
           # mount the docker socker to allow container to execute docker commands (for CWL runner)
           - /var/run/docker.sock:/var/run/docker.sock
 
-  #  awe-monitor-apache:
-  #    image: mgrast/awe-monitor:apache
-  #    extra_hosts:
-  #      - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
-  #    depends_on:
-  #      - awe-server
-  #    volumes:
-  #      - ${CONFIGDIR}/awe-monitor/config.js:/usr/usr/local/apache2/htdocs/js/config.js:ro
-  #      - ${CONFIGDIR}/awe-monitor/AuthConfig.pm:/usr/local/apache2/cgi-bin/AuthConfig.pm:ro
-  #    ports:
-  #      - 80
-    
-    #awe-monitor-old:
-    #  image: mgrast/awe-monitor
-    #  extra_hosts:
-    #    - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
-    #  depends_on:
-    #    - awe-server
-    #  volumes:
-    #    - ${CONFIGDIR}/awe-monitor/config.js:/usr/share/nginx/html/js/config.js
-    #  ports:
-    #    - 80
     
     awe-monitor:
       image: mgrast/awe-monitor
@@ -160,7 +138,6 @@ services:
         - awe-server
       volumes:
         - ${CONFIGDIR}/awe-monitor/config.js:/usr/local/apache2/htdocs/js/config.js
-        #- /Users/$USER/git/awe-monitor/www/index.html:/usr/local/apache2/htdocs/index.html:rw
       ports:
         - 80
         
