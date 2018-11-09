@@ -43,13 +43,13 @@ services:
       image: mgrast/shock-browser:${TAG}
       depends_on:
         - shock
-        - auth
+        - auth-server
       volumes:
         - ${CONFIGDIR}/ShockBrowser/config.js:/usr/share/nginx/html/js/config.js
 
     # local Oauth2 server for user, password and tokens
     # to make Auth data persistent make the MySQL DB persistent
-    auth:
+    auth-server:
         image: mgrast/authserver:develop
         extra_hosts:
           - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
@@ -79,7 +79,7 @@ services:
           - --conf=/awe-config/awe-server.cfg
         depends_on:
           - awe-mongo
-          - auth
+          - auth-server
         ports:
           - 8001
           - 8081
@@ -208,7 +208,7 @@ services:
           - shock
           - shock-browser
           - adminer
-          - auth
+          - auth-server
           - awe-server
           - awe-monitor
           - demo-app-api
