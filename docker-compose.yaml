@@ -43,14 +43,14 @@ services:
       image: mgrast/shock-browser:${TAG}
       depends_on:
         - shock
-        - auth
+        - auth-server
       volumes:
         - ${CONFIGDIR}/ShockBrowser/config.js:/usr/share/nginx/html/js/config.js
 
     # local Oauth2 server for user, password and tokens
     # to make Auth data persistent make the MySQL DB persistent
-    auth:
-        image: mgrast/authserver:${TAG}
+    auth-server:
+        image: mgrast/authserver:develop
         extra_hosts:
           - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         environment:
@@ -61,9 +61,10 @@ services:
         depends_on:
           - auth-mysql
         volumes:
-          - ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
-          - ${CONFIGDIR}/authServer/cgi/:/usr/local/apache2/htdocs/cgi-bin/
-          - ${CONFIGDIR}/authServer/dbsetup.demo.mysql:/tmp/dbsetup.demo.mysql:ro
+          #- ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+          - ${CONFIGDIR}/authServer/perl/:/usr/local/lib/site_perl:ro
+          - ${CONFIGDIR}/authServer/cgi/:/usr/local/apache2/cgi-bin/:ro
+          #- ${CONFIGDIR}/authServer/dbsetup.demo.mysql:/tmp/dbsetup.demo.mysql:ro
         ports:
           - 8081:80
 
@@ -78,7 +79,7 @@ services:
           - --conf=/awe-config/awe-server.cfg
         depends_on:
           - awe-mongo
-          - auth
+          - auth-server
         ports:
           - 8001
           - 8081
@@ -122,28 +123,6 @@ services:
           # mount the docker socker to allow container to execute docker commands (for CWL runner)
           - /var/run/docker.sock:/var/run/docker.sock
 
-  #  awe-monitor-apache:
-  #    image: mgrast/awe-monitor:apache
-  #    extra_hosts:
-  #      - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
-  #    depends_on:
-  #      - awe-server
-  #    volumes:
-  #      - ${CONFIGDIR}/awe-monitor/config.js:/usr/usr/local/apache2/htdocs/js/config.js:ro
-  #      - ${CONFIGDIR}/awe-monitor/AuthConfig.pm:/usr/local/apache2/cgi-bin/AuthConfig.pm:ro
-  #    ports:
-  #      - 80
-    
-    #awe-monitor-old:
-    #  image: mgrast/awe-monitor
-    #  extra_hosts:
-    #    - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
-    #  depends_on:
-    #    - awe-server
-    #  volumes:
-    #    - ${CONFIGDIR}/awe-monitor/config.js:/usr/share/nginx/html/js/config.js
-    #  ports:
-    #    - 80
     
     awe-monitor:
       image: mgrast/awe-monitor
@@ -159,7 +138,6 @@ services:
         - awe-server
       volumes:
         - ${CONFIGDIR}/awe-monitor/config.js:/usr/local/apache2/htdocs/js/config.js
-        #- /Users/$USER/git/awe-monitor/www/index.html:/usr/local/apache2/htdocs/index.html:rw
       ports:
         - 80
         
@@ -207,7 +185,7 @@ services:
           - shock
           - shock-browser
           - adminer
-          - auth
+          - auth-server
           - awe-server
           - awe-monitor
           - demo-app-api
@@ -241,7 +219,7 @@ services:
    #
     auth-mysql:
         image: mysql:5.7
-        command: ['--explicit_defaults_for_timestamp']
+        command: ['--explicit_defaults_for_timestamp', '--init-file', '/tmp/dbsetup.demo.mysql']
         environment:
             MYSQL_ROOT_PASSWORD: secret
             MYSQL_DATABASE: DemoAppUsers

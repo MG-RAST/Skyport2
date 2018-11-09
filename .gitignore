@@ -10,11 +10,11 @@ Config/awe-monitor/config.js
 Config/AWE/awe-server.conf
 Config/AWE/awe-worker.cfg
 Config/ShockBrowser/config.js
-Config/authServer/cgi/ClientConfigAWE.pm
-Config/authServer/cgi/ClientConfigDemoApp.pm
-Config/authServer/cgi/ClientConfigShock.pm
-Config/authServer/cgi/ClientConfigSkyport.pm
-Config/authServer/cgi/OAuthConfig.pm
+Config/authServer/perl/ClientConfigAWE.pm
+Config/authServer/perl/ClientConfigDemoApp.pm
+Config/authServer/perl/ClientConfigShock.pm
+Config/authServer/perl/ClientConfigSkyport.pm
+Config/authServer/perl/OAuthConfig.pm
 Config/authServer/dbsetup.demo.mysql
 Config/authServer/httpd.conf
 Config/DemoApp/config.js

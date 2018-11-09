@@ -38,7 +38,7 @@ email=demo@somewhere.over.the.rainbow
 basic=false
 globus_token_url=
 globus_profile_url=
-oauth_urls=http://auth/cgi-bin/?action=data
+oauth_urls=http://auth-server/cgi-bin/?action=data
 oauth_bearers=oauth
 
 
