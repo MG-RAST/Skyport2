@@ -62,6 +62,7 @@ services:
           - auth-mysql
         volumes:
           #- ${CONFIGDIR}/authServer/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+          - ${CONFIGDIR}/authServer/perl/:/usr/local/lib/site_perl:ro
           - ${CONFIGDIR}/authServer/cgi/:/usr/local/apache2/cgi-bin/:ro
           #- ${CONFIGDIR}/authServer/dbsetup.demo.mysql:/tmp/dbsetup.demo.mysql:ro
         ports:

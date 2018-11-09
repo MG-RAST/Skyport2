@@ -109,13 +109,13 @@ sed  -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" ${CONFIGDIR}/AWE/awe-worker.cfg_tem
 # auth
 sed -e "s;\${SKYPORT_HOST};${SKYPORT_HOST};g"  Config/authServer/httpd.conf_template > Config/authServer/httpd.conf
 
-sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigShock.pm_template > Config/authServer/cgi/ClientConfigShock.pm
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/perl/ClientConfigShock.pm_template > Config/authServer/perl/ClientConfigShock.pm
 
-sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigDemoApp.pm_template > Config/authServer/cgi/ClientConfigDemoApp.pm
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/perl/ClientConfigDemoApp.pm_template > Config/authServer/perl/ClientConfigDemoApp.pm
 
-sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/cgi/ClientConfigSkyport.pm_template > Config/authServer/cgi/ClientConfigSkyport.pm
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Config/authServer/perl/ClientConfigSkyport.pm_template > Config/authServer/perl/ClientConfigSkyport.pm
 
-sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/cgi/OAuthConfig.pm_template > Config/authServer/cgi/OAuthConfig.pm
+sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/perl/OAuthConfig.pm_template > Config/authServer/perl/OAuthConfig.pm
 
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" Config/authServer/dbsetup.demo.mysql_template > Config/authServer/dbsetup.demo.mysql
 
