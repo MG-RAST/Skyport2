@@ -72,7 +72,7 @@ id=unique:true
 
 [Server]
 title="Skyport2 AWE Server"
-perf_log_workunit=true
+perf_log_workunit=false
 expire_wait=60
 global_expire=
 pipeline_expire=
