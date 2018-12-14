@@ -9,5 +9,5 @@ fi
 
 # pulling docker images
 docker-compose pull
-docker pull mgrast/awe-submitter:develop
+docker pull mgrast/awe-submitter:demo
 
