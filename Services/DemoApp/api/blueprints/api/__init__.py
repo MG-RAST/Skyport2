@@ -197,7 +197,7 @@ def api_submit(node_id):
      ' -v %s:/CWL/' \
      ' -v /tmp/:/host_tmp/' \
      ' --workdir=/CWL/Data/' \
-     ' mgrast/awe-submitter:develop' \
+     ' mgrast/awe-submitter:demo' \
      ' /go/bin/awe-submitter' \
      ' --pack' \
      ' --group docker' \

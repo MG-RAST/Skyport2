@@ -71,7 +71,7 @@ services:
     # AWE resource manager
     # uncomment AWEDIR to make data and logs persistent (also requires AWE-mongo for full persistence)
     awe-server:
-        image: mgrast/awe:develop
+        image: mgrast/awe:demo
         extra_hosts:
           - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         entrypoint:
@@ -92,7 +92,7 @@ services:
     # the AWE worker that will execute the workflow steps
     # the data and logs for the awe worker are persistent in this configuration
     awe-worker:
-        image: mgrast/awe-worker:develop
+        image: mgrast/awe-worker:demo
         # worker needs to wait for AWE-server to start up
         extra_hosts:
           - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
