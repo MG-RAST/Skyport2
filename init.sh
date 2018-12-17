@@ -131,6 +131,9 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Co
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" Config/nginx/services.html_template > Config/nginx/services.html
 
 
+echo "updating docker images"
+./scripts/update.sh
+
 
 cat <<EOF > skyport2.env
 
