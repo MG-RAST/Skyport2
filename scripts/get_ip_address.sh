@@ -4,17 +4,17 @@
 # this script trys to detect the IP address under Linux and OSX
 
 
-if [[ $_ == $0 ]]; then 
-  echo "Error: please use command \"source ./get_ip_address.sh\""
-  exit 1
-fi
+#if [[ $_ == $0 ]]; then 
+#  echo "Error: please use command \"source ./get_ip_address.sh\""
+#  exit 1
+#fi
 
-if [ ! -z ${USE_SKYPORT_HOST} ] ; then
-  SKYPORT_HOST=${USE_SKYPORT_HOST}
-  echo "Variable USE_SKYPORT_HOST has been set."
-  echo "SKYPORT_HOST=${SKYPORT_HOST}"
-  return 0
-fi
+#if [ ! -z ${USE_SKYPORT_HOST} ] ; then
+#  SKYPORT_HOST=${USE_SKYPORT_HOST}
+#  echo "Variable USE_SKYPORT_HOST has been set."
+#  echo "SKYPORT_HOST=${SKYPORT_HOST}"
+#  return 0
+#fi
 
 
 
@@ -38,8 +38,8 @@ if [ ${COUNT} -gt 1 ] || [ ${COUNT} -eq 0 ] ; then
   return 1
 fi 
 
-export SKYPORT_HOST=${MY_IP}
-echo "SKYPORT_HOST=${SKYPORT_HOST}"
+#export SKYPORT_HOST=${MY_IP}
+echo "On remote host only, please use SKYPORT_HOST=${MY_IP}"
 
 
-return 0
+
