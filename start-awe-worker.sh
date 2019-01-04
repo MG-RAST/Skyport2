@@ -38,7 +38,7 @@ AWE_SERVER=http://${SKYPORT_HOST}:8001/awe/api/
 # ensure a local copy of the Skyport repo exists and docker and environment are ready
 #git clone --recursive https://github.com/MG-RAST/Skyport2.git
 #cd Skyport2
-source ./get_docker_binary.sh
+source ./scripts/get_docker_binary.sh
 
 # there might be a better directory than this already set via an ENV variable
 if [ -z ${DATADIR} ]
@@ -48,12 +48,18 @@ fi
 
 mkdir -p ${DATADIR}
 
+if [ "${SKYPORT_HOST}_" == "skyport.local_" ] ; then 
+  ADDHOST="--add-host skyport.local:${SKYPORT_DOCKER_GATEWAY}"
+fi
+
+
 # define a somewhat unique name for the worker
 hostn=`hostname`
 WNAME=awe-worker-${hostn}
-
+set -x
 docker run \
   -d \
+  ${ADDHOST}\
   --name ${WNAME}  \
   -v ${DATADIR}/awe-worker:${DATADIR}/awe-worker \
   -v ${DOCKER_BINARY}:/usr/local/bin/docker \
@@ -69,3 +75,4 @@ docker run \
     --supported_apps=* \
     --auto_clean_dir=false \
     --debuglevel=0
+set +x
