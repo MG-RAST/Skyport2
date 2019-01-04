@@ -14,7 +14,6 @@ arguments:
 inputs:
   filter:
     type: File
-    format: Fastq
     inputBinding:
       position: 1
       prefix:  --fastq_filter
