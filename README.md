@@ -91,14 +91,14 @@ If you need a listing of all skyport services run ```skyport2-overview.sh```:
 > ./skyport2-overview.sh 
 
 ------- Skyport2 -----------------------------
-Skyport2 main URL: http://130.202.135.80:8001
+Skyport2 main URL: http://skyport.local:8001
 
-AWE monitor:       http://130.202.135.80:8001/awe/api/
+AWE monitor:       http://skyport.local:8001/awe/monitor/
 
-AWE server API:    http://130.202.135.80:8001/awe/api/
-Shock server API:  http://130.202.135.80:8001/shock/api/
+AWE server API:    http://skyport.local:8001/awe/api/
+Shock server API:  http://skyport.local:8001/shock/api/
 
-Auth server:       http://130.202.135.80:8001/auth/
+Auth server:       http://skyport.local:8001/auth/
 
 ----------------------------------------------
 ```
@@ -109,21 +109,22 @@ You can also use ```skyport2.env``` to see the full configuration (i.e. URLs) vi
 > cat skyport2.env
 
 export TAG=demo
-export CONFIGDIR=/Users/wolfganggerlach/git/Skyport2/Config/
-export SHOCKDIR=/Users/wolfganggerlach/git/Skyport2/live-data/shock/
-export DATADIR=/Users/wolfganggerlach/git/Skyport2/live-data
-export LOGDIR=/Users/wolfganggerlach/git/Skyport2/live-data/log/
+export CONFIGDIR=/Users/you/git/Skyport2/Config/
+export SHOCKDIR=/Users/you/git/Skyport2/live-data/shock/
+export DATADIR=/Users/you/git/Skyport2/live-data
+export LOGDIR=/Users/you/git/Skyport2/live-data/log/
 
-export SKYPORT_HOST=130.202.135.80
+export SKYPORT_HOST=skyport.local
 export NGINX_PORT=8001
-export SKYPORT_URL=http://130.202.135.80:8001
-export AWE_SERVER_URL=http://130.202.135.80:8001/awe/api/
-export SHOCK_SERVER_URL=http://130.202.135.80:8001/shock/api/
-export AUTH_URL=http://130.202.135.80:8001/auth/
+export SKYPORT_URL=http://skyport.local:8001
+export AWE_SERVER_URL=http://skyport.local:8001/awe/api/
+export SHOCK_SERVER_URL=http://skyport.local:8001/shock/api/
+export AUTH_URL=http://skyport.local:8001/auth/
 
-export SKYPORT_DOCKER_GATEWAY=172.18.0.1
-export DOCKER_VERSION=17.12.0-ce
-export DOCKER_BINARY=/Users/wolfganggerlach/git/Skyport2/live-data/docker-17.12.0-ce
+export SKYPORT_DOCKER_GATEWAY=172.21.0.1
+export DOCKER_VERSION=18.09.0
+export DOCKER_BINARY=/Users/you/git/Skyport2/live-data/docker-18.09.0
+
 ```
 
 and you can source this file to update your environment variables:
