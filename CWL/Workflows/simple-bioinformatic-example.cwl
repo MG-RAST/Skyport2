@@ -9,8 +9,6 @@ requirements:
 inputs:
   fastq_files:
     doc: A list of sequence files in fastq format
-    format:
-      - fastq
     type: File
   reference_database:
     doc: blast formatted index fastq_files

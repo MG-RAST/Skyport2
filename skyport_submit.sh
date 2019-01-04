@@ -65,8 +65,8 @@ then
 fi
 
 # we either used the ENVIRONMENT variable or the cmd-line parameter here with the standard unix order of precedence
-if [ -z ${SKYPORT_HOST} ]
-then   
+#if [ -z ${SKYPORT_HOST} ]
+#then   
 	#if [[ "$OSTYPE" == *"arwin"* ]]
 	#then
 	#  MYIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
@@ -74,14 +74,14 @@ then
     #else
 	#  MYIP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 	#fi
-  MYIP=$(for i in $(ifconfig -a | cut -d ' ' -f 1 | cut -d $'\t' -f 1 | grep -Ev "^$" | grep -v "^veth\|^lo\|^docker\|^br" | cut -d : -f 1) ; do ifconfig $i ; done | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+ # MYIP=$(for i in $(ifconfig -a | cut -d ' ' -f 1 | cut -d $'\t' -f 1 | grep -Ev "^$" | grep -v "^veth\|^lo\|^docker\|^br" | cut -d : -f 1) ; do ifconfig $i ; done | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 	# set to external host IP
-	SKYPORT_HOST=${MYIP}
+	#SKYPORT_HOST=${MYIP}
   
-fi
+  #fi
 if [ -s ${SKYPORT_HOST} ]
 then
-    SKYPORT_HOST=localhost
+    SKYPORT_HOST=skyport.local
 fi
 
 echo "SKYPORT_HOST=${SKYPORT_HOST}"
@@ -109,33 +109,39 @@ SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 # check if we have an AUTH token
 if [ -z ${SKYPORT_AUTH} ]
 then
+  set -x
 	docker run -ti \
 	  --network skyport2_default \
+    --add-host skyport.local:${SKYPORT_DOCKER_GATEWAY} \
 	  --rm \
 	  -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
 	  -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
 	  -v `pwd`/${DATADIR}:/mnt/Data/ \
 	  --workdir=`pwd`/${DATADIR} \
-	  mgrast/awe-submitter:develop \
+	  mgrast/awe-submitter:demo \
 	  /go/bin/awe-submitter \
+    --group=docker \
 	  --pack \
-          --wait \
+    --wait \
 	  --shockurl=${SHOCK_SERVER} \
 	  --serverurl=${AWE_SERVER} \
 	  /mnt/workflows/${WORKFLOW_FILE} \
 	  /mnt/jobinputs/${JOBINPUT_FILE}
-
+  set +x
 else
 # run with auth param
+set -x
 docker run -ti \
           --network skyport2_default \
+          --add-host skyport.local:${SKYPORT_DOCKER_GATEWAY} \
           --rm \
           -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
           -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
           -v `pwd`/${DATADIR}:/mnt/Data/ \
           --workdir=`pwd`/${DATADIR} \
-          mgrast/awe-submitter:develop \
+          mgrast/awe-submitter:demo \
           /go/bin/awe-submitter \
+          --group=docker \
           --pack \
           --wait \
           --shockurl=${SHOCK_SERVER} \
@@ -143,6 +149,6 @@ docker run -ti \
           --auth=${SKYPORT_AUTH} \
           /mnt/workflows/${WORKFLOW_FILE} \
           /mnt/jobinputs/${JOBINPUT_FILE}
-
+set +x
 fi
 echo
