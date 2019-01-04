@@ -66,20 +66,7 @@ docker-compose up
 
 Open Skyport in your browser:
 
-http://localhost:8001
-
-
-## IP detection failed ?
-
-This skyport deployment need to detect your IP address. If this fails, you can set the IP address manually:
-
-```bash
-export USE_SKYPORT_HOST=<your-ip-address>
-source ./init.sh
-```
-
-
-You can execute ```ifconfig -a``` to find your ip address. Do not forget to source ```init.sh```.
+http://skyport.local:8001
 
 
 
