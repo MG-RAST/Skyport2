@@ -95,16 +95,17 @@ SHOCK_SERVER=http://${SKYPORT_HOST}:8001/shock/api/
 #SHOCK_SERVER=http://shock:7445
 #AWE_SERVER=http://awe-server:8001
 
+CURDIR=`pwd`
 
 set -x
 docker run -ti \
           --network skyport2_default \
           --add-host skyport.local:${SKYPORT_DOCKER_GATEWAY} \
           --rm \
-          -v `pwd`/${WORKFLOWDIR}:/mnt/workflows/ \
-          -v `pwd`/${JOBINPUTDIR}:/mnt/jobinputs/ \
-          -v `pwd`/${DATADIR}:/mnt/Data/ \
-          --workdir=`pwd`/${DATADIR} \
+          -v ${CURDIR}/${WORKFLOWDIR}:/mnt/workflows/ \
+          -v ${CURDIR}/${JOBINPUTDIR}:/mnt/jobinputs/ \
+          -v ${CURDIR}/${DATADIR}:/mnt/Data/ \
+          --workdir=${CURDIR}/${DATADIR} \
           mgrast/awe-submitter:demo \
           /go/bin/awe-submitter \
           --group=docker \
