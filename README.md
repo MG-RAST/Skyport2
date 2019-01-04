@@ -132,18 +132,3 @@ and you can source this file to update your environment variables:
 source skyport2.env 
 ```
 
-
-
-
-### Skyport2 development
-
-The AWE development environment is the basic skyport app service stack whith persistent (mounted) database storage and mounted AWE source repository. Coding can be done outside a container with an editor of your choice while the source code will be compiled inside the awe-server container.
-
-1. `source ./init.sh`
-2. `export AWE_ROOT_DIR=`PATH_TO_LOCAL_AWE_REPOSITORY
-3. `docker-compose -f Docker/Compose/skyport-awe-devel.yaml config`
-4. `docker exec -ti compose_awe-server_1 ash`
-5. Inside the container:
-    1. `cd /go/src/github.com/MG-RAST/AWE`
-    2. `go get -d ./awe-worker/ ./awe-server/`
-    3. `./compile.sh`
