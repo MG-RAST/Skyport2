@@ -65,6 +65,10 @@ fi
 
 export SKYPORT_DOCKER_GATEWAY=$(docker network inspect ${SKYPORT_NETWORK_NAME} -f '{{(index .IPAM.Config 0).Gateway}}')
 
+if [ ${SKYPORT_DOCKER_GATEWAY}x == x ] ; then
+  echo "SKYPORT_DOCKER_GATEWAY could not be obtained."
+  exit 1
+fi
 
 # Docker image tag , used by Dockerfiles and Compose file
 export TAG=demo
@@ -131,8 +135,8 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" Co
 sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e "s;\${SHOCK_SERVER_URL};${SHOCK_SERVER_URL};g" -e "s;\${AWE_SERVER_URL};${AWE_SERVER_URL};g" Config/nginx/services.html_template > Config/nginx/services.html
 
 
-echo "updating docker images"
-./scripts/update.sh
+#echo "updating docker images"
+#./scripts/update.sh
 
 
 cat <<EOF > skyport2.env
