@@ -66,6 +66,12 @@ fi
 export SKYPORT_DOCKER_GATEWAY=$(docker network inspect ${SKYPORT_NETWORK_NAME} -f '{{(index .IPAM.Config 0).Gateway}}')
 
 if [ ${SKYPORT_DOCKER_GATEWAY}x == x ] ; then
+  # try another method of extracting ip address
+  export SKYPORT_DOCKER_GATEWAY=$(docker network inspect skyport2_default | grep Gateway | cut -d : -f 2 | cut -d '"' -f 2)
+fi
+
+
+if [ ${SKYPORT_DOCKER_GATEWAY}x == x ] ; then
   echo "SKYPORT_DOCKER_GATEWAY could not be obtained."
   exit 1
 fi
