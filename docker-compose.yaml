@@ -105,7 +105,7 @@ services:
             --data=${DATADIR}/awe-worker/data
             --logs=/mnt/data/logs
             --workpath=${DATADIR}/awe-worker/work
-            --serverurl=${AWE_SERVER_URL}
+            --serverurl=http://awe-server:8001
             --group=docker
             --supported_apps=*
             --auto_clean_dir=false
