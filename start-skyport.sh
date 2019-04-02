@@ -11,5 +11,5 @@ set -x
 set -e
 
 
-source ./init.sh
+./init.sh
 exec docker-compose up
