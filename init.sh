@@ -145,34 +145,36 @@ sed -e "s;\${AUTH_URL};${AUTH_URL};g" -e "s;\${SKYPORT_URL};${SKYPORT_URL};g" -e
 #./scripts/update.sh
 
 
-cat <<EOF > skyport2.env
+cat <<EOF > .env
 
-export TAG=${TAG}
-export CONFIGDIR=${CONFIGDIR}
-export SHOCKDIR=${SHOCKDIR}
-export DATADIR=${DATADIR}
-export LOGDIR=${LOGDIR}
+TAG=${TAG}
+CONFIGDIR=${CONFIGDIR}
+SHOCKDIR=${SHOCKDIR}
+DATADIR=${DATADIR}
+LOGDIR=${LOGDIR}
 
-export SKYPORT_HOST=${SKYPORT_HOST}
-export NGINX_PORT=${NGINX_PORT}
-export SKYPORT_URL=${SKYPORT_URL}
-export AWE_SERVER_URL=${AWE_SERVER_URL}
-export SHOCK_SERVER_URL=${SHOCK_SERVER_URL}
-export AUTH_URL=${AUTH_URL}
+SKYPORT_HOST=${SKYPORT_HOST}
+NGINX_PORT=${NGINX_PORT}
+SKYPORT_URL=${SKYPORT_URL}
+AWE_SERVER_URL=${AWE_SERVER_URL}
+SHOCK_SERVER_URL=${SHOCK_SERVER_URL}
+AUTH_URL=${AUTH_URL}
 
-export SKYPORT_DOCKER_GATEWAY=${SKYPORT_DOCKER_GATEWAY}
-export DOCKER_VERSION=${DOCKER_VERSION}
-export DOCKER_BINARY=${DOCKER_BINARY}
+SKYPORT_DOCKER_GATEWAY=${SKYPORT_DOCKER_GATEWAY}
+DOCKER_VERSION=${DOCKER_VERSION}
+DOCKER_BINARY=${DOCKER_BINARY}
+CWL_DIR=${CWL_DIR}
+DOCSDIR=${DOCSDIR}
 EOF
 
-cat skyport2.env
+cat .env
 
 # this directory can be mounted by other containers
 mkdir -p ${DATADIR}/env/
-cp skyport2.env ${DATADIR}/env/
+cp .env ${DATADIR}/env/skyport2.env
 
 
-echo "skyport2.env has been written"
+echo ".env has been written"
 
 echo ""
 
