@@ -56,7 +56,7 @@ services:
     # AWE resource manager
     # uncomment AWEDIR to make data and logs persistent (also requires AWE-mongo for full persistence)
     awe-server:
-        image: mgrast/awe:test
+        image: mgrast/awe-server:test
         # extra_hosts:
         #   - "skyport.local:${SKYPORT_DOCKER_GATEWAY}"
         entrypoint:
