@@ -147,6 +147,7 @@ def api_submit(node_id):
     awe_server_url = None
     if 'AWE_SERVER_URL' in os.environ:
         awe_server_url = os.environ['AWE_SERVER_URL']
+        logger.info("AWE_SERVER_URL: {}".format(os.environ['AWE_SERVER_URL']))
     
     if not awe_server_url:
         awe_server_url = 'http://awe-server:8001'
